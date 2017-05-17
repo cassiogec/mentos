@@ -6,7 +6,8 @@
 package br.com.negocio;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.Calendar;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,12 +37,20 @@ public class Posicao implements Serializable {
     private int codigo;
     @Column(name = "dahpos", columnDefinition= "TIMESTAMP WITH TIME ZONE")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date datahora;
+    private Calendar datahora;
     @Column(name = "latpos")
     private int latitude;
     @Column(name = "lonpos")
     private int longitude;
 
+    public Posicao(Veiculo veiculo, Calendar datahora, int latitude, int longitude) {
+        this.veiculo = veiculo;
+        this.datahora = datahora;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -83,7 +92,7 @@ public class Posicao implements Serializable {
         return true;
     }
 
-    public Posicao(Veiculo veiculo, int codigo, Date datahora, int latitude, int longitude) {
+    public Posicao(Veiculo veiculo, int codigo, Calendar datahora, int latitude, int longitude) {
         this.veiculo = veiculo;
         this.codigo = codigo;
         this.datahora = datahora;
@@ -115,11 +124,11 @@ public class Posicao implements Serializable {
         this.codigo = codigo;
     }
 
-    public Date getDatahora() {
+    public Calendar getDatahora() {
         return datahora;
     }
 
-    public void setDatahora(Date datahora) {
+    public void setDatahora(Calendar datahora) {
         this.datahora = datahora;
     }
 
