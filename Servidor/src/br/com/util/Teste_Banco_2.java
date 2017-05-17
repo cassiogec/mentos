@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.servidor;
+package br.com.util;
 
 import br.com.DAO.veiculoDAO;
 import br.com.negocio.Veiculo;
