@@ -5,7 +5,7 @@
  */
 package br.com.DAO;
 
-import br.com.negocio.Veiculo;
+import br.com.negocio.veiculo;
 import br.com.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
@@ -19,9 +19,16 @@ import org.hibernate.cfg.Configuration;
  */
 public class veiculoDAO {
     
+    private Session s;
+    
+    public veiculoDAO() {
+        s = HibernateUtil.getSessionFactory().openSession();  
+    }
+    
+    
+    
     public boolean verificacodigo(int codigo) {
-           Long u = (Long) HibernateUtil.getSessionFactory().openSession()
-                    .createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
+           Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM veiculo WHERE codigo = :a")
                     .setInteger("a", codigo)
                     .uniqueResult();
            if (u > 0)
@@ -31,11 +38,10 @@ public class veiculoDAO {
     }
     
     public boolean verificaplaca(String placa) {
-           Long u = (Long) HibernateUtil.getSessionFactory().openSession()
-                    .createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE placa = :a")
+            Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM veiculo WHERE placa = :a")
                     .setString("a", placa)
                     .uniqueResult();
-           if (u > 0)
+           if (u == 0)
                return true;
            else
                return false;
@@ -43,66 +49,72 @@ public class veiculoDAO {
     
     // RETORNA FALSO QUANDO A PLACA JÁ ESTIVER CADASTRADA NO SISTEMA
     // PARA ADICIONAR UM VEÍCULO, PASSAR UM OBJETO SEM CÓDIGO
-    public boolean incluir(Veiculo veiculo) throws Exception{ 
-        if (!verificaplaca(veiculo.getPlaca()))
+    public boolean incluir(veiculo Veiculo) throws Exception{ 
+        if (!verificaplaca(Veiculo.getPlaca()))
             return false;
-        Session s = HibernateUtil.getSessionFactory().openSession();
+       // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(10);
-        s.save(veiculo);
+        s.save(Veiculo);
         trans.commit();
-        s.close();
+       // s.close();
         return true;
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean alterar(Veiculo veiculo) throws Exception{ 
-        if (!verificacodigo(veiculo.getCodigo()))
+    public boolean alterar(veiculo Veiculo) throws Exception{ 
+        if (!verificacodigo(Veiculo.getCodigo()))
             return false;
-        Session s = HibernateUtil.getSessionFactory().openSession();
+       // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(10);
-        s.update(veiculo);
+        s.update(Veiculo);
         trans.commit();
-        s.close();
+       // s.close();
         return true;
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean excluir(Veiculo veiculo) throws Exception{ 
-        if (!verificacodigo(veiculo.getCodigo()))
+    public boolean excluir(veiculo Veiculo) throws Exception{ 
+        if (Veiculo == null)
             return false;
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        if (!verificacodigo(Veiculo.getCodigo()))
+            return false;
         Transaction trans = s.beginTransaction();
         trans.setTimeout(10);
-        s.delete(veiculo);
+        s.delete(Veiculo);
         trans.commit();
-        s.close();
+        //s.close();
         return true;
     }
     
     // RETORNA A LISTA DE TODOS OS VEÍCULOS
-    public List<Veiculo> consultarVeiculos(){
-        List<Veiculo> u =  HibernateUtil.getSessionFactory().openSession()
-                    .createQuery("FROM Veiculo")    
+    public List<veiculo> consultarVeiculos(){
+        List<veiculo> u =  s.createQuery("FROM veiculo")    
                     .list();
         return u;
     }
     
     // RETORNA A LISTA DOS VEÍCULOS DO TIPO SELECIONADO
-    public List<Veiculo> consultarVeiculosPorTipo(int tipo){
-        List<Veiculo> u =  HibernateUtil.getSessionFactory().openSession()
-                    .createQuery("FROM Veiculo WHERE tipo = :a")
+    public List<veiculo> consultarVeiculosPorTipo(int tipo){
+        List<veiculo> u = s.createQuery("FROM veiculo WHERE tipo = :a")
                     .setInteger("a", tipo)
                     .list();
         return u;
     }
     
     // RETORNA VEÍCULO ATRAVÉS DO CÓDIGO
-    public Veiculo consultarVeiculo(int codvei){
-        Veiculo u =  (Veiculo) HibernateUtil.getSessionFactory().openSession()
-                    .createQuery("FROM Veiculo WHERE codigo = :a")
+    public veiculo consultarVeiculo(int codvei){
+        veiculo u =  (veiculo) s.createQuery("FROM veiculo WHERE codigo = :a")
                     .setInteger("a", codvei)
+                    .uniqueResult();
+        return u;
+    }
+    
+    // RETORNA VEÍCULO POR PLACA ATRAVÉS DO CÓDIGO
+    public veiculo consultarVeiculo(String plavei){
+        veiculo u =  (veiculo) s.createQuery("FROM veiculo WHERE placa = :a")
+                    .setString("a", plavei)
                     .uniqueResult();
         return u;
     }

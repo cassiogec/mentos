@@ -1,6 +1,6 @@
 package br.com.servidor;
 
-import br.com.negocio.Veiculo;
+import br.com.negocio.veiculo;
 import java.util.Date;
 import java.util.List;
 import javax.jws.WebService;
@@ -23,9 +23,9 @@ public interface WebServiceSoapInterface {
 
     @WebMethod public Boolean excluirVeiculo(Integer cdVeiculo);
 
-    @WebMethod public Veiculo consultarVeiculo(Integer cdVeiculo) throws Exception;
+    @WebMethod public veiculo consultarVeiculo(Integer cdVeiculo) throws Exception;
     
-    @WebMethod public List<Veiculo> listaTipo(Integer idTipo) throws Exception;
+    @WebMethod public List<veiculo> listaTipo(Integer idTipo) throws Exception;
 
     @WebMethod public Integer localizacao();
 }
