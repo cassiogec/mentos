@@ -21,7 +21,7 @@ public class Teste_Banco_2 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // TODO code application logic here
         veiculoDAO dao = new veiculoDAO();
         posicaoDAO daopos = new posicaoDAO();
@@ -30,10 +30,9 @@ public class Teste_Banco_2 {
         System.out.println(veiculos.size());
         
         Veiculo a = dao.consultarVeiculo(1);
-        Calendar t = new Calendar();
-        t
-        new Posicao(a,new Calander )
-        daopos
+        Posicao d = new Posicao(a,Calendar.getInstance(),0,0);
+        System.out.println("INT: "+d.getCodigo());
+        daopos.incluir(d);
         
     }
     
