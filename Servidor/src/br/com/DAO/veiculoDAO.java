@@ -40,7 +40,9 @@ public class veiculoDAO {
            else
                return false;
     }
-            
+    
+    // RETORNA FALSO QUANDO A PLACA JÁ ESTIVER CADASTRADA NO SISTEMA
+    // PARA ADICIONAR UM VEÍCULO, PASSAR UM OBJETO SEM CÓDIGO
     public boolean incluir(Veiculo veiculo) throws Exception{ 
         if (!verificaplaca(veiculo.getPlaca()))
             return false;
@@ -53,6 +55,7 @@ public class veiculoDAO {
         return true;
     }
     
+    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
     public boolean alterar(Veiculo veiculo) throws Exception{ 
         if (!verificacodigo(veiculo.getCodigo()))
             return false;
@@ -65,6 +68,7 @@ public class veiculoDAO {
         return true;
     }
     
+    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
     public boolean excluir(Veiculo veiculo) throws Exception{ 
         if (!verificacodigo(veiculo.getCodigo()))
             return false;
@@ -77,6 +81,7 @@ public class veiculoDAO {
         return true;
     }
     
+    // RETORNA A LISTA DE TODOS OS VEÍCULOS
     public List<Veiculo> consultarVeiculos(){
         List<Veiculo> u =  HibernateUtil.getSessionFactory().openSession()
                     .createQuery("FROM Veiculo")    
@@ -84,11 +89,21 @@ public class veiculoDAO {
         return u;
     }
     
+    // RETORNA A LISTA DOS VEÍCULOS DO TIPO SELECIONADO
     public List<Veiculo> consultarVeiculosPorTipo(int tipo){
         List<Veiculo> u =  HibernateUtil.getSessionFactory().openSession()
                     .createQuery("FROM Veiculo WHERE tipo = :a")
                     .setInteger("a", tipo)
                     .list();
+        return u;
+    }
+    
+    // RETORNA VEÍCULO ATRAVÉS DO CÓDIGO
+    public Veiculo consultarVeiculo(int codvei){
+        Veiculo u =  (Veiculo) HibernateUtil.getSessionFactory().openSession()
+                    .createQuery("FROM Veiculo WHERE codigo = :a")
+                    .setInteger("a", codvei)
+                    .uniqueResult();
         return u;
     }
 }
