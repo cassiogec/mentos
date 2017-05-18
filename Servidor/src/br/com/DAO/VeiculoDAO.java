@@ -5,7 +5,7 @@
  */
 package br.com.DAO;
 
-import br.com.negocio.veiculo;
+import br.com.negocio.Veiculo;
 import br.com.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
@@ -17,11 +17,11 @@ import org.hibernate.cfg.Configuration;
  *
  * @author leonardo.rocha
  */
-public class veiculoDAO {
+public class VeiculoDAO {
     
     private Session s;
     
-    public veiculoDAO() {
+    public VeiculoDAO() {
         s = HibernateUtil.getSessionFactory().openSession();  
     }
     
@@ -49,7 +49,7 @@ public class veiculoDAO {
     
     // RETORNA FALSO QUANDO A PLACA JÁ ESTIVER CADASTRADA NO SISTEMA
     // PARA ADICIONAR UM VEÍCULO, PASSAR UM OBJETO SEM CÓDIGO
-    public boolean incluir(veiculo Veiculo) throws Exception{ 
+    public boolean incluir(Veiculo Veiculo) throws Exception{ 
         if (!verificaplaca(Veiculo.getPlaca()))
             return false;
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -62,7 +62,7 @@ public class veiculoDAO {
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean alterar(veiculo Veiculo) throws Exception{ 
+    public boolean alterar(Veiculo Veiculo) throws Exception{ 
         if (!verificacodigo(Veiculo.getCodigo()))
             return false;
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -75,7 +75,7 @@ public class veiculoDAO {
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean excluir(veiculo Veiculo) throws Exception{ 
+    public boolean excluir(Veiculo Veiculo) throws Exception{ 
         if (Veiculo == null)
             return false;
         if (!verificacodigo(Veiculo.getCodigo()))
@@ -89,31 +89,31 @@ public class veiculoDAO {
     }
     
     // RETORNA A LISTA DE TODOS OS VEÍCULOS
-    public List<veiculo> consultarVeiculos(){
-        List<veiculo> u =  s.createQuery("FROM veiculo")    
+    public List<Veiculo> consultarVeiculos(){
+        List<Veiculo> u =  s.createQuery("FROM veiculo")    
                     .list();
         return u;
     }
     
     // RETORNA A LISTA DOS VEÍCULOS DO TIPO SELECIONADO
-    public List<veiculo> consultarVeiculosPorTipo(int tipo){
-        List<veiculo> u = s.createQuery("FROM veiculo WHERE tipo = :a")
+    public List<Veiculo> consultarVeiculosPorTipo(int tipo){
+        List<Veiculo> u = s.createQuery("FROM veiculo WHERE tipo = :a")
                     .setInteger("a", tipo)
                     .list();
         return u;
     }
     
     // RETORNA VEÍCULO ATRAVÉS DO CÓDIGO
-    public veiculo consultarVeiculo(int codvei){
-        veiculo u =  (veiculo) s.createQuery("FROM veiculo WHERE codigo = :a")
+    public Veiculo consultarVeiculo(int codvei){
+        Veiculo u =  (Veiculo) s.createQuery("FROM veiculo WHERE codigo = :a")
                     .setInteger("a", codvei)
                     .uniqueResult();
         return u;
     }
     
     // RETORNA VEÍCULO POR PLACA ATRAVÉS DO CÓDIGO
-    public veiculo consultarVeiculo(String plavei){
-        veiculo u =  (veiculo) s.createQuery("FROM veiculo WHERE placa = :a")
+    public Veiculo consultarVeiculo(String plavei){
+        Veiculo u =  (Veiculo) s.createQuery("FROM veiculo WHERE placa = :a")
                     .setString("a", plavei)
                     .uniqueResult();
         return u;

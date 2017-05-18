@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.com.negocio;
 
 import java.io.Serializable;
@@ -32,11 +28,11 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "POSICAO")
-public class posicao implements Serializable {
+public class Posicao implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name="codvei")
-    private veiculo veiculo;
+    private Veiculo veiculo;
     //@Id
    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -52,7 +48,7 @@ public class posicao implements Serializable {
     @Column(name = "lonpos")
     private Float longitude;
 
-    public posicao(veiculo veiculo, Calendar datahora, Float latitude, Float longitude) {
+    public Posicao(Veiculo veiculo, Calendar datahora, Float latitude, Float longitude) {
         this.veiculo = veiculo;
         this.datahora = datahora;
         this.latitude = latitude;
@@ -81,7 +77,7 @@ public class posicao implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final posicao other = (posicao) obj;
+        final Posicao other = (Posicao) obj;
         if (!Objects.equals(this.veiculo, other.veiculo)) {
             return false;
         }
@@ -101,7 +97,7 @@ public class posicao implements Serializable {
     }
 
     
-    public posicao(veiculo veiculo, Integer codigo, Calendar datahora, Float latitude, Float longitude) {
+    public Posicao(Veiculo veiculo, Integer codigo, Calendar datahora, Float latitude, Float longitude) {
         this.veiculo = veiculo;
         this.codigo = codigo;
         this.datahora = datahora;
@@ -109,18 +105,18 @@ public class posicao implements Serializable {
         this.longitude = longitude;
     }
 
-    public posicao(Integer codigo) {
+    public Posicao(Integer codigo) {
         this.codigo = codigo;
     }
 
-    public posicao() {
+    public Posicao() {
     }
     
-    public veiculo getVeiculo() {
+    public Veiculo getVeiculo() {
         return veiculo;
     }
 
-    public void setVeiculo(veiculo veiculo) {
+    public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
     }
 

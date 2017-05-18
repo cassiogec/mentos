@@ -5,10 +5,10 @@
  */
 package br.com.util;
 
-import br.com.DAO.posicaoDAO;
-import br.com.DAO.veiculoDAO;
-import br.com.negocio.posicao;
-import br.com.negocio.veiculo;
+import br.com.DAO.PosicaoDAO;
+import br.com.DAO.VeiculoDAO;
+import br.com.negocio.Posicao;
+import br.com.negocio.Veiculo;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,22 +23,22 @@ public class Teste_Banco_2 {
      */
     public static void main(String[] args) throws Exception {
         // TODO code application logic here
-        veiculoDAO dao = new veiculoDAO();
-        posicaoDAO daopos = new posicaoDAO();
+        VeiculoDAO dao = new VeiculoDAO();
+        PosicaoDAO daopos = new PosicaoDAO();
         
-        veiculo f = new veiculo("AAAAACA",1,0,"AAAAA");
+        Veiculo f = new Veiculo("AAAAACA",1,0,"AAAAA");
         if (!dao.incluir(f))
             System.out.println("OI");
-         f = new veiculo("AAAAADA",1,0,"AAAAA");
+         f = new Veiculo("AAAAADA",1,0,"AAAAA");
         if (!dao.incluir(f))
             System.out.println("OI");
-        List<veiculo> veiculos = dao.consultarVeiculos();
+        List<Veiculo> veiculos = dao.consultarVeiculos();
         System.out.println(veiculos.size());
         
-        veiculo a = dao.consultarVeiculo(12);
-        posicao g = daopos.consultarPosicao(12,9);
+        Veiculo a = dao.consultarVeiculo(12);
+        Posicao g = daopos.consultarPosicao(12,9);
         //g.setLatitude(1);
-        posicao d = new posicao(a,Calendar.getInstance(),new Float(0),new Float(0));      
+        Posicao d = new Posicao(a,Calendar.getInstance(),new Float(0),new Float(0));      
         daopos.incluir(d);
         //System.out.println("INT: "+d.getCodigo());
         //System.out.println("TAMANHO: " + a.getPosicoes().size());

@@ -5,7 +5,7 @@
  */
 package br.com.DAO;
 
-import br.com.negocio.posicao;
+import br.com.negocio.Posicao;
 import br.com.util.HibernateUtil;
 import java.util.Calendar;
 import java.util.List;
@@ -16,11 +16,11 @@ import org.hibernate.Transaction;
  *
  * @author leonardo.rocha
  */
-public class posicaoDAO {
+public class PosicaoDAO {
     
     private Session s;
     
-    public posicaoDAO() {
+    public PosicaoDAO() {
         s = HibernateUtil.getSessionFactory().openSession();
     }
     
@@ -34,7 +34,7 @@ public class posicaoDAO {
                return false;
     }
     
-    public boolean incluir(posicao posicao) throws Exception{ 
+    public boolean incluir(Posicao posicao) throws Exception{ 
        if (posicao == null)
             return false;
         if (!verificacodigo(posicao.getVeiculo().getCodigo()))
@@ -49,7 +49,7 @@ public class posicaoDAO {
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean alterar(posicao posicao) throws Exception{ 
+    public boolean alterar(Posicao posicao) throws Exception{ 
         if (posicao == null)
             return false;
         if (!verificacodigo(posicao.getVeiculo().getCodigo()))
@@ -64,7 +64,7 @@ public class posicaoDAO {
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean excluir(posicao posicao) throws Exception{ 
+    public boolean excluir(Posicao posicao) throws Exception{ 
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         if (posicao == null)
             return false;
@@ -77,8 +77,8 @@ public class posicaoDAO {
     }
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
-    public posicao consultarPosicao(int codvei, int posicao){
-        posicao u =  (posicao) s.createQuery("FROM posicao WHERE codigo = :a AND veiculo.codigo = :b")
+    public Posicao consultarPosicao(int codvei, int posicao){
+        Posicao u =  (Posicao) s.createQuery("FROM posicao WHERE codigo = :a AND veiculo.codigo = :b")
                     .setInteger("a", posicao)
                     .setInteger("b", codvei)
                     .uniqueResult();
@@ -86,8 +86,8 @@ public class posicaoDAO {
     }
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
-    public posicao consultarPosicao(int codvei, Calendar dahpos){
-        posicao u =  (posicao) s.createQuery("FROM posicao WHERE datahora = :a AND veiculo.codigo = :b")
+    public Posicao consultarPosicao(int codvei, Calendar dahpos){
+        Posicao u =  (Posicao) s.createQuery("FROM posicao WHERE datahora = :a AND veiculo.codigo = :b")
                     .setCalendar("a", dahpos)
                     .setInteger("b", codvei)
                     .uniqueResult();
@@ -95,8 +95,8 @@ public class posicaoDAO {
     }
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
-    public List<posicao> consultarPosicoesCarro(int codvei){
-        List<posicao> u =  s.createQuery("FROM posicao WHERE veiculo.codigo = :a")
+    public List<Posicao> consultarPosicoesCarro(int codvei){
+        List<Posicao> u =  s.createQuery("FROM posicao WHERE veiculo.codigo = :a")
                     .setInteger("a", codvei)
                     .list();
         return u;
