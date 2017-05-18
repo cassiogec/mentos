@@ -6,9 +6,11 @@
 package br.com.negocio;
 
 import java.io.Serializable;
+import java.sql.Array;
 import java.util.Calendar;
 import java.util.Calendar;
 import java.util.Objects;
+import static javassist.CtMethod.ConstParameter.integer;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +21,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -26,39 +32,41 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "POSICAO")
-public class Posicao implements Serializable {
+public class posicao implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name="codvei")
-    private Veiculo veiculo;
+    private veiculo veiculo;
+    //@Id
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "seqpos")
-    private int codigo;
+    private Integer codigo;
     @Column(name = "dahpos", columnDefinition= "TIMESTAMP WITH TIME ZONE")
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar datahora;
     @Column(name = "latpos")
-    private int latitude;
+    private Float latitude;
     @Column(name = "lonpos")
-    private int longitude;
+    private Float longitude;
 
-    public Posicao(Veiculo veiculo, Calendar datahora, int latitude, int longitude) {
+    public posicao(veiculo veiculo, Calendar datahora, Float latitude, Float longitude) {
         this.veiculo = veiculo;
         this.datahora = datahora;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 71 * hash + Objects.hashCode(this.veiculo);
-        hash = 71 * hash + this.codigo;
+        hash = 71 * hash + Objects.hashCode(this.codigo);
         hash = 71 * hash + Objects.hashCode(this.datahora);
-        hash = 71 * hash + this.latitude;
-        hash = 71 * hash + this.longitude;
+        hash = 71 * hash + Objects.hashCode(this.latitude);
+        hash = 71 * hash + Objects.hashCode(this.longitude);
         return hash;
     }
 
@@ -73,26 +81,27 @@ public class Posicao implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Posicao other = (Posicao) obj;
-        if (this.codigo != other.codigo) {
-            return false;
-        }
-        if (this.latitude != other.latitude) {
-            return false;
-        }
-        if (this.longitude != other.longitude) {
-            return false;
-        }
+        final posicao other = (posicao) obj;
         if (!Objects.equals(this.veiculo, other.veiculo)) {
+            return false;
+        }
+        if (!Objects.equals(this.codigo, other.codigo)) {
             return false;
         }
         if (!Objects.equals(this.datahora, other.datahora)) {
             return false;
         }
+        if (!Objects.equals(this.latitude, other.latitude)) {
+            return false;
+        }
+        if (!Objects.equals(this.longitude, other.longitude)) {
+            return false;
+        }
         return true;
     }
 
-    public Posicao(Veiculo veiculo, int codigo, Calendar datahora, int latitude, int longitude) {
+    
+    public posicao(veiculo veiculo, Integer codigo, Calendar datahora, Float latitude, Float longitude) {
         this.veiculo = veiculo;
         this.codigo = codigo;
         this.datahora = datahora;
@@ -100,27 +109,26 @@ public class Posicao implements Serializable {
         this.longitude = longitude;
     }
 
-    public Posicao(Veiculo veiculo, int codigo) {
-        this.veiculo = veiculo;
+    public posicao(Integer codigo) {
         this.codigo = codigo;
     }
 
-    public Posicao() {
+    public posicao() {
     }
-
-    public Veiculo getVeiculo() {
+    
+    public veiculo getVeiculo() {
         return veiculo;
     }
 
-    public void setVeiculo(Veiculo veiculo) {
+    public void setVeiculo(veiculo veiculo) {
         this.veiculo = veiculo;
     }
 
-    public int getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 
@@ -132,19 +140,19 @@ public class Posicao implements Serializable {
         this.datahora = datahora;
     }
 
-    public int getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(Float latitude) {
         this.latitude = latitude;
     }
 
-    public int getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(Float longitude) {
         this.longitude = longitude;
     }
     

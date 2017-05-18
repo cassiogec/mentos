@@ -7,8 +7,8 @@ package br.com.util;
 
 import br.com.DAO.posicaoDAO;
 import br.com.DAO.veiculoDAO;
-import br.com.negocio.Posicao;
-import br.com.negocio.Veiculo;
+import br.com.negocio.posicao;
+import br.com.negocio.veiculo;
 import java.util.Calendar;
 import java.util.List;
 
@@ -26,14 +26,22 @@ public class Teste_Banco_2 {
         veiculoDAO dao = new veiculoDAO();
         posicaoDAO daopos = new posicaoDAO();
         
-        List<Veiculo> veiculos = dao.consultarVeiculos();
+        veiculo f = new veiculo("AAAAACA",1,0,"AAAAA");
+        if (!dao.incluir(f))
+            System.out.println("OI");
+         f = new veiculo("AAAAADA",1,0,"AAAAA");
+        if (!dao.incluir(f))
+            System.out.println("OI");
+        List<veiculo> veiculos = dao.consultarVeiculos();
         System.out.println(veiculos.size());
         
-        Veiculo a = dao.consultarVeiculo(1);
-        Posicao d = new Posicao(a,Calendar.getInstance(),0,0);
-        System.out.println("INT: "+d.getCodigo());
+        veiculo a = dao.consultarVeiculo(12);
+        posicao g = daopos.consultarPosicao(12,9);
+        //g.setLatitude(1);
+        posicao d = new posicao(a,Calendar.getInstance(),new Float(0),new Float(0));      
         daopos.incluir(d);
-        
+        //System.out.println("INT: "+d.getCodigo());
+        //System.out.println("TAMANHO: " + a.getPosicoes().size());
     }
     
 }

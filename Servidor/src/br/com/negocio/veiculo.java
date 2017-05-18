@@ -24,7 +24,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "VEICULOS")
-public class Veiculo implements Serializable {
+public class veiculo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codvei")
@@ -37,10 +37,10 @@ public class Veiculo implements Serializable {
     private int capacidade;
     @Column(name = "ucavei")
     String uncapac;
-    @OneToMany(mappedBy = "veiculo", targetEntity = Posicao.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-     private List<Posicao> posicoes;
+    @OneToMany(mappedBy = "veiculo", targetEntity = posicao.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+     private List<posicao> posicoes;
 
-    public Veiculo(String placa, int tipo, int capacidade, String uncapac) {
+    public veiculo(String placa, int tipo, int capacidade, String uncapac) {
         this.placa = placa;
         this.tipo = tipo;
         this.capacidade = capacidade;
@@ -69,7 +69,7 @@ public class Veiculo implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Veiculo other = (Veiculo) obj;
+        final veiculo other = (veiculo) obj;
         if (this.codigo != other.codigo) {
             return false;
         }
@@ -88,7 +88,7 @@ public class Veiculo implements Serializable {
         return true;
     }
 
-    public Veiculo(int codigo, String placa, int tipo, int capacidade, String uncapac) {
+    public veiculo(int codigo, String placa, int tipo, int capacidade, String uncapac) {
         this.codigo = codigo;
         this.placa = placa;
         this.tipo = tipo;
@@ -96,18 +96,18 @@ public class Veiculo implements Serializable {
         this.uncapac = uncapac;
     }
 
-    public Veiculo(int codigo) {
+    public veiculo(int codigo) {
         this.codigo = codigo;
     }
 
-    public Veiculo() {
+    public veiculo() {
     }
 
-    public List<Posicao> getPosicoes() {
+    public List<posicao> getPosicoes() {
         return posicoes;
     }
 
-    public void setPosicoes(List<Posicao> posicoes) {
+    public void setPosicoes(List<posicao> posicoes) {
         this.posicoes = posicoes;
     }
     

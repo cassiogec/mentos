@@ -1,7 +1,7 @@
 package br.com.servidor;
 
 import br.com.DAO.veiculoDAO;
-import br.com.negocio.Veiculo;
+import br.com.negocio.veiculo;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +15,7 @@ public class WebServiceSoap implements WebServiceSoapInterface{
                                     Integer vlCapacidade,
                                     String dsUnidade) {
         try {
-            Veiculo v = new Veiculo(dsPlaca, idTipo, vlCapacidade, dsUnidade);
+            veiculo v = new veiculo(dsPlaca, idTipo, vlCapacidade, dsUnidade);
             veiculoDAO vdao = new veiculoDAO();
             vdao.incluir(v);
             return true;
@@ -31,7 +31,7 @@ public class WebServiceSoap implements WebServiceSoapInterface{
                                   Integer vlCapacidade,
                                   String dsUnidade) {
         try {
-            Veiculo v = new Veiculo(cdVeiculo, dsPlaca, idTipo, vlCapacidade, dsUnidade);
+            veiculo v = new veiculo(cdVeiculo, dsPlaca, idTipo, vlCapacidade, dsUnidade);
             veiculoDAO vdao = new veiculoDAO();
             vdao.alterar(v);
             return true;
@@ -43,7 +43,7 @@ public class WebServiceSoap implements WebServiceSoapInterface{
 
     public Boolean excluirVeiculo(Integer cdVeiculo) {
         try {
-            Veiculo v = new Veiculo(cdVeiculo);
+            veiculo v = new veiculo(cdVeiculo);
             veiculoDAO vdao = new veiculoDAO();
             vdao.excluir(v);
             return true;
@@ -53,10 +53,10 @@ public class WebServiceSoap implements WebServiceSoapInterface{
         }
     }
 
-    public Veiculo consultarVeiculo(Integer cdVeiculo) throws Exception{
+    public veiculo consultarVeiculo(Integer cdVeiculo) throws Exception{
         try {
             veiculoDAO vdao = new veiculoDAO();
-            Veiculo v = vdao.consultarVeiculo(cdVeiculo);
+            veiculo v = vdao.consultarVeiculo(cdVeiculo);
             return v;
         } catch (Exception ex) {
             Logger.getLogger(WebServiceSoap.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,10 +64,10 @@ public class WebServiceSoap implements WebServiceSoapInterface{
         }
     }
     
-    public List<Veiculo> listaTipo(Integer idTipo) throws Exception{
+    public List<veiculo> listaTipo(Integer idTipo) throws Exception{
         try {
             veiculoDAO vdao = new veiculoDAO();
-            List<Veiculo> list = vdao.consultarVeiculosPorTipo(idTipo);
+            List<veiculo> list = vdao.consultarVeiculosPorTipo(idTipo);
             return list;
         } catch (Exception ex) {
             Logger.getLogger(WebServiceSoap.class.getName()).log(Level.SEVERE, null, ex);
