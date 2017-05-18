@@ -28,7 +28,7 @@ public class VeiculoDAO {
     
     
     public boolean verificacodigo(int codigo) {
-           Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM veiculo WHERE codigo = :a")
+           Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
                     .setInteger("a", codigo)
                     .uniqueResult();
            if (u > 0)
@@ -38,7 +38,7 @@ public class VeiculoDAO {
     }
     
     public boolean verificaplaca(String placa) {
-            Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM veiculo WHERE placa = :a")
+            Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE placa = :a")
                     .setString("a", placa)
                     .uniqueResult();
            if (u == 0)
@@ -90,14 +90,14 @@ public class VeiculoDAO {
     
     // RETORNA A LISTA DE TODOS OS VEÍCULOS
     public List<Veiculo> consultarVeiculos(){
-        List<Veiculo> u =  s.createQuery("FROM veiculo")    
+        List<Veiculo> u =  s.createQuery("FROM Veiculo")    
                     .list();
         return u;
     }
     
     // RETORNA A LISTA DOS VEÍCULOS DO TIPO SELECIONADO
     public List<Veiculo> consultarVeiculosPorTipo(int tipo){
-        List<Veiculo> u = s.createQuery("FROM veiculo WHERE tipo = :a")
+        List<Veiculo> u = s.createQuery("FROM Veiculo WHERE tipo = :a")
                     .setInteger("a", tipo)
                     .list();
         return u;
@@ -105,7 +105,7 @@ public class VeiculoDAO {
     
     // RETORNA VEÍCULO ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(int codvei){
-        Veiculo u =  (Veiculo) s.createQuery("FROM veiculo WHERE codigo = :a")
+        Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE codigo = :a")
                     .setInteger("a", codvei)
                     .uniqueResult();
         return u;
@@ -113,7 +113,7 @@ public class VeiculoDAO {
     
     // RETORNA VEÍCULO POR PLACA ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(String plavei){
-        Veiculo u =  (Veiculo) s.createQuery("FROM veiculo WHERE placa = :a")
+        Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE placa = :a")
                     .setString("a", plavei)
                     .uniqueResult();
         return u;
