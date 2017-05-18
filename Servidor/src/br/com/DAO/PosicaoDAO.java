@@ -25,7 +25,7 @@ public class PosicaoDAO {
     }
     
     public boolean verificacodigo(int codigo) {
-           Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM veiculo WHERE codigo = :a")
+           Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
                     .setInteger("a", codigo)
                     .uniqueResult();
            if (u > 0)
@@ -78,7 +78,7 @@ public class PosicaoDAO {
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public Posicao consultarPosicao(int codvei, int posicao){
-        Posicao u =  (Posicao) s.createQuery("FROM posicao WHERE codigo = :a AND veiculo.codigo = :b")
+        Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b")
                     .setInteger("a", posicao)
                     .setInteger("b", codvei)
                     .uniqueResult();
@@ -87,7 +87,7 @@ public class PosicaoDAO {
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public Posicao consultarPosicao(int codvei, Calendar dahpos){
-        Posicao u =  (Posicao) s.createQuery("FROM posicao WHERE datahora = :a AND veiculo.codigo = :b")
+        Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE datahora = :a AND veiculo.codigo = :b")
                     .setCalendar("a", dahpos)
                     .setInteger("b", codvei)
                     .uniqueResult();
@@ -96,7 +96,7 @@ public class PosicaoDAO {
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public List<Posicao> consultarPosicoesCarro(int codvei){
-        List<Posicao> u =  s.createQuery("FROM posicao WHERE veiculo.codigo = :a")
+        List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a")
                     .setInteger("a", codvei)
                     .list();
         return u;
