@@ -9,12 +9,22 @@
     /**
      * @var mixed
      */
-    private $response;
+    private $lastResponse;
+
+    /**
+     * @var array
+     */
+    private $error = array();
 
     /**
      * @var string
      */
     private static $wsdl = "http://127.0.0.1:9876/Servidor/WebServiceSoap?wsdl";
+
+    /**
+     * @var bool
+     */
+    public $idSilence = false;
 
     /**
      * ClienteSoap constructor.
@@ -25,32 +35,147 @@
     }
 
     /**
-     * Responsável por ajustar os parâmetros e mandar a requisição
-     * @param $name
-     * @param $arguments
-     * @return mixed
+     * Tratamento de erro
+     * @param $errorMsg
+     * @throws Exception
      */
-    public function __call($name, $arguments)
+    private function tratarErro($errorMsg)
     {
-      $nrArg  = 0;
-      $params = array();
+      $this->error[] = $errorMsg;
 
-      foreach ($arguments AS $val)
+      if (!$this->idSilence && count($this->error))
+        throw new Exception(implode("<br>", $this->error));
+    }
+
+    /**
+     * @param $dsPlaca
+     * @param $idTipo
+     * @param $vlCapacidade
+     * @param $dsUnidade
+     * @return bool|mixed
+     */
+    public function adicionarVeiculo($dsPlaca, $idTipo, $vlCapacidade, $dsUnidade)
+    {
+      $params = array(
+        "dsPlaca"      => $dsPlaca,
+        "idTipo"       => $idTipo,
+        "vlCapacidade" => $vlCapacidade,
+        "dsUnidade"    => $dsUnidade
+      );
+
+      return $this->execute("adicionarVeiculo", $params);
+    }
+
+    /**
+     * @param $cdVeiculo
+     * @param $dsPlaca
+     * @param $idTipo
+     * @param $vlCapacidade
+     * @param $dsUnidade
+     * @return bool|mixed
+     */
+    public function alterarVeiculo($cdVeiculo, $dsPlaca, $idTipo, $vlCapacidade, $dsUnidade)
+    {
+      $params = array(
+        "cdVeiculo"    => $cdVeiculo,
+        "dsPlaca"      => $dsPlaca,
+        "idTipo"       => $idTipo,
+        "vlCapacidade" => $vlCapacidade,
+        "dsUnidade"    => $dsUnidade
+      );
+
+      return $this->execute("alterarVeiculo", $params);
+    }
+
+    /**
+     * @param $cdVeiculo
+     * @return bool|mixed
+     */
+    public function excluirVeiculo($cdVeiculo)
+    {
+      $params = array(
+        "cdVeiculo" => $cdVeiculo
+      );
+
+      return $this->execute("excluirVeiculo", $params);
+    }
+
+    /**
+     * @param $cdVeiculo
+     * @return bool|mixed
+     */
+    public function consultarVeiculo($cdVeiculo)
+    {
+      $params = array(
+        "cdVeiculo" => $cdVeiculo
+      );
+
+      return $this->execute("consultarVeiculo", $params);
+    }
+
+    /**
+     * @param $idTipo
+     * @return bool|mixed
+     */
+    public function listaTipo($idTipo)
+    {
+      $params = array(
+        "idTipo" => $idTipo
+      );
+
+      return $this->execute("listaTipo", $params);
+    }
+
+    /**
+     * @param $cdVeiculo
+     * @param $dtLocalizacao
+     * @return bool|mixed
+     */
+    public function localizacao($cdVeiculo, $dtLocalizacao = null)
+    {
+      $params = array(
+        "cdVeiculo"     => $cdVeiculo,
+        "dtLocalizacao" => $dtLocalizacao
+      );
+
+      return $this->execute("localizacao", $params);
+    }
+
+    /**
+     * Executa os métodos
+     * @param $method
+     * @param $params
+     * @return bool|mixed
+     * @throws Exception
+     */
+    private function execute($method, $params)
+    {
+      try
       {
-        $params["arg{$nrArg}"] = $val;
-        $nrArg++;
-      }
+        $this->lastResponse = $this->Client->$method(array_filter($params));
 
-      $this->response = $this->Client->$name($params);
-      return $this->response;
+        if (!isset($this->lastResponse->{"return"}))
+          $this->lastResponse->return = "Sem Dados";
+
+        return $this->lastResponse->{"return"};
+      }
+      catch (SoapFault $fault)
+      {
+        if ($fault->getCode() == "HTTP" && $fault->getMessage() == "Error Fetching http headers")
+          $this->tratarErro("Erro na comunicação com o Servidor, por favor tente mais tarde!");
+        else
+          $this->tratarErro($fault->getMessage());
+
+        return false;
+      }
     }
 
     /**
      * @return mixed
      */
-    public function getResponse()
+    public function getLastResponse()
     {
-      return $this->response;
+      return $this->lastResponse;
     }
 
     /**
