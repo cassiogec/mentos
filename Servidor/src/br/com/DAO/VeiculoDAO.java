@@ -25,11 +25,19 @@ public class VeiculoDAO {
         s = HibernateUtil.getSessionFactory().openSession();  
     }
     
-    
+    private boolean verificaStringCarro(Veiculo veiculo)
+    {
+        if (veiculo.getPlaca().length() != 7)
+            return false;
+        if (veiculo.getUncapac().length() != 5)
+            return false;
+        return true;
+    }
     
     public boolean verificacodigo(int codigo) {
            Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
                     .setInteger("a", codigo)
+                    .setTimeout(30)
                     .uniqueResult();
            if (u > 0)
                return true;
@@ -40,6 +48,7 @@ public class VeiculoDAO {
     public boolean verificaplaca(String placa) {
             Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE placa = :a")
                     .setString("a", placa)
+                    .setTimeout(30)
                     .uniqueResult();
            if (u == 0)
                return true;
@@ -52,9 +61,11 @@ public class VeiculoDAO {
     public boolean incluir(Veiculo Veiculo) throws Exception{ 
         if (!verificaplaca(Veiculo.getPlaca()))
             return false;
+        if (!verificaStringCarro(Veiculo))
+            return false;
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
-        trans.setTimeout(10);
+        trans.setTimeout(30);
         s.save(Veiculo);
         trans.commit();
        // s.close();
@@ -65,9 +76,11 @@ public class VeiculoDAO {
     public boolean alterar(Veiculo Veiculo) throws Exception{ 
         if (!verificacodigo(Veiculo.getCodigo()))
             return false;
+        if (!verificaStringCarro(Veiculo))
+            return false;
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
-        trans.setTimeout(10);
+        trans.setTimeout(30);
         s.update(Veiculo);
         trans.commit();
        // s.close();
@@ -81,7 +94,7 @@ public class VeiculoDAO {
         if (!verificacodigo(Veiculo.getCodigo()))
             return false;
         Transaction trans = s.beginTransaction();
-        trans.setTimeout(10);
+        trans.setTimeout(30);
         s.delete(Veiculo);
         trans.commit();
         //s.close();
@@ -90,7 +103,8 @@ public class VeiculoDAO {
     
     // RETORNA A LISTA DE TODOS OS VEÍCULOS
     public List<Veiculo> consultarVeiculos(){
-        List<Veiculo> u =  s.createQuery("FROM Veiculo")    
+        List<Veiculo> u =  s.createQuery("FROM Veiculo") 
+                    .setTimeout(30)
                     .list();
         return u;
     }
@@ -99,6 +113,7 @@ public class VeiculoDAO {
     public List<Veiculo> consultarVeiculosPorTipo(int tipo){
         List<Veiculo> u = s.createQuery("FROM Veiculo WHERE tipo = :a")
                     .setInteger("a", tipo)
+                    .setTimeout(30)
                     .list();
         return u;
     }
@@ -107,6 +122,7 @@ public class VeiculoDAO {
     public Veiculo consultarVeiculo(int codvei){
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE codigo = :a")
                     .setInteger("a", codvei)
+                    .setTimeout(30)
                     .uniqueResult();
         return u;
     }
@@ -115,6 +131,7 @@ public class VeiculoDAO {
     public Veiculo consultarVeiculo(String plavei){
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE placa = :a")
                     .setString("a", plavei)
+                    .setTimeout(30)
                     .uniqueResult();
         return u;
     }

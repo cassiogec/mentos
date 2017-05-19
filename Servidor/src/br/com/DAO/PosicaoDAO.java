@@ -27,6 +27,7 @@ public class PosicaoDAO {
     public boolean verificacodigo(int codigo) {
            Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
                     .setInteger("a", codigo)
+                    .setTimeout(30)
                     .uniqueResult();
            if (u > 0)
                return true;
@@ -41,7 +42,7 @@ public class PosicaoDAO {
             return false;
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
-        trans.setTimeout(10);
+        trans.setTimeout(30);
         s.save(posicao);
         trans.commit();
         //s.close();
@@ -56,7 +57,7 @@ public class PosicaoDAO {
             return false;
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
-        trans.setTimeout(10);
+        trans.setTimeout(30);
         s.update(posicao);
         trans.commit();
        // s.close();
@@ -69,7 +70,7 @@ public class PosicaoDAO {
         if (posicao == null)
             return false;
         Transaction trans = s.beginTransaction();
-        trans.setTimeout(10);
+        trans.setTimeout(30);
         s.delete(posicao);
         trans.commit();
        // s.close();
@@ -81,6 +82,7 @@ public class PosicaoDAO {
         Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b")
                     .setInteger("a", posicao)
                     .setInteger("b", codvei)
+                    .setTimeout(30)
                     .uniqueResult();
         return u;
     }
@@ -90,6 +92,7 @@ public class PosicaoDAO {
         Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE datahora = :a AND veiculo.codigo = :b")
                     .setCalendar("a", dahpos)
                     .setInteger("b", codvei)
+                    .setTimeout(30)
                     .uniqueResult();
         return u;
     }
@@ -98,6 +101,7 @@ public class PosicaoDAO {
     public List<Posicao> consultarPosicoesCarro(int codvei){
         List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a")
                     .setInteger("a", codvei)
+                    .setTimeout(30)
                     .list();
         return u;
     }
