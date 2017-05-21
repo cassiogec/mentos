@@ -58,47 +58,44 @@ public class VeiculoDAO {
     
     // RETORNA FALSO QUANDO A PLACA JÁ ESTIVER CADASTRADA NO SISTEMA
     // PARA ADICIONAR UM VEÍCULO, PASSAR UM OBJETO SEM CÓDIGO
-    public boolean incluir(Veiculo Veiculo) throws Exception{ 
+    public void incluir(Veiculo Veiculo) throws Exception{ 
         if (!verificaplaca(Veiculo.getPlaca()))
-            return false;
+            throw new Exception("Placa Já Cadastrada");
         if (!verificaStringCarro(Veiculo))
-            return false;
+            throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres e o Campo 'UnCapac' Deve Possuir Exatamente 5 Caracteres");
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.save(Veiculo);
         trans.commit();
        // s.close();
-        return true;
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean alterar(Veiculo Veiculo) throws Exception{ 
+    public void alterar(Veiculo Veiculo) throws Exception{ 
         if (!verificacodigo(Veiculo.getCodigo()))
-            return false;
+            throw new Exception("Placa Já Cadastrada");
         if (!verificaStringCarro(Veiculo))
-            return false;
+            throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres e o Campo 'UnCapac' Deve Possuir Exatamente 5 Caracteres");
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.update(Veiculo);
         trans.commit();
        // s.close();
-        return true;
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean excluir(Veiculo Veiculo) throws Exception{ 
+    public void excluir(Veiculo Veiculo) throws Exception{ 
         if (Veiculo == null)
-            return false;
+            throw new Exception("Objeto Veículo 'NULL'");
         if (!verificacodigo(Veiculo.getCodigo()))
-            return false;
+            throw new Exception("Veículo Não Localizado");
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.delete(Veiculo);
         trans.commit();
         //s.close();
-        return true;
     }
     
     // RETORNA A LISTA DE TODOS OS VEÍCULOS
