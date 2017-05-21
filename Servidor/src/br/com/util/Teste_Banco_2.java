@@ -26,20 +26,8 @@ public class Teste_Banco_2 {
         VeiculoDAO dao = new VeiculoDAO();
         PosicaoDAO daopos = new PosicaoDAO();
         
-        Veiculo f = new Veiculo("AAAAACA",1,0,"AAAAA");
-        if (!dao.incluir(f))
-            System.out.println("OI");
-         f = new Veiculo("AAAAADA",1,0,"AAAAA");
-        if (!dao.incluir(f))
-            System.out.println("OI");
-        List<Veiculo> veiculos = dao.consultarVeiculos();
-        System.out.println(veiculos.size());
-        
         Veiculo a = dao.consultarVeiculo(12);
-        Posicao g = daopos.consultarPosicao(12,9);
-        //g.setLatitude(1);
-        Posicao d = new Posicao(a,Calendar.getInstance(),new Float(0),new Float(0));      
-        daopos.incluir(d);
+        dao.excluir(a);
         //System.out.println("INT: "+d.getCodigo());
         //System.out.println("TAMANHO: " + a.getPosicoes().size());
     }
