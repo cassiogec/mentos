@@ -35,46 +35,43 @@ public class PosicaoDAO {
                return false;
     }
     
-    public boolean incluir(Posicao posicao) throws Exception{ 
+    public void incluir(Posicao posicao) throws Exception{ 
        if (posicao == null)
-            return false;
+            throw new Exception("Objeto Posição 'NULL'");
         if (!verificacodigo(posicao.getVeiculo().getCodigo()))
-            return false;
+            throw new Exception("Veículo Informado Não Localizado");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.save(posicao);
         trans.commit();
         //s.close();
-        return true;
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean alterar(Posicao posicao) throws Exception{ 
+    public void alterar(Posicao posicao) throws Exception{ 
         if (posicao == null)
-            return false;
+            throw new Exception("Objeto Posição 'NULL'");
         if (!verificacodigo(posicao.getVeiculo().getCodigo()))
-            return false;
+            throw new Exception("Veículo Informado Não Localizado");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.update(posicao);
         trans.commit();
        // s.close();
-        return true;
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public boolean excluir(Posicao posicao) throws Exception{ 
+    public void excluir(Posicao posicao) throws Exception{ 
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         if (posicao == null)
-            return false;
+            throw new Exception("Objeto Posição 'NULL'");
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.delete(posicao);
         trans.commit();
        // s.close();
-        return true;
     }
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
