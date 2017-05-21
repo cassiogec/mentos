@@ -4,6 +4,7 @@ import br.com.DAO.PosicaoDAO;
 import br.com.DAO.VeiculoDAO;
 import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,9 +34,10 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.incluir(v);
             return true;
+        } catch (SQLException e) {
+            throw new Exception("Não foi possivel inserir o veículo.");
         } catch (Exception ex) {
-            Logger.getLogger(WebServiceSoap.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            throw new Exception(ex.getMessage());
         }
     }
 
@@ -59,9 +61,10 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.alterar(v);
             return true;
+        } catch (SQLException e) {
+            throw new Exception("Não foi possivel alterar o veículo.");
         } catch (Exception ex) {
-            Logger.getLogger(WebServiceSoap.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            throw new Exception(ex.getMessage());
         }
     }
 
@@ -77,9 +80,10 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.excluir(v);
             return true;
+        }  catch (SQLException e) {
+            throw new Exception("Não foi possivel excluir o veículo.");
         } catch (Exception ex) {
-            Logger.getLogger(WebServiceSoap.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            throw new Exception(ex.getMessage());
         }
     }
 
@@ -96,8 +100,7 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             Veiculo v = vdao.consultarVeiculo(cdVeiculo);
             return v;
         } catch (Exception ex) {
-            Logger.getLogger(WebServiceSoap.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception();
+            throw new Exception("Não foi possivel consultar o veículo");
         }
     }
     
@@ -112,10 +115,17 @@ public class WebServiceSoap implements WebServiceSoapInterface{
         try {
             VeiculoDAO vdao = new VeiculoDAO();
             List<Veiculo> list = vdao.consultarVeiculosPorTipo(idTipo);
+
+//            for (Veiculo v : list) {
+//                System.out.println(v.getCodigo());
+//                System.out.println(v.getPlaca());
+//                System.out.println(v.getTipo());
+//                System.out.println(v.getCapacidade());
+//                System.out.println(v.getUncapac());
+//            }
             return list;
         } catch (Exception ex) {
-            Logger.getLogger(WebServiceSoap.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception();
+            throw new Exception(ex.getMessage());
         }
     }
 
@@ -139,8 +149,7 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             }
             
         } catch (Exception ex) {
-            Logger.getLogger(WebServiceSoap.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception();
+            throw new Exception(ex.getMessage());
         }
     }
 }

@@ -20,7 +20,11 @@ public class WebServiceTeste {
 
             WebServiceSoapInterface soap = ws.getPort(WebServiceSoapInterface.class);
         
-            System.out.println(soap.adicionarVeiculo("AAA1111", 0, 1000, "Tonelada"));
+//            System.out.println(soap.adicionarVeiculo("AAA1113", 0, 1000, "TESTE"));
+//            System.out.println(soap.alterarVeiculo(1, "AAA1111", 1, 666, "TEST2"));
+            
+              System.out.println(soap.listaTipo(1));
+//            System.out.println(soap.excluirVeiculo(5));
         } catch(Exception e)
         {
             System.out.println(e.getMessage());
