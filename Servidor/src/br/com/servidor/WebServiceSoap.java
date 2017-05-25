@@ -116,13 +116,9 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             VeiculoDAO vdao = new VeiculoDAO();
             List<Veiculo> list = vdao.consultarVeiculosPorTipo(idTipo);
 
-//            for (Veiculo v : list) {
-//                System.out.println(v.getCodigo());
-//                System.out.println(v.getPlaca());
-//                System.out.println(v.getTipo());
-//                System.out.println(v.getCapacidade());
-//                System.out.println(v.getUncapac());
-//            }
+            for (Veiculo v : list) {
+                v.setPosicoes(null);
+            }
             return list;
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
@@ -133,20 +129,24 @@ public class WebServiceSoap implements WebServiceSoapInterface{
     public List<Posicao> localizacao(Integer cdVeiculo, Calendar dtLocalizacao) throws Exception {
         try {
             PosicaoDAO pdao = new PosicaoDAO();
-            
+            List<Posicao> list = new ArrayList<Posicao>();
+                    
             if (dtLocalizacao == null)
             {
-                return pdao.consultarPosicoesCarro(cdVeiculo);
+                list = pdao.consultarPosicoesCarro(cdVeiculo);
             }
             else
             {
                 Posicao p = pdao.consultarPosicao(cdVeiculo, dtLocalizacao);
-                List<Posicao> list = new ArrayList<Posicao>();
                 
                 list.add(p);
-                
-                return list; 
             }
+            
+            for (Posicao p : list) {
+                p.setVeiculo(null);
+            }
+            
+            return list;
             
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());

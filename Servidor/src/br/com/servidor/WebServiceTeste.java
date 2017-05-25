@@ -1,5 +1,6 @@
 package br.com.servidor;
 
+import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -24,11 +25,19 @@ public class WebServiceTeste {
             
             WebServiceSoapInterface soap = ws.getPort(WebServiceSoapInterface.class);
             
-            System.out.println(soap.adicionarVeiculo("AAA1113", 0, 1000, "TESTE"));
+//            System.out.println(soap.adicionarVeiculo("AAA1113", 0, 1000, "TESTE"));
 //            System.out.println(soap.alterarVeiculo(1, "AAA1111", 1, 666, "TEST2"));
             
-              System.out.println(soap.listaTipo(0));
+//            for (Veiculo v : soap.listaTipo(1)) {
+//                System.out.println(v.getCodigo());
+//            }
+//              System.out.println(soap.listaTipo(1));
 //            System.out.println(soap.excluirVeiculo(5));
+//            System.out.println(soap.localizacao(5, null));
+            for (Posicao p : soap.localizacao(5, null)) {
+                System.out.println(p.getDatahora().getTime());
+            }
+
         } catch(Exception e)
         {
             System.out.println(e.getMessage());
