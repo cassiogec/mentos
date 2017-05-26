@@ -34,7 +34,7 @@ public class WebServiceTeste {
 //              System.out.println(soap.listaTipo(1));
 //            System.out.println(soap.excluirVeiculo(5));
 //            System.out.println(soap.localizacao(5, null));
-            for (Posicao p : soap.localizacao(5, null)) {
+            for (Posicao p : soap.localizacao(5, null, null)) {
                 System.out.println(p.getDatahora().getTime());
             }
 

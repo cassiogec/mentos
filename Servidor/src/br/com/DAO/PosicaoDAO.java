@@ -95,7 +95,12 @@ public class PosicaoDAO {
     }
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DE UM INTERVALO DE DATAS
-    public List<Posicao> consultarPosicao(int codvei, Calendar datIni, Calendar datFim){
+    public List<Posicao> consultarPosicao(int codvei, Calendar datIni, Calendar datFim) throws Exception{
+        if ((datIni == null && datFim != null) || (datIni != null && datFim == null))
+        {
+            throw new Exception("Parametros incorretos. Um dos parametros data possui valor e o outro não.");
+        }
+        
         List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND datahora <= :b AND veiculo.codigo = :c")
                     .setCalendar("a", datIni)
                     .setCalendar("b", datFim)
