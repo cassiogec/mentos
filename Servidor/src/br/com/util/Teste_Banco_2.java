@@ -53,8 +53,8 @@ public class Teste_Banco_2 {
         Date data3 = f2.parse("27/05/2017");
         cal2.setTime(data3);
         
-        List<Posicao> d = daopos.consultarPosicao(19, cal, cal2);
-        System.out.println(d.size());
+       // List<Posicao> d = daopos.consultarPosicao(19, cal, cal2);
+       // System.out.println(d.size());
         //System.out.println("INT: "+d.getCodigo());
         //System.out.println("TAMANHO: " + a.getPosicoes().size());
     }
