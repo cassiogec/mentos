@@ -31,6 +31,12 @@
      */
     public function __construct()
     {
+      $this->createNewSoapClient();
+    }
+
+    private function createNewSoapClient()
+    {
+      unset($this->Client);
       $this->Client = new SoapClient(self::$wsdl, array('trace' => 1));
     }
 
@@ -107,7 +113,7 @@
     public function consultarVeiculo($cdVeiculo)
     {
       $params = array(
-        "cdVeiculo" => $cdVeiculo
+        "cdVeiculo" => (int) $cdVeiculo
       );
 
       return $this->execute("consultarVeiculo", $params);
@@ -157,6 +163,7 @@
         if (!isset($this->lastResponse->{"return"}))
           $this->lastResponse->return = "Sem Dados";
 
+        $this->createNewSoapClient();
         return $this->lastResponse->{"return"};
       }
       catch (SoapFault $fault)
@@ -166,6 +173,11 @@
         else
           $this->tratarErro($fault->getMessage());
 
+        return false;
+      }
+      catch (Exception $e)
+      {
+        $this->tratarErro($e->getMessage());
         return false;
       }
     }

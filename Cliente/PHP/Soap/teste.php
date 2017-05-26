@@ -8,17 +8,35 @@
     echo "</pre>";
   }
 
+
   try
   {
     $Cliente = new ClienteSoap();
-    $retorno = $Cliente->adicionarVeiculo("AAA-1111", 0, 1000, "Tonelada");
 
-    ppr($retorno);
+//    $retorno = $Cliente->adicionarVeiculo(
+//      "T102BR1", 1, 1000, "TONEL"
+//    );
+
+//    $retorno = $Cliente->alterarVeiculo(
+//      17, "TIO2BRI", 1, 1000, "KILOG"
+//    );
+
+//    $retorno = $Cliente->excluirVeiculo(17);
+
+//    $retorno = $Cliente->consultarVeiculo(13);
+
+//    $retorno = $Cliente->localizacao(5);
+//
+//    ppr($retorno);
+
+//    $retorno = $Cliente->listaTipo(1);
+//
+//    ppr($retorno);
 
     ppr($Cliente->getXml());
   }
-  catch (SoapFault $fault)
+  catch (Exception $e)
   {
     ppr("ERRO");
-    ppr($fault->getMessage());
+    ppr($e->getMessage());
   }
