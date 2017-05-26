@@ -84,13 +84,24 @@ public class PosicaoDAO {
         return u;
     }
     
-    // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
+    // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA HORA EXATA
     public Posicao consultarPosicao(int codvei, Calendar dahpos){
         Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE datahora = :a AND veiculo.codigo = :b")
                     .setCalendar("a", dahpos)
                     .setInteger("b", codvei)
                     .setTimeout(30)
                     .uniqueResult();
+        return u;
+    }
+    
+    // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DE UM INTERVALO DE DATAS
+    public List<Posicao> consultarPosicao(int codvei, Calendar datIni, Calendar datFim){
+        List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND datahora <= :b AND veiculo.codigo = :c")
+                    .setCalendar("a", datIni)
+                    .setCalendar("b", datFim)
+                    .setInteger("c", codvei)
+                    .setTimeout(30)
+                    .list();
         return u;
     }
     
