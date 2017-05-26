@@ -7,10 +7,7 @@ import br.com.negocio.Veiculo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.jws.WebService;
 
 @WebService(endpointInterface = "br.com.servidor.WebServiceSoapInterface")
@@ -125,7 +122,14 @@ public class WebServiceSoap implements WebServiceSoapInterface{
         }
     }
 
-
+    /**
+     *
+     * @param cdVeiculo
+     * @param dtLocalizacao
+     * @return
+     * @throws Exception
+     */
+    @Override
     public List<Posicao> localizacao(Integer cdVeiculo, Calendar dtLocalizacao) throws Exception {
         try {
             PosicaoDAO pdao = new PosicaoDAO();
