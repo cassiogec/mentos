@@ -19,4 +19,5 @@ public class RequestBodyREST {
     @XmlElement Integer idTipo;
     @XmlElement Integer vlCapacidade;
     @XmlElement String dsUnidade;    
+    @XmlElement Integer cdVeiculo;
 }

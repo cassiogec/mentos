@@ -4,6 +4,7 @@ import br.com.DAO.PosicaoDAO;
 import br.com.DAO.VeiculoDAO;
 import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
+import com.sun.jersey.api.client.WebResource;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,13 +59,13 @@ public class WebServiceRest {
     @PUT
     @Path("/put/alterar-veiculo")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean alterarVeiculo(@FormParam("cdVeiculo") Integer cdVeiculo,
-            @FormParam("cdVeiculo") String dsPlaca,
-            @FormParam("idTipo") Integer idTipo,
-            @FormParam("vlCapacidade") Integer vlCapacidade,
-            @FormParam("dsUnidade") String dsUnidade) throws Exception {
+    public Boolean alterarVeiculo(RequestBodyREST requestBodyREST) throws Exception {
         try {
-            Veiculo v = new Veiculo(cdVeiculo, dsPlaca, idTipo, vlCapacidade, dsUnidade);
+            Veiculo v = new Veiculo(requestBodyREST.cdVeiculo,
+                    requestBodyREST.dsPlaca,
+                    requestBodyREST.idTipo,
+                    requestBodyREST.vlCapacidade,
+                    requestBodyREST.dsUnidade);
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.alterar(v);
             return true;
@@ -76,17 +77,19 @@ public class WebServiceRest {
     }
     
     @DELETE
-    @Path("/delete/excluir-veiculo/{cdVeiculo}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/delete/excluir-veiculo")
     public Boolean excluirVeiculo(@PathParam("cdVeiculo") Integer cdVeiculo) throws Exception{
         try {
-            Veiculo veiculo = new Veiculo(cdVeiculo);
-            VeiculoDAO vdao = new VeiculoDAO();
-            vdao.excluir(veiculo);
+            System.out.println(cdVeiculo);
+//            Veiculo veiculo = new Veiculo(cdVeiculo);
+//            VeiculoDAO vdao = new VeiculoDAO();
+//            vdao.excluir(veiculo);
             return true;
-        }  catch (SQLException e) {
-            throw new Exception("Não foi possivel excluir o veículo.");
-        } catch (Exception ex) {
+        } 
+//        catch (SQLException e) {
+//            throw new Exception("Não foi possivel excluir o veículo.");
+//        }
+        catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
     }
