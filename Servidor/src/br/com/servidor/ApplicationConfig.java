@@ -24,8 +24,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(br.com.servidor.PosicaoWS.class);
-        resources.add(br.com.servidor.VeiculosWS.class);
+        resources.add(br.com.servidor.WebServiceRest.class);
     }
     
 }

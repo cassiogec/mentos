@@ -3,11 +3,9 @@ package br.com.servidor;
 import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlElement;
 
@@ -38,5 +36,6 @@ public interface WebServiceSoapInterface {
     
     @WebMethod public List<Posicao> localizacao(
             @XmlElement(name="cdVeiculo", required=true)     Integer cdVeiculo,
-            @XmlElement(name="dtLocalizacao")                Calendar dtLocalizacao) throws Exception;
+            @XmlElement(name="dtLocalizacaoInicio")          Calendar dtLocalizacaoInicio,
+            @XmlElement(name="dtLocalizacaoFim")             Calendar dtLocalizacaoFim) throws Exception;
 }
