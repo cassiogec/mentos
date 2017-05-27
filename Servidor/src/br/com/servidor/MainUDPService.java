@@ -22,9 +22,10 @@ public class MainUDPService {
         UDPService servUDP = new UDPService();
         servUDP.start();
         
-        Integer i = Integer.getInteger(args[0]);
-        UDPServiceAux servAuxUDP = new UDPServiceAux(i);
-        servAuxUDP.start();
+        
+//        Integer i = Integer.getInteger(args[0]);
+//        UDPServiceAux servAuxUDP = new UDPServiceAux(i);
+//        servAuxUDP.start();
     }
     
 }
