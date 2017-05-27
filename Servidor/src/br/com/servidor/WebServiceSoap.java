@@ -121,6 +121,26 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             throw new Exception(ex.getMessage());
         }
     }
+    
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Veiculo> listaTodosVeiculos() throws Exception{
+        try {
+            VeiculoDAO vdao = new VeiculoDAO();
+            List<Veiculo> list = vdao.consultarTodosVeiculos();
+
+            for (Veiculo v : list) {
+                v.setPosicoes(null);
+            }
+            return list;
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage());
+        }
+    }
 
     /**
      *
