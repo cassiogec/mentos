@@ -12,6 +12,11 @@
     private $lastResponse;
 
     /**
+     * @var string
+     */
+    private $dsXml;
+
+    /**
      * @var array
      */
     private $error = array();
@@ -28,16 +33,28 @@
 
     /**
      * ClienteSoap constructor.
+     * @param bool $idSilence
      */
-    public function __construct()
+    public function __construct($idSilence = false)
     {
+      $this->idSilence = $idSilence;
       $this->createNewSoapClient();
     }
 
+    /**
+     * Faz o Unset do SoapClient e cria um novo
+     */
     private function createNewSoapClient()
     {
-      unset($this->Client);
-      $this->Client = new SoapClient(self::$wsdl, array('trace' => 1));
+      try
+      {
+        unset($this->Client);
+        $this->Client = new SoapClient(self::$wsdl, array('trace' => 1));
+      }
+      catch (Exception $e)
+      {
+        $this->tratarErro($e->getMessage());
+      }
     }
 
     /**
@@ -47,10 +64,54 @@
      */
     private function tratarErro($errorMsg)
     {
+      if (strpos($errorMsg, "failed to load external entity") !== false)
+        $errorMsg = "Erro na comunicação com o Servidor";
+
       $this->error[] = $errorMsg;
 
       if (!$this->idSilence && count($this->error))
         throw new Exception(implode("<br>", $this->error));
+    }
+
+    /**
+     * @param $param
+     * @param $val
+     * @return array
+     */
+    private function param($param, $val)
+    {
+      switch ($param)
+      {
+        case "cdVeiculo":     $val = (int)    $val; break;
+        case "dsPlaca":       $val = (string) $val; break;
+        case "idTipo":        $val = (int)    $val; break;
+        case "vlCapacidade":  $val = (float)  $val; break;
+        case "dsUnidade":     $val = (string) $val; break;
+        case "dtLocalizacao": $val = (string) $val; break;
+        default:              $val = (string) $val;
+      }
+
+      return array($param => $val);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    private function paramsHandler()
+    {
+      $args    = func_get_args();
+      $retorno = array();
+
+      foreach ($args AS &$param)
+      {
+        if (!is_array($param))
+          throw new Exception("Parâmetros inválidos");
+
+        $retorno = array_merge($retorno, $param);
+      }
+
+      return $retorno;
     }
 
     /**
@@ -62,14 +123,12 @@
      */
     public function adicionarVeiculo($dsPlaca, $idTipo, $vlCapacidade, $dsUnidade)
     {
-      $params = array(
-        "dsPlaca"      => $dsPlaca,
-        "idTipo"       => $idTipo,
-        "vlCapacidade" => $vlCapacidade,
-        "dsUnidade"    => $dsUnidade
-      );
-
-      return $this->execute("adicionarVeiculo", $params);
+      return $this->execute("adicionarVeiculo", $this->paramsHandler(
+        $this->param("dsPlaca",      $dsPlaca),
+        $this->param("idTipo",       $idTipo),
+        $this->param("vlCapacidade", $vlCapacidade),
+        $this->param("dsUnidade",    $dsUnidade)
+      ));
     }
 
     /**
@@ -82,15 +141,13 @@
      */
     public function alterarVeiculo($cdVeiculo, $dsPlaca, $idTipo, $vlCapacidade, $dsUnidade)
     {
-      $params = array(
-        "cdVeiculo"    => $cdVeiculo,
-        "dsPlaca"      => $dsPlaca,
-        "idTipo"       => $idTipo,
-        "vlCapacidade" => $vlCapacidade,
-        "dsUnidade"    => $dsUnidade
-      );
-
-      return $this->execute("alterarVeiculo", $params);
+      return $this->execute("alterarVeiculo", $this->paramsHandler(
+        $this->param("cdVeiculo",    $cdVeiculo),
+        $this->param("dsPlaca",      $dsPlaca),
+        $this->param("idTipo",       $idTipo),
+        $this->param("vlCapacidade", $vlCapacidade),
+        $this->param("dsUnidade",    $dsUnidade)
+      ));
     }
 
     /**
@@ -99,11 +156,9 @@
      */
     public function excluirVeiculo($cdVeiculo)
     {
-      $params = array(
-        "cdVeiculo" => $cdVeiculo
-      );
-
-      return $this->execute("excluirVeiculo", $params);
+      return $this->execute("excluirVeiculo", $this->paramsHandler(
+        $this->param("cdVeiculo", $cdVeiculo)
+      ));
     }
 
     /**
@@ -112,11 +167,9 @@
      */
     public function consultarVeiculo($cdVeiculo)
     {
-      $params = array(
-        "cdVeiculo" => (int) $cdVeiculo
-      );
-
-      return $this->execute("consultarVeiculo", $params);
+      return $this->execute("consultarVeiculo", $this->paramsHandler(
+        $this->param("cdVeiculo", $cdVeiculo)
+      ));
     }
 
     /**
@@ -125,11 +178,17 @@
      */
     public function listaTipo($idTipo)
     {
-      $params = array(
-        "idTipo" => $idTipo
-      );
+      return $this->execute("listaTipo", $this->paramsHandler(
+        $this->param("idTipo", $idTipo)
+      ));
+    }
 
-      return $this->execute("listaTipo", $params);
+    /**
+     * @return bool|mixed
+     */
+    public function listaTodosVeiculos()
+    {
+      return $this->execute("listaTodosVeiculos");
     }
 
     /**
@@ -139,12 +198,10 @@
      */
     public function localizacao($cdVeiculo, $dtLocalizacao = null)
     {
-      $params = array(
-        "cdVeiculo"     => $cdVeiculo,
-        "dtLocalizacao" => $dtLocalizacao
-      );
-
-      return $this->execute("localizacao", $params);
+      return $this->execute("localizacao", $this->paramsHandler(
+        $this->param("cdVeiculo",     $cdVeiculo),
+        $this->param("dtLocalizacao", $dtLocalizacao)
+      ));
     }
 
     /**
@@ -154,15 +211,21 @@
      * @return bool|mixed
      * @throws Exception
      */
-    private function execute($method, $params)
+    private function execute($method, $params = array())
     {
       try
       {
-        $this->lastResponse = $this->Client->$method(array_filter($params));
+        $params = array_filter($params);
+
+        if (count($params))
+          $this->lastResponse = $this->Client->$method(array_filter($params));
+        else
+          $this->lastResponse = $this->Client->$method();
 
         if (!isset($this->lastResponse->{"return"}))
           $this->lastResponse->return = "Sem Dados";
 
+        $this->dsXml = $this->Client->__getLastRequest();
         $this->createNewSoapClient();
         return $this->lastResponse->{"return"};
       }
@@ -195,6 +258,6 @@
      */
     public function getXml()
     {
-      return htmlentities($this->Client->__getLastRequest());
+      return htmlentities($this->dsXml);
     }
   }
