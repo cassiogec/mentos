@@ -39,16 +39,16 @@ public class WebServiceRest {
     @POST
     @Path("/post/incluir-veiculo")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean adicionarVeiculo(@FormParam("dsPlaca") String dsPlaca,
-            @FormParam("idTipo") Integer idTipo,
-            @FormParam("vlCapacidade") Integer vlCapacidade,
-            @FormParam("dsUnidade") String dsUnidade) throws Exception {
+    public Boolean adicionarVeiculo(RequestBodyREST requestBodyREST) throws Exception {
         try {
-            Veiculo v = new Veiculo(dsPlaca, idTipo, vlCapacidade, dsUnidade);
+            Veiculo v = new Veiculo(requestBodyREST.dsPlaca, 
+                    requestBodyREST.idTipo,
+                    requestBodyREST.vlCapacidade,
+                    requestBodyREST.dsUnidade);
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.incluir(v);
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException e) {  
             throw new Exception("Não foi possivel inserir o veículo.");
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
