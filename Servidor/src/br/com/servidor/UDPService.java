@@ -3,20 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.servidor;
+package ServidorUDP;
 
 
+import br.com.DAO.PosicaoDAO;
+import br.com.DAO.VeiculoDAO;
+import br.com.negocio.Posicao;
+import br.com.negocio.Veiculo;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.SocketException;
-<<<<<<< HEAD
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-=======
->>>>>>> 1307b2900d942f903d7c4f5b8e16254a7732dc75
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,9 +27,8 @@ import java.util.logging.Logger;
  *
  * @author Rubens Rangel da Silva
  */
-public class UDPService extends Thread{
+public class UDPService extends Thread {
     
-<<<<<<< HEAD
         public void run (){
             
             while(true){
@@ -214,31 +216,6 @@ public class UDPService extends Thread{
             car.getInstance().setTime(sdf.parse(msg_recebida[2]));
         } catch (ParseException ex) {
             Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-=======
-        public void run(){
-        
-        System.out.println("Servidor Funcionando");
-        int porta = 2006;
-        byte buffer[] = new byte[100];
-        
-        while(true){
-            DatagramSocket soc = null;
-            try {
-                soc = new DatagramSocket(porta);
-            } catch (SocketException ex) {
-                Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            DatagramPacket pacote = new DatagramPacket(buffer, buffer.length);
-            try {
-                System.out.println("Servidor Aguardando Pacote");
-                soc.receive(pacote);
-            } catch (IOException ex) {
-                Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            //pacote.getData() desserializa o vetor de bytes
-            System.out.println("Servidor Recebeu a Menssagem :"+ new String(pacote.getData())+" Da Porta "+pacote.getPort());
-            soc.close();
->>>>>>> 1307b2900d942f903d7c4f5b8e16254a7732dc75
         }
         pos_aux.setDatahora(car);
         pos_aux.setLatitude(Float.parseFloat(msg_recebida[3]));
