@@ -5,6 +5,7 @@
  */
 package br.com.servidor;
 
+import java.util.Calendar;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,4 +20,6 @@ public class RequestBodyREST {
     @XmlElement Integer idTipo;
     @XmlElement Integer vlCapacidade;
     @XmlElement String dsUnidade;    
+    @XmlElement Integer cdVeiculo;
+    @XmlElement Calendar dtLocalizacao;
 }

@@ -60,103 +60,122 @@ public class UDPService extends Thread {
                 
                 String[] vetor_msg_recebida = msg_recebida.split(":");
                 
-                System.out.println(vetor_msg_recebida[1]);
+                //System.out.println(vetor_msg_recebida[1]);
+                
+                // AS FUNÇÕES APÓS CHEGADO DO PACOTE
                 
                 Veiculo vei = new Veiculo();
                 Posicao pos = new Posicao();
+                //OPERAÇÔES SOBRE VEICULO
                 if(vetor_msg_recebida[0].equals("v")){
                     System.out.println("entrei no if do veiculo");
                     vei = montaObjVeiculo(vetor_msg_recebida);
+                    //ADICIONA VEICULO
+                    if(vetor_msg_recebida[1].equals("adiciona")){
+                        Boolean cond_adicionar = new VeiculoDAO().verificacodigo(vei.getCodigo());
+                        if(cond_adicionar == false){
+                            try {
+                                new VeiculoDAO().incluir(vei);
+                            } catch (Exception ex) {
+                                Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else{
+                            System.out.println("Operação de adicionar falhou, veiculo já está inserido no banco");
+                        }
+                
+                    }
+                    //ALTERAR VEICULO
+                    if(vetor_msg_recebida[1].equals("altera")){
+                        Boolean cond_alterar = new VeiculoDAO().verificacodigo(vei.getCodigo());
+                        if(cond_alterar == true){
+                            try {
+                                new VeiculoDAO().alterar(vei);
+                            } catch (Exception ex) {
+                                Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else{
+                            System.out.println("Operação de Alterar falhou, Veiuclo não está inserido no banco");
+                        }
+                    }
+                    //EXCLUIR VEICULO
+                    if(vetor_msg_recebida[1].equals("excluir")){
+                        Boolean cond_excluir = new VeiculoDAO().verificacodigo(vei.getCodigo());
+                        if(cond_excluir == true){
+                            try {
+                                new VeiculoDAO().excluir(vei);
+                            } catch (Exception ex) {
+                                Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else{                 
+                            System.out.println("Operação de Excluir falhou, Veiculo não está inserido no banco");
+                        }                        
+                    }
+                    //CONSULTAR VEICULO
+                    if(vetor_msg_recebida[1].equals("consulta")){
+                        Boolean cond_consultar = new VeiculoDAO().verificacodigo(vei.getCodigo());
+                        if(cond_consultar == true){
+                            try {
+                                new VeiculoDAO().consultarVeiculo(vei.getCodigo());
+                            } catch (Exception ex) {
+                                Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else{
+                            System.out.println("Operação de Consultar Veiculo falhou, Veiculo não está inserido no banco");
+                        }                        
+                    }
+                    //LISTATIPO DO VEICULO
+                    if(vetor_msg_recebida[1].equals("1")|vetor_msg_recebida[1].equals("2")|vetor_msg_recebida[1].equals("3")
+                        |vetor_msg_recebida[1].equals("4")|vetor_msg_recebida[1].equals("5")|vetor_msg_recebida[1].equals("6")
+                                                        |vetor_msg_recebida[1].equals("7")|vetor_msg_recebida[1].equals("8")){
+                        //IMPLEMENTACAO DA CONSULTA
+                        //List<Veiculo> veilist = veidao.consultarVeiculosPorTipo(tipo);
+                    }
+//                    else(vetor_msg_recebida){
+//                        System.out.println("passou por todas as Operaçoes sobre Veiculos se achar");
+//                    }
+                        
+
+                
                 }
+                //OPERAÇÔES SOBRE POSIÇÃO
                 if(vetor_msg_recebida[0].equals("p")){
                     System.out.println("entrei no if da posicao");
-                    //CONSULTA AO BANCO PARA VER SE O CODIGO DO VEICULO EXISTE
-                    if( new VeiculoDAO().verificacodigo(Integer.parseInt(vetor_msg_recebida[2]))){
-                       vei = new VeiculoDAO().consultarVeiculo(Integer.parseInt(vetor_msg_recebida[2]));
-                       pos = montaObjPosicao(vei,vetor_msg_recebida);
+                    //ADICIONA POSICAO
+                    if(vetor_msg_recebida[1].equals("adiciona")){
+                        //CONSULTA AO BANCO PARA VER SE O CODIGO DO VEICULO EXISTE
+                        if( new VeiculoDAO().verificacodigo(Integer.parseInt(vetor_msg_recebida[2]))){
+                           vei = new VeiculoDAO().consultarVeiculo(Integer.parseInt(vetor_msg_recebida[2]));
+                           pos = montaObjPosicao(vei,vetor_msg_recebida);
+                        }
+                        else{
+                            System.out.println("Operação Adiciona Posicao falhou, veiculo nao está inserido no banco");
+                        }
                     }
-                    else{
-                        System.out.println("Veiculo não está inserido no banco, objeto posição negado");
+                    //LOCALIZAÇÃO
+                    if(vetor_msg_recebida[1].equals("consulta")){
+                        if(new PosicaoDAO().verificacodigo(Integer.parseInt(vetor_msg_recebida[2]))){
+                            List <Posicao> listadeposicoes;
+                            listadeposicoes = new PosicaoDAO().consultarPosicoesCarro(Integer.parseInt(vetor_msg_recebida[2]));
+                        }
+                        else{
+                            System.out.println("Operação Consulta Posicao falhou, veiculo nao esta na tabela Operacao");
+                        }
                     }
-                    
+                    if(!vetor_msg_recebida[1].equals("adiciona") && !vetor_msg_recebida[1].equals("consulta")){
+                        System.out.println("Operação sobre Posição desconhecida");
+                    }
                 }
-                else{
+                if(!vetor_msg_recebida[0].equals("v") && !vetor_msg_recebida[0].equals("p")){
                     System.out.println("Estrutura de Dados desconhecida ao desempacotar a mensagem");
-                }
+                }      
+
                 
                 
-
-                //SIMULANDO AS FUNÇÕES DO BD, APÓS CHEGADO DO PACOTE
-
-//                Veiculo vei = new Veiculo();     
-//                VeiculoDAO veidao = new VeiculoDAO();
-//                
-//                //ADICIONA
-//                Boolean cond_adicionar = veidao.verificacodigo(vei.getCodigo());
-//                if(cond_adicionar == false){
-//                    try {
-//                        veidao.incluir(vei);
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//                else{
-//                    System.out.println("retonar mensagem de erro, pois veículo já exite no banco");
-//                }
-//                
-//                //ALTERAR
-//                Boolean cond_alterar = veidao.verificacodigo(vei.getCodigo());
-//                if(cond_alterar == true){
-//                    try {
-//                        veidao.alterar(vei);
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//                else{
-//                    System.out.println("retornar a informação de que o veiculo não existe no banco");
-//                }
-//                
-//                //EXCLUIR
-//                Boolean cond_excluir = veidao.verificacodigo(vei.getCodigo());
-//                if(cond_excluir == true){
-//                    try {
-//                        veidao.excluir(vei);
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//                else{                 
-//                    System.out.println("retornar a informação de que o veiculo não existe no banco");
-//                }
-//                
-//                //CONSULTAR
-//                Boolean cond_consultar = veidao.verificacodigo(vei.getCodigo());
-//                if(cond_consultar == true){
-//                    try {
-//                        veidao.consultarVeiculo(vei.getCodigo());
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//                else{
-//                    System.out.println("retornar a informação de que o veiculo não existe no banco");
-//                }
-//                
-//                //LISTA TIPO
-//                int tipo = 0;
-//                List<Veiculo> veilist = veidao.consultarVeiculosPorTipo(tipo);
-//                
-//                //LOCALIZAÇÃO
-//                
-//                
-//                
-//                
-//               
-//                   
-//               
                 
-
                 //RETORNANDO A REQUISIÇÃO
                 InetAddress end_requisicao = pacote.getAddress();
                 int porta_requisicao = pacote.getPort();
@@ -213,13 +232,13 @@ public class UDPService extends Thread {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM//yyyy");
         Calendar car = Calendar.getInstance();
         try {
-            car.getInstance().setTime(sdf.parse(msg_recebida[2]));
+            car.getInstance().setTime(sdf.parse(msg_recebida[3]));
         } catch (ParseException ex) {
             Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
         }
         pos_aux.setDatahora(car);
-        pos_aux.setLatitude(Float.parseFloat(msg_recebida[3]));
-        pos_aux.setLongitude(Float.parseFloat(msg_recebida[4]));
+        pos_aux.setLatitude(Float.parseFloat(msg_recebida[4]));
+        pos_aux.setLongitude(Float.parseFloat(msg_recebida[5]));
         return pos_aux;
 
     }
