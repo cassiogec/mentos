@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ServidorUDP;
+package br.com.servidor;
 
 import br.com.DAO.PosicaoDAO;
 import java.util.logging.Level;

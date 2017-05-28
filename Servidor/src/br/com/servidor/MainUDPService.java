@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ServidorUDP;
+package br.com.servidor;
 
-import ServidorUDP.UDPService;
+
+import br.com.servidor.UDPService;
 import java.util.concurrent.TimeUnit;
 
 /**

@@ -13,16 +13,14 @@ public class MensagemVeiculo {
     
         String tipomensagem;
         String operacao;
-        String codigo;
         String placa;
         String tipo;
         String capacidade;
         String uncapacidade;
 
-    public MensagemVeiculo(String tipomensagem, String operacao, String codigo, String placa, String tipo, String capacidade, String uncapacidade) {
+    public MensagemVeiculo(String tipomensagem, String operacao, String placa, String tipo, String capacidade, String uncapacidade) {
         this.tipomensagem = tipomensagem;
         this.operacao = operacao;
-        this.codigo = codigo;
         this.placa = placa;
         this.tipo = tipo;
         this.capacidade = capacidade;
@@ -43,14 +41,6 @@ public class MensagemVeiculo {
 
     public void setOperacao(String operacao) {
         this.operacao = operacao;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     public String getPlaca() {
@@ -84,5 +74,7 @@ public class MensagemVeiculo {
     public void setUncapacidade(String uncapacidade) {
         this.uncapacidade = uncapacidade;
     }
+
+
      
 }
