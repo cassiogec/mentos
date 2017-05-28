@@ -102,6 +102,40 @@ HTML;
 HTML;
     }
 
+    public static function getSelect($arrOptions = array(), $label = "", $name = "", $dsPlaceHolder = "", $value = "")
+    {
+      $name    = "form_{$name}";
+      $dsLabel = self::getInputLabel($label);
+
+      if (isset($_REQUEST[$name]) && strValue($_REQUEST[$name]))
+        $value = $_REQUEST[$name];
+
+      if (strValue($value))
+        $value = "value=\"{$value}\"";
+
+      $dsSelected = (strValue($value) ? "" : "selected");
+
+      $dsOptions =
+        "<select name='$name' class='form-control' required><option value='' {$dsSelected} disabled>{$dsPlaceHolder}</option>";
+
+      foreach ($arrOptions AS $val => $desc)
+      {
+        $dsSelected = (strValue($value) && $value == $val ? "selected" : "");
+        $dsOptions .= "<option value='$val' {$dsSelected}>$desc</option>";
+      }
+
+      $dsOptions .= "</select>";
+
+      return <<<HTML
+        <div class="form-group has-success">
+          {$dsLabel}
+          <div class="col-md-10">
+            {$dsOptions}
+          </div>
+        </div>
+HTML;
+    }
+
     /**
      * @param string $dsLabel
      * @return string

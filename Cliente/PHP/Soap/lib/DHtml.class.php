@@ -54,29 +54,8 @@
               $('input[mascara=placa]').keyup(function() {
                 var valor    = $(this).val();
                 var length   = parseInt(valor.length);
-                var lastChar = valor[length - 1];                
                 
-                if (length <= 3 && !isNaN(parseInt(lastChar)))
-                {
-                  $(this).val(valor.substr(0, length - 1));
-                  return false;
-                }
-                else if (length == 3)
-                {
-                  $(this).val(valor + '-');
-                }
-                else if (length > 3 && isNaN(parseInt(lastChar)))
-                {
-                  $(this).val(valor.substr(0, length - 1));
-                  return false;
-                }
-                
-                if (length > 8)
-                {
-                  $(this).val(valor.substr(0, 8));
-                }
-                
-                if (length >= 8 && !valor.match(/[a-zA-Z]{3}-[0-9]{4}/))
+                if ((length == 7 && !valor.match(/[a-zA-Z]{3}[0-9]{4}/)) || length > 7)
                 {
                   $(this).val('');
                   alert('Placa inválida!');

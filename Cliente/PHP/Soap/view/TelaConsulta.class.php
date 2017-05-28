@@ -32,7 +32,7 @@
         <div class="form-group has-success">
           <label class="col-md-2 control-label" style="font-size: 17px"><b>Tipo</b></label>
           <div class="col-md-10">
-            <label class="control-label" style="font-size: 17px"><b>{$this->objDados->tipo}</b></label>
+            <label class="control-label" style="font-size: 17px"><b>{$this->objDados->dsTipo}</b></label>
           </div>
         </div>
         <div class="form-group has-success">

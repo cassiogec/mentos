@@ -10,7 +10,7 @@
       $html->addTitle("Dados do Veículo", array(
         "Código: "     . $this->objDados->dadosVeiculo->codigo,
         "Placa: "      . $this->objDados->dadosVeiculo->placa,
-        "Tipo: "       . $this->objDados->dadosVeiculo->tipo,
+        "Tipo: "       . $this->objDados->dadosVeiculo->dsTipo,
         "Capacidade: " . $this->objDados->dadosVeiculo->capacidade,
         "Unidade: "    . $this->objDados->dadosVeiculo->uncapac
       ));

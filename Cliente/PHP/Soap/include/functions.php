@@ -39,3 +39,23 @@
 
     return "{$arData[2]}/{$arData[1]}/{$arData[0]} {$dsHora}";
   }
+
+  function obterTipoVeiculo()
+  {
+    return array(
+      1 => "Carro",
+      2 => "Caminhão Toco",
+      3 => "Caminhão Carreta",
+      4 => "Caminhão Bitrem",
+      5 => "Caminhão Treminhão",
+      6 => "Moto",
+      7 => "Triciclo",
+      8 => "Quadriciclo"
+    );
+  }
+
+   function formatarTipo($id)
+   {
+     $ar = obterTipoVeiculo();
+     return $ar[$id];
+   }

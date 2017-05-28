@@ -53,10 +53,12 @@ HTML
         $form->add(DForm::getInputHidden("form_cd_veiculo", $cdVeiculo));
       }
 
-      $form->add(DForm::getInput("text",   "Placa",      "ds_placa",      "Digite a Placa",                  $dsPlaca,      "mascara=\"placa\""));
-      $form->add(DForm::getInput("number", "Tipo",       "id_tipo",       "Digite o Tipo",                   $idTipo,       "mascara=\"numero\""));
-      $form->add(DForm::getInput("number", "Capacidade", "vl_capacidade", "Informe o Valor da Capacidade",   $vlCapacidade, "mascara=\"numero\""));
-      $form->add(DForm::getInput("text",   "Unidade",    "ds_unidade",    "Informe a Unidade de Capacidade", $dsUnidade,    "mascara=\"unidade\""));
+      $arOptions = obterTipoVeiculo();
+
+      $form->add(DForm::getInput("text",      "Placa",      "ds_placa",      "Digite a Placa",                  $dsPlaca,      "mascara=\"placa\""));
+      $form->add(DForm::getSelect($arOptions, "Tipo",       "id_tipo",       "Selecione um Tipo",               $idTipo));
+      $form->add(DForm::getInput("number",    "Capacidade", "vl_capacidade", "Informe o Valor da Capacidade",   $vlCapacidade, "mascara=\"numero\""));
+      $form->add(DForm::getInput("text",      "Unidade",    "ds_unidade",    "Informe a Unidade de Capacidade", $dsUnidade,    "mascara=\"unidade\""));
       $form->add(DForm::getSubmitButton($dsButton));
       $html->add($form);
 

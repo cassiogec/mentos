@@ -65,7 +65,7 @@ HTML
           $table->add(DBasicHtml::get("tr", array(
             DBasicHtml::get("td", $dados->codigo),
             DBasicHtml::get("td", $dados->placa),
-            DBasicHtml::get("td", $dados->tipo),
+            DBasicHtml::get("td", $dados->dsTipo),
             DBasicHtml::get("td", $dados->capacidade),
             DBasicHtml::get("td", $dados->uncapac),
             DBasicHtml::get("td", "<a style=\"margin:0px; \" href=\"{$urlConsultar}\"   class=\"btn btn-block btn-basic\">Consultar</a>"),

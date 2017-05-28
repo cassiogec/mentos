@@ -178,6 +178,14 @@
 
       if (isset($val->datahora))
         $val->datahora = formataDataHora($val->datahora);
+      
+      if (isset($val->tipo))
+      {
+        $val->dsTipo = formatarTipo($val->tipo);
+
+        if (!strValue($val->dsTipo))
+          $val->dsTipo = $val->tipo;
+      }
 
       return $val;
     }
