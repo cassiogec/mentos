@@ -95,6 +95,7 @@ public class WebServiceSoap implements WebServiceSoapInterface{
         try {
             VeiculoDAO vdao = new VeiculoDAO();
             Veiculo v = vdao.consultarVeiculo(cdVeiculo);
+            v.setPosicoes(null);
             return v;
         } catch (Exception ex) {
             throw new Exception("Não foi possivel consultar o veículo");
@@ -131,7 +132,7 @@ public class WebServiceSoap implements WebServiceSoapInterface{
     public List<Veiculo> listaTodosVeiculos() throws Exception{
         try {
             VeiculoDAO vdao = new VeiculoDAO();
-            List<Veiculo> list = vdao.consultarTodosVeiculos();
+            List<Veiculo> list = vdao.consultarVeiculos();
 
             for (Veiculo v : list) {
                 v.setPosicoes(null);

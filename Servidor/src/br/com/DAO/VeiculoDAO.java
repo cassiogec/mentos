@@ -115,14 +115,6 @@ public class VeiculoDAO {
         return u;
     }
     
-    // RETORA A LISTA COM TODOS OS VEÍCULOS
-    public List<Veiculo> consultarTodosVeiculos(){
-        List<Veiculo> u = s.createQuery("FROM Veiculo")
-                    .setTimeout(30)
-                    .list();
-        return u;
-    }
-    
     // RETORNA VEÍCULO ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(int codvei){
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE codigo = :a")
