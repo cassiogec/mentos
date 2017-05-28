@@ -12,6 +12,11 @@
     private $dsWarning;
 
     /**
+     * @var string
+     */
+    private $dsInfo;
+
+    /**
      * @var int
      */
     private $idStatus;
@@ -19,6 +24,7 @@
     const STATUS_OK      = 0;
     const STATUS_WARNING = 1;
     const STATUS_ERROR   = 2;
+    const STATUS_INFO    = 3;
 
     /**
      * Erro constructor.
@@ -27,6 +33,7 @@
     {
       $this->dsError   = "";
       $this->dsWarning = "";
+      $this->dsInfo    = "";
       $this->idStatus  = self::STATUS_OK;
     }
 
@@ -49,6 +56,15 @@
     }
 
     /**
+     * @param $dsInfo
+     */
+    public function setInfo($dsInfo)
+    {
+      $this->dsInfo   = $dsInfo;
+      $this->idStatus = self::STATUS_INFO;
+    }
+
+    /**
      * @return string
      */
     public function getError()
@@ -62,6 +78,14 @@
     public function getWarning()
     {
       return $this->dsWarning;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInfo()
+    {
+      return $this->dsInfo;
     }
 
     /**

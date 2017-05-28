@@ -1,8 +1,17 @@
 <?php
   class DForm extends DBasicHtml
   {
+    /**
+     * @var bool
+     */
     private $idGenerateTable = false;
 
+    /**
+     * DForm constructor.
+     * @param string $mvcAction
+     * @param bool $idGenerateTable
+     * @param string $dsTitle
+     */
     public function __construct($mvcAction = "", $idGenerateTable = false, $dsTitle = "")
     {
       $this->idGenerateTable = $idGenerateTable;
@@ -30,6 +39,9 @@ HTML;
         $this->add(self::getInputHidden("action", $mvcAction));
     }
 
+    /**
+     * @return string
+     */
     public function generate()
     {
       parent::generate();
@@ -50,14 +62,32 @@ HTML;
       return $this->dsHtml;
     }
 
+    /**
+     * @param string $name
+     * @param string $value
+     * @return string
+     */
     public static function getInputHidden($name = "", $value = "")
     {
       return "<input name=\"$name\" type=\"hidden\" value=\"$value\">";
     }
 
-    public static function getInput($type, $label = "", $name = "", $dsPlaceHolder = "", $value = "")
+    /**
+     * @param $type
+     * @param string $label
+     * @param string $name
+     * @param string $dsPlaceHolder
+     * @param string $value
+     * @param string $dsHtmlExtra
+     * @return string
+     */
+    public static function getInput($type, $label = "", $name = "", $dsPlaceHolder = "", $value = "", $dsHtmlExtra = "")
     {
+      $name    = "form_{$name}";
       $dsLabel = self::getInputLabel($label);
+
+      if (isset($_REQUEST[$name]) && strValue($_REQUEST[$name]))
+        $value = $_REQUEST[$name];
 
       if (strValue($value))
         $value = "value=\"{$value}\"";
@@ -66,12 +96,31 @@ HTML;
         <div class="form-group has-success">
           {$dsLabel}
           <div class="col-md-10">
-            <input name="form_{$name}" type="{$type}" class="form-control" {$value} placeholder="{$dsPlaceHolder}">
+            <input required name="{$name}" type="{$type}" class="form-control" {$value} {$dsHtmlExtra} placeholder="{$dsPlaceHolder}">
           </div>
         </div>
 HTML;
     }
 
+    /**
+     * @param string $dsLabel
+     * @return string
+     */
+    public static function getSubmitButton($dsLabel = "Cadastrar")
+    {
+      return <<<HTML
+        <div class="form-group">
+          <div class="col-md-3 col-md-offset-2">
+            <input type="submit" class="btn btn-raised btn-success" value="{$dsLabel}"><div class="ripple-container"></div>
+          </div>
+        </div>
+HTML;
+    }
+
+    /**
+     * @param string $label
+     * @return string
+     */
     private static function getInputLabel($label = "")
     {
       if (!strValue($label))

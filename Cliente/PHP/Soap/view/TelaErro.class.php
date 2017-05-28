@@ -1,6 +1,9 @@
 <?php
   class TelaErro extends Tela
   {
+    /**
+     * Método para Montar a Tela
+     */
     protected function montar()
     {
       $html = new DHtml("Erro");

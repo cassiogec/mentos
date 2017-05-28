@@ -1,16 +1,29 @@
 <?php
   class DBasicHtml
   {
+    /**
+     * @var string
+     */
     protected $dsHtml = "";
 
+    /**
+     * @var array
+     */
     protected $arrObjects = array();
 
+    /**
+     * DBasicHtml constructor.
+     */
     public function __construct()
     {
       $this->dsHtml     = "";
       $this->arrObjects = array();
     }
 
+    /**
+     * @param $obj
+     * @throws Exception
+     */
     public function add($obj)
     {
       if ($obj instanceof DBasicHtml)
@@ -21,6 +34,9 @@
         throw new Exception("Objeto inválido para gerar DBasioHtml");
     }
 
+    /**
+     * @return string
+     */
     public function generate()
     {
       if (is_array($this->arrObjects) && count($this->arrObjects) > 0)
@@ -33,6 +49,13 @@
       return $this->dsHtml;
     }
 
+    /**
+     * @param $tag
+     * @param $content
+     * @param array $arrOptions
+     * @return string
+     * @throws Exception
+     */
     public static function get($tag, $content, $arrOptions = array())
     {
       if (is_array($content))

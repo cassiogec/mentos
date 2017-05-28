@@ -1,6 +1,9 @@
 <?php
   class TelaMenu extends Tela
   {
+    /**
+     * Método para Montar a Tela
+     */
     protected function montar()
     {
       $html = new DHtml("Inicio");
@@ -11,6 +14,12 @@
 
       if ($this->Erro->checkStatus(Erro::STATUS_WARNING))
         $html->addAlertMessage($this->Erro->getWarning(), "warning");
+
+      if ($this->Erro->checkStatus(Erro::STATUS_INFO))
+        $html->addAlertMessage($this->Erro->getInfo(), "info", false);
+
+      if (isset($_REQUEST["info_message"]) && strValue($_REQUEST["info_message"]))
+        $html->addAlertMessage($_REQUEST["info_message"], "info", false);
 
       $table = new DTable("Listagem de Veículos");
 
@@ -39,6 +48,7 @@ HTML
         DBasicHtml::get("th", ""),
         DBasicHtml::get("th", ""),
         DBasicHtml::get("th", ""),
+        DBasicHtml::get("th", ""),
       ))));
 
       if (is_array($this->objDados) && count($this->objDados))
@@ -47,15 +57,21 @@ HTML
 
         foreach ($this->objDados AS $dados)
         {
+          $urlConsultar   = getDsUrl("consultarVeiculo",   array("form_cd_veiculo" => $dados->codigo));
+          $urlAlterar     = getDsUrl("manutencaoVeiculo",  array("form_cd_veiculo" => $dados->codigo));
+          $urlExcluir     = getDsUrl("excluirVeiculo",     array("form_cd_veiculo" => $dados->codigo));
+          $urlLocalizacao = getDsUrl("localizacaoVeiculo", array("form_cd_veiculo" => $dados->codigo));
+
           $table->add(DBasicHtml::get("tr", array(
             DBasicHtml::get("td", $dados->codigo),
             DBasicHtml::get("td", $dados->placa),
             DBasicHtml::get("td", $dados->tipo),
             DBasicHtml::get("td", $dados->capacidade),
             DBasicHtml::get("td", $dados->uncapac),
-            DBasicHtml::get("td", "<a style=\"margin:0px; \" href=\"javascript:void(0)\" class=\"btn btn-block btn-info\">Localização</a>"),
-            DBasicHtml::get("td", "<a style=\"margin:0px; \" href=\"javascript:void(0)\" class=\"btn btn-block btn-success\">Alterar</a>"),
-            DBasicHtml::get("td", "<a style=\"margin:0px; \" href=\"javascript:void(0)\" class=\"btn btn-block btn-danger\">Excluir</a>"),
+            DBasicHtml::get("td", "<a style=\"margin:0px; \" href=\"{$urlConsultar}\"   class=\"btn btn-block btn-basic\">Consultar</a>"),
+            DBasicHtml::get("td", "<a style=\"margin:0px; \" href=\"{$urlLocalizacao}\" class=\"btn btn-block btn-info\">Localização</a>"),
+            DBasicHtml::get("td", "<a style=\"margin:0px; \" href=\"{$urlAlterar}\"     class=\"btn btn-block btn-success\">Alterar</a>"),
+            DBasicHtml::get("td", "<a style=\"margin:0px; \" href=\"{$urlExcluir}\"     class=\"btn btn-block btn-danger\">Excluir</a>"),
           )));
         }
 

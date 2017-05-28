@@ -11,6 +11,11 @@
      */
     protected $Erro;
 
+    /**
+     * Tela constructor.
+     * @param Erro $Erro
+     * @param null|array|stdClass $objDados
+     */
     public function __construct(Erro $Erro, $objDados = null)
     {
       if (isset($objDados))
@@ -20,6 +25,9 @@
       $this->montar();
     }
 
+    /**
+     * @throws Exception
+     */
     protected function montar()
     {
       throw new Exception("Erro desconhecido");

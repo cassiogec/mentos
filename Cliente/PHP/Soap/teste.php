@@ -13,25 +13,11 @@
   {
     $Cliente = new ClienteSoap();
 
-//    $retorno = $Cliente->adicionarVeiculo(
-//      "T102BR1", 1, 1000, "TONEL"
-//    );
+//    $retorno = $Cliente->localizacao(19, "2017-05-26T09:42:00.000-03:00", "2017-05-26T09:43:00.000-03:00");
+//    $retorno = $Cliente->localizacao(19, "2017-05-26T09:42:00.000-03:00", "2017-05-26T09:43:00.000-03:00");
+//    $retorno = $Cliente->consultarVeiculo(20);
 
-//    $retorno = $Cliente->alterarVeiculo(
-//      17, "TIO2BRI", 1, 1000, "KILOG"
-//    );
-
-//    $retorno = $Cliente->excluirVeiculo(17);
-
-//    $retorno = $Cliente->consultarVeiculo(13);
-
-//    $retorno = $Cliente->localizacao(5);
-//
-//    ppr($retorno);
-
-//    $retorno = $Cliente->listaTipo(1);
-//
-//    ppr($retorno);
+    ppr($retorno);
 
     ppr($Cliente->getXml());
   }

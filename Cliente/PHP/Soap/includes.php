@@ -1,4 +1,7 @@
 <?php
+  ini_set('default_socket_timeout', 15);
+  error_reporting(~E_NOTICE);
+
   require_once("include/functions.php");
   require_once("lib/DBasicHtml.class.php");
   require_once("lib/DHtml.class.php");
@@ -15,5 +18,7 @@
   require_once("view/TelaErro.class.php");
   require_once("view/TelaMenu.class.php");
   require_once("view/TelaManutencao.class.php");
+  require_once("view/TelaConsulta.class.php");
+  require_once("view/TelaLocalizacao.class.php");
 
-  require_once("model/ModelMenu.class.php");
+  require_once("model/Model.class.php");

@@ -82,12 +82,12 @@
     {
       switch ($param)
       {
-        case "cdVeiculo":     $val = (int)    $val; break;
-        case "dsPlaca":       $val = (string) $val; break;
-        case "idTipo":        $val = (int)    $val; break;
-        case "vlCapacidade":  $val = (float)  $val; break;
-        case "dsUnidade":     $val = (string) $val; break;
-        case "dtLocalizacao": $val = (string) $val; break;
+        case "cdVeiculo":     $val = (int)    $val;                                  break;
+        case "dsPlaca":       $val = (string) strtoupper(formataPlaca($val, "sys")); break;
+        case "idTipo":        $val = (int)    $val;                                  break;
+        case "vlCapacidade":  $val = (float)  $val;                                  break;
+        case "dsUnidade":     $val = (string) strtoupper($val);                      break;
+        case "dtLocalizacao": $val = (string) $val;                                  break;
         default:              $val = (string) $val;
       }
 
@@ -193,14 +193,16 @@
 
     /**
      * @param $cdVeiculo
-     * @param $dtLocalizacao
+     * @param $dtLocalizacaoInicio
+     * @param $dtLocalizacaoFim
      * @return bool|mixed
      */
-    public function localizacao($cdVeiculo, $dtLocalizacao = null)
+    public function localizacao($cdVeiculo, $dtLocalizacaoInicio = null, $dtLocalizacaoFim = null)
     {
       return $this->execute("localizacao", $this->paramsHandler(
-        $this->param("cdVeiculo",     $cdVeiculo),
-        $this->param("dtLocalizacao", $dtLocalizacao)
+        $this->param("cdVeiculo",           $cdVeiculo),
+        $this->param("dtLocalizacaoInicio", $dtLocalizacaoInicio),
+        $this->param("dtLocalizacaoFim",    $dtLocalizacaoFim)
       ));
     }
 
@@ -217,6 +219,9 @@
       {
         $params = array_filter($params);
 
+        if (!isset($this->Client))
+          $this->createNewSoapClient();
+
         if (count($params))
           $this->lastResponse = $this->Client->$method(array_filter($params));
         else
@@ -226,7 +231,7 @@
           $this->lastResponse->return = "Sem Dados";
 
         $this->dsXml = $this->Client->__getLastRequest();
-        $this->createNewSoapClient();
+        unset($this->Client);
         return $this->lastResponse->{"return"};
       }
       catch (SoapFault $fault)

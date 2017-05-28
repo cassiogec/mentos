@@ -1,6 +1,10 @@
 <?php
   class DTable extends DBasicHtml
   {
+    /**
+     * DTable constructor.
+     * @param string $dsTitle
+     */
     public function __construct($dsTitle = "")
     {
       parent::__construct();
@@ -16,6 +20,9 @@ HTML;
       $this->dsHtml .= "<table class=\"table\">";
     }
 
+    /**
+     * @return string
+     */
     public function generate()
     {
       parent::generate();

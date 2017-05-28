@@ -1,6 +1,10 @@
 <?php
   class DHtml extends DBasicHtml
   {
+    /**
+     * DHtml constructor.
+     * @param string $dsTitle
+     */
     public function __construct($dsTitle = "")
     {
       parent::__construct();
@@ -44,6 +48,42 @@
         
           <!-- Latest compiled and minified JavaScript -->
           <script src="lib/js/boostrap.min.js" ></script>
+          
+          <script>
+            $('document').ready(function(){
+              $('input[mascara=placa]').keyup(function() {
+                var valor    = $(this).val();
+                var length   = parseInt(valor.length);
+                var lastChar = valor[length - 1];                
+                
+                if (length <= 3 && !isNaN(parseInt(lastChar)))
+                {
+                  $(this).val(valor.substr(0, length - 1));
+                  return false;
+                }
+                else if (length == 3)
+                {
+                  $(this).val(valor + '-');
+                }
+                else if (length > 3 && isNaN(parseInt(lastChar)))
+                {
+                  $(this).val(valor.substr(0, length - 1));
+                  return false;
+                }
+                
+                if (length > 8)
+                {
+                  $(this).val(valor.substr(0, 8));
+                }
+                
+                if (length >= 8 && !valor.match(/[a-zA-Z]{3}-[0-9]{4}/))
+                {
+                  $(this).val('');
+                  alert('Placa inválida!');
+                }
+              });
+            });
+          </script>
         </head>
         <body>
         <div class="bs-component">
@@ -64,6 +104,7 @@
                       <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Menu
                         <b class="caret"></b></a>
                       <ul class="dropdown-menu">
+                        <li><a href="menu.php">Início</a></li>
                         <li><a href="menu.php?action=manutencaoVeiculo">Adicionar Veículo</a></li>
                       </ul>
                     </li>
@@ -77,7 +118,12 @@
 HTML;
     }
 
-    public function addAlertMessage($dsMsg, $style = "danger", $idSuportMessage = true)
+    /**
+     * @param $dsMsg
+     * @param string $style
+     * @param bool $idSuportMessage
+     */
+    public function addAlertMessage($dsMsg, $style = "danger", $idSuportMessage = false)
     {
       if (strValue($dsMsg))
       {
@@ -89,8 +135,8 @@ HTML;
         $this->dsHtml .= <<<HTML
           <div class="col-md-10 col-md-offset-1">
             <div class="active alert-{$style} text-{$style}">
-              <div class=" col-md-12"><h3><b>Status:</b></h3></div>
-              <div class=" col-md-12"><h4><b>{$dsMsg}</b></h4></div>
+              <div class="active alert-{$style} text-{$style} col-md-12"><h3><b>Status:</b></h3></div>
+              <div class="active alert-{$style} text-{$style} col-md-12"><h4><b>{$dsMsg}</b></h4></div>
               {$dsMsgSuporte}
               <br>
             </div>
@@ -99,17 +145,37 @@ HTML;
       }
     }
 
-    public function addTitle($dsTitle)
+    /**
+     * @param $dsTitle
+     * @param null $subtitle
+     */
+    public function addTitle($dsTitle, $subtitle = null)
     {
+      if (is_array($subtitle))
+      {
+        $dsSubtitle = "";
+
+        foreach ($subtitle AS $ds)
+          $dsSubtitle .= "<h4>{$ds}</h4>";
+      }
+      elseif (strValue($subtitle))
+        $dsSubtitle = $subtitle;
+      else
+        $dsSubtitle = "";
+
       $this->dsHtml .= <<<HTML
         <div class="col-md-10 col-md-offset-1">
           <div class="well page active" id="getting-started">
-            <h1>{$dsTitle}</h1>
+            <h3>{$dsTitle}</h3>
+            {$dsSubtitle}
           </div>
         </div>
 HTML;
     }
 
+    /**
+     * Add Welcome Message
+     */
     public function addWelcome()
     {
       $this->dsHtml .= <<<HTML
@@ -122,6 +188,17 @@ HTML;
 HTML;
     }
 
+    /**
+     * @param $js
+     */
+    public function addJS($js)
+    {
+      $this->dsHtml .= "<script>{$js}</script>";
+    }
+
+    /**
+     * @return string
+     */
     public function generate()
     {
       parent::generate();
