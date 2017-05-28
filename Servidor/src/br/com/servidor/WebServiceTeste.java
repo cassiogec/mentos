@@ -14,10 +14,6 @@ public class WebServiceTeste {
 
     public static void main(String args[]) {
         try {
-            System.setProperty("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump", "true");
-            System.setProperty("com.sun.xml.internal.ws.transport.http.HttpAdapter.dump", "true");
-            System.setProperty("com.sun.xml.internal.ws.transport.http.HttpAdapter.dumpTreshold", "999999");
-            System.setProperty("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dumpTreshold", "999999");
             URL url = new URL("http://127.0.0.1:9876/Servidor/WebServiceSoap?wsdl");
             QName qname = new QName("http://servidor.com.br/",
                                     "WebServiceSoapService");
@@ -33,11 +29,15 @@ public class WebServiceTeste {
 //            }
 //              System.out.println(soap.listaTipo(1));
 //            System.out.println(soap.excluirVeiculo(5));
-//            System.out.println(soap.localizacao(5, null));
-            for (Posicao p : soap.localizacao(5, null, null)) {
-                System.out.println(p.getDatahora().getTime());
-            }
+//            System.out.println(soap.localizacao(19, null, null));
+//            for (Posicao p : soap.localizacao(5, null, null)) {
+//                System.out.println(p.getDatahora().getTime());
+//            }
 
+            for (Veiculo v : soap.listaTodosVeiculos()) {
+                System.out.println(v.getPlaca() + v.getCodigo() + v.getTipo());
+                
+            }
         } catch(Exception e)
         {
             System.out.println(e.getMessage());

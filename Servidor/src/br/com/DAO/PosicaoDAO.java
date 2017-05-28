@@ -25,14 +25,14 @@ public class PosicaoDAO {
     }
     
     public boolean verificacodigo(int codigo) {
-           Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
-                    .setInteger("a", codigo)
-                    .setTimeout(30)
-                    .uniqueResult();
-           if (u > 0)
-               return true;
-           else
-               return false;
+        Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
+                 .setInteger("a", codigo)
+                 .setTimeout(30)
+                 .uniqueResult();
+        if (u > 0)
+            return true;
+        else
+            return false;
     }
     
     public void incluir(Posicao posicao) throws Exception{ 
