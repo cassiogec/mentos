@@ -38,6 +38,5 @@ public interface WebServiceSoapInterface {
     
     @WebMethod public List<Posicao> localizacao(
             @XmlElement(name="cdVeiculo", required=true)     Integer cdVeiculo,
-            @XmlElement(name="dtLocalizacaoInicio")          Calendar dtLocalizacaoInicio,
-            @XmlElement(name="dtLocalizacaoFim")             Calendar dtLocalizacaoFim) throws Exception;
+            @XmlElement(name="dtLocalizacaoInicio")          Calendar dtLocalizacaoInicio) throws Exception;
 }
