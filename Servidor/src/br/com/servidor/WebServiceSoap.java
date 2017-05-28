@@ -152,18 +152,18 @@ public class WebServiceSoap implements WebServiceSoapInterface{
      * @throws Exception
      */
     @Override
-    public List<Posicao> localizacao(Integer cdVeiculo, Calendar dtLocalizacaoInicio, Calendar dtLocalizacaoFim) throws Exception {
+    public List<Posicao> localizacao(Integer cdVeiculo, Calendar dtLocalizacaoInicio) throws Exception {
         try {
             PosicaoDAO pdao = new PosicaoDAO();
             List<Posicao> list = new ArrayList<Posicao>();
                     
-            if (dtLocalizacaoInicio == null && dtLocalizacaoFim == null)
+            if (dtLocalizacaoInicio == null)
             {
                 list = pdao.consultarPosicoesCarro(cdVeiculo);
             }
             else
             {
-                list = pdao.consultarPosicao(cdVeiculo, dtLocalizacaoInicio, dtLocalizacaoFim);
+                list = pdao.consultarPosicao(cdVeiculo, dtLocalizacaoInicio);
             }
             
             for (Posicao p : list) {

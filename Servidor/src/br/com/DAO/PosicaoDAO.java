@@ -88,31 +88,13 @@ public class PosicaoDAO {
         return u;
     }
     
-    // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA HORA EXATA
-    public Posicao consultarPosicao(int codvei, Calendar dahpos){
-        Session s = HibernateUtil.getSessionFactory().openSession();
-        Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE datahora = :a AND veiculo.codigo = :b")
-                    .setCalendar("a", dahpos)
-                    .setInteger("b", codvei)
-                    .setTimeout(30)
-                    .uniqueResult();
-        s.close();
-        return u;
-    }
-    
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DE UM INTERVALO DE DATAS
-    public List<Posicao> consultarPosicao(int codvei, Calendar datIni, Calendar datFim) throws Exception{
-        if ((datIni == null && datFim != null) || (datIni != null && datFim == null))
-        {
-            throw new Exception("Parametros incorretos. Um dos parametros data possui valor e o outro não.");
-        }
-        
+    public List<Posicao> consultarPosicao(int codvei, Calendar datIni) throws Exception{
         Session s = HibernateUtil.getSessionFactory().openSession();
         
-        List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND datahora <= :b AND veiculo.codigo = :c")
+        List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND veiculo.codigo = :b")
                     .setCalendar("a", datIni)
-                    .setCalendar("b", datFim)
-                    .setInteger("c", codvei)
+                    .setInteger("b", codvei)
                     .setTimeout(30)
                     .list();
         s.close();
