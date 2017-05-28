@@ -1,5 +1,7 @@
 <?php
-  ini_set('default_socket_timeout', 15);
+  ini_set('default_socket_timeout', 120);
+  ini_set('max_execution_time',     120);
+  set_time_limit(120);
   error_reporting(~E_NOTICE);
 
   require_once("include/functions.php");

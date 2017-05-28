@@ -39,4 +39,3 @@
 
     return "{$arData[2]}/{$arData[1]}/{$arData[0]} {$dsHora}";
   }
-

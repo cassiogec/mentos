@@ -54,9 +54,9 @@ HTML
       }
 
       $form->add(DForm::getInput("text",   "Placa",      "ds_placa",      "Digite a Placa",                  $dsPlaca,      "mascara=\"placa\""));
-      $form->add(DForm::getInput("number", "Tipo",       "id_tipo",       "Digite o Tipo",                   $idTipo));
-      $form->add(DForm::getInput("number", "Capacidade", "vl_capacidade", "Informe o Valor da Capacidade",   $vlCapacidade, "step=\"0.01\""));
-      $form->add(DForm::getInput("text",   "Unidade",    "ds_unidade",    "Informe a Unidade de Capacidade", $dsUnidade));
+      $form->add(DForm::getInput("number", "Tipo",       "id_tipo",       "Digite o Tipo",                   $idTipo,       "mascara=\"numero\""));
+      $form->add(DForm::getInput("number", "Capacidade", "vl_capacidade", "Informe o Valor da Capacidade",   $vlCapacidade, "mascara=\"numero\""));
+      $form->add(DForm::getInput("text",   "Unidade",    "ds_unidade",    "Informe a Unidade de Capacidade", $dsUnidade,    "mascara=\"unidade\""));
       $form->add(DForm::getSubmitButton($dsButton));
       $html->add($form);
 

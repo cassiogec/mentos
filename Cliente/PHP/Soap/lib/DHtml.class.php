@@ -82,6 +82,21 @@
                   alert('Placa inválida!');
                 }
               });
+              
+              $('input[mascara=unidade]').keyup(function() {
+                var valor    = $(this).val();
+                var length   = parseInt(valor.length);
+                
+                if (length > 5)
+                  $(this).val(valor.substr(0, 5));
+              });
+              
+              $('[mascara=numero]').keyup(function() {
+                var valor = parseInt($(this).val());
+                
+                if (isNaN(valor))
+                  $(this).val('');
+              });
             });
           </script>
         </head>
