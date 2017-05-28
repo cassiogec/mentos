@@ -18,17 +18,16 @@ import org.hibernate.Transaction;
  */
 public class PosicaoDAO {
     
-    private Session s;
-    
     public PosicaoDAO() {
-        s = HibernateUtil.getSessionFactory().openSession();
     }
     
     public boolean verificacodigo(int codigo) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
         Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
                  .setInteger("a", codigo)
                  .setTimeout(30)
                  .uniqueResult();
+        s.close();
         if (u > 0)
             return true;
         else
@@ -41,11 +40,12 @@ public class PosicaoDAO {
         if (!verificacodigo(posicao.getVeiculo().getCodigo()))
             throw new Exception("Veículo Informado Não Localizado");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session s = HibernateUtil.getSessionFactory().openSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.save(posicao);
         trans.commit();
-        //s.close();
+        s.close();
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
@@ -55,11 +55,12 @@ public class PosicaoDAO {
         if (!verificacodigo(posicao.getVeiculo().getCodigo()))
             throw new Exception("Veículo Informado Não Localizado");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session s = HibernateUtil.getSessionFactory().openSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.update(posicao);
         trans.commit();
-       // s.close();
+        s.close();
     }
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
@@ -67,30 +68,35 @@ public class PosicaoDAO {
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         if (posicao == null)
             throw new Exception("Objeto Posição 'NULL'");
+        Session s = HibernateUtil.getSessionFactory().openSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.delete(posicao);
         trans.commit();
-       // s.close();
+        s.close();
     }
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public Posicao consultarPosicao(int codvei, int posicao){
+        Session s = HibernateUtil.getSessionFactory().openSession();
         Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b")
                     .setInteger("a", posicao)
                     .setInteger("b", codvei)
                     .setTimeout(30)
                     .uniqueResult();
+        s.close();
         return u;
     }
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA HORA EXATA
     public Posicao consultarPosicao(int codvei, Calendar dahpos){
+        Session s = HibernateUtil.getSessionFactory().openSession();
         Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE datahora = :a AND veiculo.codigo = :b")
                     .setCalendar("a", dahpos)
                     .setInteger("b", codvei)
                     .setTimeout(30)
                     .uniqueResult();
+        s.close();
         return u;
     }
     
@@ -101,21 +107,26 @@ public class PosicaoDAO {
             throw new Exception("Parametros incorretos. Um dos parametros data possui valor e o outro não.");
         }
         
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        
         List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND datahora <= :b AND veiculo.codigo = :c")
                     .setCalendar("a", datIni)
                     .setCalendar("b", datFim)
                     .setInteger("c", codvei)
                     .setTimeout(30)
                     .list();
+        s.close();
         return u;
     }
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public List<Posicao> consultarPosicoesCarro(int codvei){
+        Session s = HibernateUtil.getSessionFactory().openSession();
         List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a")
                     .setInteger("a", codvei)
                     .setTimeout(30)
                     .list();
+        s.close();
         return u;
     }
     
