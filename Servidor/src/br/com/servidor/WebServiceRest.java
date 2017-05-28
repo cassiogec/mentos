@@ -4,19 +4,14 @@ import br.com.DAO.PosicaoDAO;
 import br.com.DAO.VeiculoDAO;
 import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
-import com.sun.jersey.api.client.WebResource;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
@@ -76,20 +71,23 @@ public class WebServiceRest {
         }
     }
     
-    @DELETE
+    /*
+    * Método @DELETE não funcionou, há um bug na versão do java, que na versão 1.8(b98)
+    * estaria corrigido, porém, não conseguimos usa-lo.
+    * Link: http://bugs.java.com/view_bug.do?bug_id=7157360
+    */
+    @POST
     @Path("/delete/excluir-veiculo")
-    public Boolean excluirVeiculo(@PathParam("cdVeiculo") Integer cdVeiculo) throws Exception{
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Boolean excluirVeiculo(RequestBodyREST requestBodyREST) throws Exception{
         try {
-            System.out.println(cdVeiculo);
-//            Veiculo veiculo = new Veiculo(cdVeiculo);
-//            VeiculoDAO vdao = new VeiculoDAO();
-//            vdao.excluir(veiculo);
+            Veiculo v = new Veiculo(requestBodyREST.cdVeiculo);
+            VeiculoDAO vdao = new VeiculoDAO();
+            vdao.excluir(v);
             return true;
-        } 
-//        catch (SQLException e) {
-//            throw new Exception("Não foi possivel excluir o veículo.");
-//        }
-        catch (Exception ex) {
+        }  catch (SQLException e) {
+            throw new Exception("Não foi possivel excluir o veículo.");
+        } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
     }
@@ -124,35 +122,33 @@ public class WebServiceRest {
         }
     }
     
-//    @GET
-//    @Path("/get/localizacao/{cdVeiculo}/{dtLocalizacao}")
-//    public List<Posicao> localizacao(@PathParam("idTipo") Integer cdVeiculo,
-//            @PathParam("dtLocalizacao") Calendar dtLocalizacao) throws Exception {
-//        try {
-//            PosicaoDAO pdao = new PosicaoDAO();
-//            List<Posicao> list = new ArrayList<Posicao>();
-//                    
-//            if (dtLocalizacao == null)
-//            {
-//                list = pdao.consultarPosicoesCarro(cdVeiculo);
-//            }
-//            else
-//            {
-//                Posicao p = pdao.consultarPosicao(cdVeiculo, dtLocalizacao);
-//                
-//                list.add(p);
-//            }
-//            
-//            for (Posicao p : list) {
-//                p.setVeiculo(null);
-//            }
-//            
-//            return list;
-//            
-//        } catch (Exception ex) {
-//            throw new Exception(ex.getMessage());
-//        }
-//    }
+    @POST
+    @Path("/post/localizacao")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Posicao> localizacao(RequestBodyREST requestBodyREST ) throws Exception {
+        try {
+            PosicaoDAO pdao = new PosicaoDAO();
+            List<Posicao> list = new ArrayList<Posicao>();
+            
+            if (requestBodyREST.dtLocalizacao == null){
+                list = pdao.consultarPosicoesCarro(requestBodyREST.cdVeiculo);
+            } else {
+                Posicao p = pdao.consultarPosicao(requestBodyREST.cdVeiculo,
+                        requestBodyREST.dtLocalizacao);
+                list.add(p);
+            }
+            
+            for (Posicao p : list) {
+                p.setVeiculo(null);
+            }
+            
+            return list;
+            
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage());
+       } 
+    }
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
