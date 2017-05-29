@@ -62,6 +62,9 @@ JS;
           <div class="col-md-2">
             <input name="form_tm_inicio" id="tmInicio" type="time" class="form-control" {$value($_REQUEST["form_tm_inicio"])}>
           </div>
+           <div class="col-md-1">
+            <input type="submit" class="btn btn-raised btn-success" value="Pesquisar"><div class="ripple-container"></div>
+          </div>
         </div>
 HTML
       );
