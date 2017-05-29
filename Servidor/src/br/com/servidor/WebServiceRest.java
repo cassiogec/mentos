@@ -117,6 +117,7 @@ public class WebServiceRest {
         try {
             VeiculoDAO vdao = new VeiculoDAO();
             Veiculo veiculo = vdao.consultarVeiculo(cdVeiculo);
+            veiculo.setPosicoes(null);
             return veiculo;
         } catch (Exception ex) {
             throw new Exception("Não foi possivel consultar o veículo");
