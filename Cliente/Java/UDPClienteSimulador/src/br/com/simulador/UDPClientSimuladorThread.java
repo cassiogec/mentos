@@ -50,6 +50,8 @@ public class UDPClientSimuladorThread extends Thread {
                 soc.send(pct);
                 soc.close();
             }
+            
+            Thread.currentThread().interrupt();
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
         } catch (UnknownHostException ex) {
