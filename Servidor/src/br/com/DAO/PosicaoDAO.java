@@ -21,6 +21,26 @@ public class PosicaoDAO {
     public PosicaoDAO() {
     }
     
+     public Session retornaSession()
+    {
+        try
+        {
+            System.out.println("A");
+            HibernateUtil.getSessionFactory().openSession()
+                         .createQuery("SELECT COUNT(codvei) FROM Veiculo")
+                         .setTimeout(6);
+            System.out.println("BB");
+            Session s = HibernateUtil.getSessionFactory().openSession();
+            return s;
+        }
+        catch (ExceptionInInitializerError ex) {
+            System.out.println("B");
+            //Session s2 = HibernateUtil.getSessionFactory2().openSession();
+            //return s2;
+        }
+        return null;   
+    }
+    
     public boolean verificacodigo(int codigo) {
         Session s = HibernateUtil.getSessionFactory().openSession();
         Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
