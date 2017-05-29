@@ -94,17 +94,14 @@
      * @param $cdVeiculo
      * @param $dtInicio
      * @param $tmInicio
-     * @param $dtFinal
-     * @param $tmFinal
      * @return array
      */
-    public function consultarLocalizacao($cdVeiculo, $dtInicio, $tmInicio, $dtFinal, $tmFinal)
+    public function consultarLocalizacao($cdVeiculo, $dtInicio, $tmInicio)
     {
       $dtLocalizacaoInicio = "{$dtInicio}T{$tmInicio}:00.000-03:00";
-      $dtLocalizacaoFinal  = "{$dtFinal}T{$tmFinal}:00.000-03:00";
 
       $Cliente          = new ClienteSoap();
-      $this->objRetorno = $Cliente->localizacao(19, $dtLocalizacaoInicio, $dtLocalizacaoFinal);
+      $this->objRetorno = $Cliente->localizacao($cdVeiculo, $dtLocalizacaoInicio);
       return $this->retornaArray($this->objRetorno);
     }
 

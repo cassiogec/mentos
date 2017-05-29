@@ -152,9 +152,7 @@
         $this->objDados->arrLocalizacao = $this->Model->consultarLocalizacao(
           $this->getParam("form_cd_veiculo"),
           $this->getParam("form_dt_inicio"),
-          $this->getParam("form_tm_inicio"),
-          $this->getParam("form_dt_final"),
-          $this->getParam("form_tm_final")
+          $this->getParam("form_tm_inicio")
         );
       }
     }

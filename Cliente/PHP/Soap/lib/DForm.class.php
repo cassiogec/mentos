@@ -102,6 +102,14 @@ HTML;
 HTML;
     }
 
+    /**
+     * @param array $arrOptions
+     * @param string $label
+     * @param string $name
+     * @param string $dsPlaceHolder
+     * @param string $value
+     * @return string
+     */
     public static function getSelect($arrOptions = array(), $label = "", $name = "", $dsPlaceHolder = "", $value = "")
     {
       $name    = "form_{$name}";
@@ -110,17 +118,13 @@ HTML;
       if (isset($_REQUEST[$name]) && strValue($_REQUEST[$name]))
         $value = $_REQUEST[$name];
 
-      if (strValue($value))
-        $value = "value=\"{$value}\"";
-
       $dsSelected = (strValue($value) ? "" : "selected");
-
-      $dsOptions =
+      $dsOptions  =
         "<select name='$name' class='form-control' required><option value='' {$dsSelected} disabled>{$dsPlaceHolder}</option>";
 
       foreach ($arrOptions AS $val => $desc)
       {
-        $dsSelected = (strValue($value) && $value == $val ? "selected" : "");
+        $dsSelected = ((strValue($value) && $value == $val) ? "selected" : "");
         $dsOptions .= "<option value='$val' {$dsSelected}>$desc</option>";
       }
 

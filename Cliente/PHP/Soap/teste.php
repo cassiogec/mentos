@@ -13,9 +13,7 @@
   {
     $Cliente = new ClienteSoap();
 
-//    $retorno = $Cliente->localizacao(19, "2017-05-26T09:42:00.000-03:00", "2017-05-26T09:43:00.000-03:00");
-//    $retorno = $Cliente->localizacao(19, "2017-05-26T09:42:00.000-03:00", "2017-05-26T09:43:00.000-03:00");
-//    $retorno = $Cliente->consultarVeiculo(20);
+    $retorno = $Cliente->localizacao(24);
 
     ppr($retorno);
 

@@ -194,15 +194,13 @@
     /**
      * @param $cdVeiculo
      * @param $dtLocalizacaoInicio
-     * @param $dtLocalizacaoFim
      * @return bool|mixed
      */
-    public function localizacao($cdVeiculo, $dtLocalizacaoInicio = null, $dtLocalizacaoFim = null)
+    public function localizacao($cdVeiculo, $dtLocalizacaoInicio = null)
     {
       return $this->execute("localizacao", $this->paramsHandler(
         $this->param("cdVeiculo",           $cdVeiculo),
-        $this->param("dtLocalizacaoInicio", $dtLocalizacaoInicio),
-        $this->param("dtLocalizacaoFim",    $dtLocalizacaoFim)
+        $this->param("dtLocalizacaoInicio", $dtLocalizacaoInicio)
       ));
     }
 

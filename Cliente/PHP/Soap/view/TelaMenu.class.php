@@ -23,11 +23,19 @@
 
       $table = new DTable("Listagem de Veículos");
 
+      $dsOptions  =
+        "<select name='form_id_tipo' class='form-control' required><option value='' selected disabled>Selecione um tipo!</option>";
+
+      foreach (obterTipoVeiculo() AS $val => $desc)
+        $dsOptions .= "<option value='$val'>$desc</option>";
+
+      $dsOptions .= "</select>";
+
       $table->add(<<<HTML
         <div class="col-md-6">
           <div class="col-md-6">
             <div class="form-group">
-              <input required name="form_id_tipo" type="number" class="form-control" placeholder="Digite um tipo!">
+              $dsOptions
             </div>
           </div>
           <div class="col-md-6">

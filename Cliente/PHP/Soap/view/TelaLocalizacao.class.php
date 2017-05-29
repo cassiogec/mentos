@@ -39,38 +39,12 @@
         $(document).ready(function(){
           $('input[type=submit]').click(function() {
             var dtInicio = $('#dtInicio').val();
-            var tmInicio = $('#tmInicio').val();            
-            var dtFinal  = $('#dtFinal').val();
-            var tmFinal  = $('#tmFinal').val();
-            
-            if ((strValue(dtInicio) && !strValue(dtFinal)) || (!strValue(dtInicio) && strValue(dtFinal)))
-            {
-              alert('Para filtrar por Data é necessário preencher o início e o fim!');
-              return false;
-            }
+            var tmInicio = $('#tmInicio').val();
             
             if ((strValue(dtInicio) && !strValue(tmInicio)) || (!strValue(dtInicio) && strValue(tmInicio)))
             {
-              alert('É necessário preencher a data e hora de início!');
+              alert('É necessário preencher a data e hora!');
               return false;            
-            }
-            
-            if ((strValue(dtFinal) && !strValue(tmFinal)) || (!strValue(dtFinal) && strValue(tmFinal)))
-            {
-              alert('É necessário preencher a data e hora final!');
-              return false;            
-            }
-            
-            if (dtInicio > dtFinal)
-            {
-              alert('A data de início deve ser menor ou igual à data final!');
-              return false;
-            }
-            
-            if (dtInicio <= dtFinal && tmInicio > tmFinal)
-            {
-              alert('A data de início deve ser menor ou igual à data final!');
-              return false;
             }
           });
         });
@@ -87,16 +61,6 @@ JS;
           </div>
           <div class="col-md-2">
             <input name="form_tm_inicio" id="tmInicio" type="time" class="form-control" {$value($_REQUEST["form_tm_inicio"])}>
-          </div>
-          <label class="col-md-1 control-label" style="font-size: 17px"><b>Data Final</b></label>
-          <div class="col-md-2">
-            <input name="form_dt_final" id="dtFinal" type="date" class="form-control" {$value($_REQUEST["form_dt_final"])}>
-          </div>
-          <div class="col-md-2">
-            <input name="form_tm_final" id="tmFinal" type="time" class="form-control" {$value($_REQUEST["form_tm_final"])}>
-          </div>
-          <div class="col-md-1">
-            <input type="submit" class="btn btn-raised btn-success" value="Pesquisar"><div class="ripple-container"></div>
           </div>
         </div>
 HTML
