@@ -6,6 +6,11 @@
 package br.com.servidor;
 
 import br.com.DAO.PosicaoDAO;
+import br.com.DAO.VeiculoDAO;
+import br.com.negocio.Posicao;
+import br.com.negocio.Veiculo;
+import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,30 +20,54 @@ import java.util.logging.Logger;
  */
 public class UDPServiceAux extends Thread{
     
-    private Integer time;
+    private Integer timeexecucao;
+    private Integer timestatus;
 
-    public UDPServiceAux(int time) {
-        this.time = time;
-    }
+    
 
-    public int getTime() {
-        return time;
-    }
 
-    public void setTime(int time) {
-        this.time = time;
-    }
     
     public void run(){
         try {
-            sleep(time*1000);
+            sleep(timeexecucao);
         } catch (InterruptedException ex) {
             Logger.getLogger(UDPServiceAux.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        List <Veiculo> listaveiculos = new VeiculoDAO().consultarVeiculos();
+        List <Posicao> posicoescadaveiculo;
+        Calendar datahora_ultimainsercao = null;
+        
+        for (Veiculo vei : listaveiculos) {
+            posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
+            for (Posicao pos : posicoescadaveiculo) {
+                datahora_ultimainsercao = pos.getDatahora();
+            }   
+            System.out.println("Thread Aux, Placa: "+vei.getPlaca()+" Data/Hota ultima insercao "+datahora_ultimainsercao);
+        }
         
         
-        
+    }
+
+    public UDPServiceAux(Integer timeexecucao, Integer timestatus) {
+        this.timeexecucao = timeexecucao;
+        this.timestatus = timestatus;
+    }
+
+    public Integer getTimeexecucao() {
+        return timeexecucao;
+    }
+
+    public void setTimeexecucao(Integer timeexecucao) {
+        this.timeexecucao = timeexecucao;
+    }
+
+    public Integer getTimestatus() {
+        return timestatus;
+    }
+
+    public void setTimestatus(Integer timestatus) {
+        this.timestatus = timestatus;
     }
     
 }

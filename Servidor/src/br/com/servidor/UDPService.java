@@ -247,14 +247,13 @@ public class UDPService extends Thread {
     private Posicao montaObjPosicao(Veiculo vei, String[] msg_recebida) {
         Posicao pos_aux = new Posicao();
         pos_aux.setVeiculo(vei);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM//yyyy");
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM//yyyy");
         Calendar car = Calendar.getInstance();
 //        try {
 //            car.getInstance().setTime(sdf.parse(msg_recebida[3]));
 //        } catch (ParseException ex) {
 //            Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
         pos_aux.setDatahora(car);
         pos_aux.setLatitude(Float.parseFloat(msg_recebida[4]));
         pos_aux.setLongitude(Float.parseFloat(msg_recebida[5]));
