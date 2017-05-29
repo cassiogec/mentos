@@ -22,15 +22,15 @@ public class UDPClient {
      */
     public static void main(String[] args)throws Exception{
         
-        MensagemVeiculo mv = new MensagemVeiculo("v", "consulta", "123", "ABC1234", "1", "500", "ton");
-        MensagemPosicao mp = new MensagemPosicao("p", "consulta", "123", "10/10/2016", "50.5", "49.5");
+        MensagemVeiculo mv = new MensagemVeiculo("v", "adiciona", "AAA0001", "1", "503", "test3");
+        MensagemPosicao mp = new MensagemPosicao("p", "consulta", "AAA0001","10/10/2016", "50.5", "49.5");
         
-  
-        String mensagem_veiculo = new String(mv.getTipomensagem()+":"+mv.getOperacao()+":"+mv.getCodigo()+":"+mv.getPlaca()
-                                                        +":"+mv.getTipo()+":"+mv.getCapacidade()+":"+mv.getUncapacidade());
-        
-        String mensagem_posicao = new String(mp.getTipomensagem()+":"+mp.getOperacao()+":"+mp.getCodigo()+":"+mp.getDatahora()
-                                                                                +":"+mp.getLatitude()+":"+mp.getLongitude());
+
+        String mensagem_veiculo = new String(mv.getTipomensagem()+":"+mv.getOperacao()+":"+mv.getPlaca()
+                                                      +":"+mv.getTipo()+":"+mv.getCapacidade()+":"+mv.getUncapacidade()+":");
+
+        String mensagem_posicao = new String(mp.getTipomensagem()+":"+mp.getOperacao()+":"+mp.getPlaca()+":"+mp.getDatahora()+
+                                                                                ":"+mp.getLatitude()+":"+mp.getLongitude()+":");
                 
         int porta = 2006;
         byte buffercliente[] = {100};
@@ -42,7 +42,7 @@ public class UDPClient {
         String host = new String("localhost");
         address = InetAddress.getByName(host);
         //serialização
-        buffercliente = mensagem_veiculo.getBytes();
+        buffercliente = mensagem_posicao.getBytes();
         
         DatagramSocket socket = new DatagramSocket();
         DatagramPacket pacote = new DatagramPacket(buffercliente, buffercliente.length, address, porta);

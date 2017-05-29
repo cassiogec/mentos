@@ -13,15 +13,15 @@ public class MensagemPosicao {
     
         String tipomensagem;
         String operacao;
-        String codigo;
+        String placa;
         String datahora;
         String latitude;
         String longitude;
 
-    public MensagemPosicao(String tipomensagem, String operacao, String codigo, String datahora, String latitude, String longitude) {
+    public MensagemPosicao(String tipomensagem, String operacao, String placa, String datahora, String latitude, String longitude) {
         this.tipomensagem = tipomensagem;
         this.operacao = operacao;
-        this.codigo = codigo;
+        this.placa = placa;
         this.datahora = datahora;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -43,12 +43,12 @@ public class MensagemPosicao {
         this.operacao = operacao;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getPlaca() {
+        return placa;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setPlaca(String placa) {
+        this.placa = placa;
     }
 
     public String getDatahora() {
@@ -74,8 +74,10 @@ public class MensagemPosicao {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+        
+        
 
-    
+   
     
     
 }
