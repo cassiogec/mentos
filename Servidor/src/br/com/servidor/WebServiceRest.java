@@ -4,6 +4,7 @@ import br.com.DAO.PosicaoDAO;
 import br.com.DAO.VeiculoDAO;
 import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,13 +135,8 @@ public class WebServiceRest {
             if (requestBodyREST.dtLocalizacao == null){
                 list = pdao.consultarPosicoesCarro(requestBodyREST.cdVeiculo);
             } else {
-                Posicao p = pdao.consultarPosicao(requestBodyREST.cdVeiculo,
+                list = pdao.consultarPosicao(requestBodyREST.cdVeiculo,
                         requestBodyREST.dtLocalizacao);
-                list.add(p);
-            }
-            
-            for (Posicao p : list) {
-                p.setVeiculo(null);
             }
             
             return list;
