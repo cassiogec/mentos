@@ -94,6 +94,23 @@ public class WebServiceRest {
     }
     
     @GET
+    @Path("/get/consultar-veiculos/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Veiculo> consultarVeiculos(RequestBodyREST requestBodyREST) throws Exception{
+        try {
+            VeiculoDAO vdao = new VeiculoDAO();
+            List<Veiculo> list = vdao.consultarVeiculos();
+
+            for (Veiculo v : list) {
+                v.setPosicoes(null);
+            }
+            return list;
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage());
+        }
+    }
+    
+    @GET
     @Path("/get/consultar-veiculo/{cdVeiculo}")
     @Produces(MediaType.APPLICATION_JSON)
     public Veiculo consultarVeiculo(@PathParam("cdVeiculo")  Integer cdVeiculo) throws Exception{
