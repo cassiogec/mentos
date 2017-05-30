@@ -43,7 +43,7 @@ public class UDPClientSimuladorThread extends Thread {
             {
                 Thread.sleep(this.tempo * 1000);
                 
-                String msg = new String(this.dsPlaca+":"+ p.getLat()+":"+p.getLng()":");
+                String msg = new String(this.dsPlaca+":"+ p.getLat()+":"+p.getLng() + ":");
                 DatagramSocket soc = new DatagramSocket();
                 buffer = msg.getBytes();
                 DatagramPacket pct = new DatagramPacket(buffer, buffer.length, address, porta);
