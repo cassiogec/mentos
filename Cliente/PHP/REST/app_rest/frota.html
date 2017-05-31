@@ -38,18 +38,23 @@ and open the template in the editor.
 
         <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" type="text/javascript"></script>
 
+        <script src="js/jquery.maskedinput.js" type="text/javascript"></script>
+        
         <script type="text/javascript" language="javascript" src="consulta_veiculos.json"></script> 
 
         <script type="text/javascript" src="js/js-cadastro.js"> </script>
 
         <script type="text/javascript" src="js/js-exclui.js"> </script>
+        
+        <script type="text/javascript" src="js/js-filtro.js"> </script>
+        
 
         
         <script id="listaFrota" type="text/x-jquery-tmpl">
 
             <tr dt_id="${codigo}"> 
                 <th scope="row"></th> 
-                <td>${placa}</td> 
+                <td><a data-toggle="modal" data-target="#menu-dialog" id="modal_localizacao">${placa}</a></td> 
                 <td>${tipo}</td> 
                 <td>${capacidade}</td>
                 <td>${uncapac}</td>
@@ -76,6 +81,8 @@ and open the template in the editor.
     <script src="rest.js"> </script>
     
     <script src="js/frota.js" type="text/javascript"> </script>
+    
+     
       
       <!-- Latest compiled and minified JavaScript -->
       <script src="js/boostrap.min.js" ></script>
@@ -100,6 +107,23 @@ and open the template in the editor.
                         <input id="iptDel" type="text" hidden>
                         <a type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</a>
                         <a id="confirmar" type="button" class="btn btn-danger" data-dismiss="modal">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu-dialog" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Localização</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Como você pretende visualizar as coordenadas?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="mapa" class="btn btn-primary" data-dismiss="modal">Mapa</a>
+                        <a id="lista" class="btn alert-default" data-dismiss="modal">Lista</a>
                     </div>
                 </div>
             </div>
@@ -139,10 +163,14 @@ and open the template in the editor.
                                     <a id="drop_title" href="javascript:void(0)" data-toggle="dropdown" class="btn btn-primary btn-raised">Selecione o tipo<div class="ripple-container"></div></a>
                                     <a href="bootstrap-elements.html" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><div class="ripple-container"></div></a>
                                     <ul class="dropdown-menu">
-                                      <li><a id="drop_menu" dt_id="1">Tipo 1</a></li>
-                                      <li><a id="drop_menu" dt_id="2">Tipo 2</a></li>
-                                      <li><a id="drop_menu" dt_id="3">Tipo 3</a></li>
-                                      <li><a id="drop_menu" dt_id="4">Tipo 4</a></li>
+                                      <li><a id="drop_menu" dt_id="1">Carro</a></li>
+                                      <li><a id="drop_menu" dt_id="2">Caminhão</a></li>
+                                      <li><a id="drop_menu" dt_id="3">Caminhão Carreta</a></li>
+                                      <li><a id="drop_menu" dt_id="4">Caminhão Bitrem</a></li>
+                                      <li><a id="drop_menu" dt_id="5">Caminhão Treminhão</a></li>
+                                      <li><a id="drop_menu" dt_id="6">Moto</a></li>
+                                      <li><a id="drop_menu" dt_id="7">Triciclo</a></li>
+                                      <li><a id="drop_menu" dt_id="8">Quadriciclo</a></li>
                                     </ul>
                                   </div>                
                             </div>
@@ -170,6 +198,7 @@ and open the template in the editor.
             </div>
           </div>
         </div>
+        
         <div id="source-modal" class="modal fade" tabindex="-1">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -251,49 +280,35 @@ and open the template in the editor.
                                 <div class="col-md-6">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Search">
+                                            <input type="text" class="form-control" placeholder="Informe a placa">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <a href="javascript:void(0)" class="btn btn-raised btn-info">@<div class="ripple-container"></div></a>   
+                                            <a href="javascript:void(0)" class="btn btn-raised btn-info"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><div class="ripple-container"></div></a>   
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="col-md-6">
-                                    <div class="form-group">
-                                    <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                          Filtro de tipos
-                                          <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                          <li><a href="#">Action</a></li>
-                                          <li><a href="#">Another action</a></li>
-                                          <li><a href="#">Something else here</a></li>
-                                          <li role="separator" class="divider"></li>
-                                          <li><a href="#">Separated link</a></li>
-                                        </ul>
-                                      </div>
-                                        
-                                    </div>
-                                    </div>
-                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="dropdown">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                              Filtro de tipos
-                                              <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                              <li><a href="#">Action</a></li>
-                                              <li><a href="#">Another action</a></li>
-                                              <li><a href="#">Something else here</a></li>
-                                              <li role="separator" class="divider"></li>
-                                              <li><a href="#">Separated link</a></li>
-                                            </ul>
-                                          </div>
+                                                <button id="title_drop_tipo" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                  Filtrar por tipo
+                                                  <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <li><a id="fil_tipo" dt_id="-1">Todos</a></li>
+                                                    <li><a id="fil_tipo" dt_id="1">Carro</a></li>
+                                                    <li><a id="fil_tipo" dt_id="2">Caminhão</a></li>
+                                                    <li><a id="fil_tipo" dt_id="3">Caminhão Carreta</a></li>
+                                                    <li><a id="fil_tipo" dt_id="4">Caminhão Bitrem</a></li>
+                                                    <li><a id="fil_tipo" dt_id="5">Caminhão Treminhão</a></li>
+                                                    <li><a id="fil_tipo" dt_id="6">Moto</a></li>
+                                                    <li><a id="fil_tipo" dt_id="7">Triciclo</a></li>
+                                                    <li><a id="fil_tipo" dt_id="8">Quadriciclo</a></li>
+                                                </ul>
+                                              </div>
                                         </div>
                                     </div>
                                 </div>
