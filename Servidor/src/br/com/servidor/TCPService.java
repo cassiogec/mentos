@@ -39,10 +39,6 @@ public class TCPService {
             // ASSUME QUE O DADO RECEBIDO É DO TIPO VEICULO BD
             ArquivoBD b = (ArquivoBD) a;
             
-            if (b.getTipobj() == 1)
-               // veiCon.verificaOperacao(b);
-            
-            
             System.out.println(b.getObjetos().size());
             System.out.println(((Veiculo)b.getObjetos().get(0)).getPosicoes().get(0).getVeiculo().getPlaca());
             System.out.println(b.getRetorno());
