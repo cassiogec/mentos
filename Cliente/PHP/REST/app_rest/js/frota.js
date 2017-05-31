@@ -6,7 +6,6 @@
 
 $(document).ready(function() 
 {   
-    
     $.getJSON( "consulta_veiculos.json" , function( result ){
         console.log(result);
     });

@@ -16,11 +16,11 @@ $(document).on('click', 'a#fil_tipo', function() {
               url : 'get/listar-tipo/'
         };
         
-        $('#results').empty();
+        $('#table_results').empty();
         $.getJSON( "consulta_veiculos.json" , function( result ){
             console.log(result);
             cont = 0;
-            $('#listaFrota').tmpl(result).appendTo("#results");
+            $('#listaFrota').tmpl(result).appendTo("#table_results");
         });
         
     }else {
@@ -30,11 +30,11 @@ $(document).on('click', 'a#fil_tipo', function() {
               url : 'get/consultar-veiculos'
         };
         
-        $('#results').empty();
+        $('#table_results').empty();
         $.getJSON( "consulta_veiculos_tipo.json" , function( result ){
             console.log(result);
             cont = 0;
-            $('#listaFrota').tmpl(result).appendTo("#results");
+            $('#listaFrota').tmpl(result).appendTo("#table_results");
         });
     }
     
