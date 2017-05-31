@@ -25,15 +25,11 @@ public class PosicaoDAO {
        
     }
     
-     public Session retornaSession()
+    public Session retornaSession()
     {
         
         try
         {
-            System.out.println("A");
-            if (HibernateUtil3.getSessionFactory().isClosed())
-                System.out.println("FECHADA");
-            System.out.println("B");
             Session s = HibernateUtil3.getSessionFactory().openSession();
             s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
             System.out.println("BANCO ORIGINAL");

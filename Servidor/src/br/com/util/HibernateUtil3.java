@@ -48,7 +48,6 @@ public class HibernateUtil3 {
              try {
             // Create the SessionFactory from standard (hibernate.cfg.xml) 
             // config file.
-            System.out.println("AA");
             Configuration configuration = new Configuration().configure();
             configuration.configure("hibernate.cfg_2.xml");
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().
