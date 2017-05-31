@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var BASE = "(http://localhost:8080/Servidor/webresources/mentos/";
+var BASE = "http://10.1.1.3:8080/Servidor/webresources/mentos/";
 
 
 /*
@@ -17,6 +17,7 @@ function requestService(parameters)
     return $.ajax({
         url     : BASE+parameters.url,
         method  : parameters.method,
+        crossDomain : true,
         type    : 'POST',
         dataType: 'json',
         data    : parameters.data,
@@ -34,19 +35,19 @@ $(document).ready(function()
 //        dsUnidade : "AS"
 //    };
 //    
-//    var parameters = {
-//        'method' : 'POST',
-//        'data'   : veiculo,
-//        'url'    : '/get/listar-veiculos'
-//    };
-//    
-//    requestService(parameters)
-//        .done(function(ret) 
-//        {
-//            console.log('oi, deu');
-//        })
-//        .fail(function (ret) 
-//        {
-//            console.log('não, não deu');
-//        });
+    var parameters = {
+        'method' : 'GET',
+        'data'   : null,
+        'url'    : 'get/consultar-veiculos'
+    };
+    
+    requestService(parameters)
+        .done(function(ret) 
+        {
+            console.log('oi, deu');
+        })
+        .fail(function (ret) 
+        {
+            console.log(' não deu');
+        });
 });
