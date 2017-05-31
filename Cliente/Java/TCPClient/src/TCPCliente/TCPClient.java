@@ -35,7 +35,7 @@ public class TCPClient {
             System.out.println("8 - Quadriciclo");
             Integer tipo = Integer.parseInt(leitor.nextLine());
 
-            if (tipo >= 9 || tipo <= 1)
+            if (tipo >= 9 || tipo < 1)
             {
                 System.out.println("Tipo Invalido");
                 continue;
@@ -98,19 +98,20 @@ public class TCPClient {
         int porta = 2010;
         
         Socket s = new Socket("localhost", porta);
-        System.out.println("Entrou");
+        System.out.println("Cliente conectado ao servidor na porta " + porta + "\n");
 
         while (true)
         {
-            System.out.println("Digite o código da operação: ");
+            System.out.println("Digite o código da operação: \n");
             System.out.println("1 - Adicionar Veiculo");
             System.out.println("2 - Alterar Veiculo");
             System.out.println("3 - Excluir Veiculo");
             System.out.println("4 - Consultar Veiculo");
             System.out.println("5 - Listar veiculos por tipo");
             System.out.println("6 - Localização do Veiculo");
-            System.out.println("7 - Sair e fechar conexão");
+            System.out.println("7 - Sair e fechar conexão\n");
             Integer operacao = Integer.parseInt(leitor.nextLine());
+            System.out.println("");
 
             Veiculo v = new Veiculo();
             ArquivoBD arquivo = new ArquivoBD();
