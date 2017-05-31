@@ -81,126 +81,125 @@ public class TCPClient {
         return v;
     }
     
+    public static ArquivoBD comunicar (Socket s,
+                                       ArquivoBD a) throws Exception
+    {
+        ObjectOutputStream esc = new ObjectOutputStream(s.getOutputStream());
+        esc.writeObject(a);
+        esc.flush();
+        
+        ObjectInputStream inp = new ObjectInputStream(s.getInputStream());
+        return (ArquivoBD) inp.readObject();
+    }
+    
     public static void main(String[] args) throws Exception{
         Scanner leitor = new Scanner(System.in);
                 
         int porta = 2010;
-        byte buffer[] = new byte[100];
-        InetAddress address;
-        String host = "localhost";
         
-        try (
-            Socket s = new Socket("127.0.0.1", porta)) {
-                ObjectOutputStream esc = new ObjectOutputStream(s.getOutputStream());
-                ObjectInputStream inp = new ObjectInputStream(s.getInputStream());
-                
-                while (true)
-                {
-                    System.out.println("Digite o código da operação: ");
-                    System.out.println("1 - Adicionar Veiculo");
-                    System.out.println("2 - Alterar Veiculo");
-                    System.out.println("3 - Excluir Veiculo");
-                    System.out.println("4 - Consultar Veiculo");
-                    System.out.println("5 - Listar veiculos por tipo");
-                    System.out.println("6 - Localização do Veiculo");
-                    System.out.println("7 - Sair e fechar conexão");
-                    Integer operacao = Integer.parseInt(leitor.nextLine());
+        Socket s = new Socket("localhost", porta);
+        System.out.println("Entrou");
 
-                    Veiculo v = new Veiculo();
-                    ArquivoBD arquivo = new ArquivoBD();
-                    List<Object> l = new ArrayList<Object>();
-                    
-                    switch (operacao)
+        while (true)
+        {
+            System.out.println("Digite o código da operação: ");
+            System.out.println("1 - Adicionar Veiculo");
+            System.out.println("2 - Alterar Veiculo");
+            System.out.println("3 - Excluir Veiculo");
+            System.out.println("4 - Consultar Veiculo");
+            System.out.println("5 - Listar veiculos por tipo");
+            System.out.println("6 - Localização do Veiculo");
+            System.out.println("7 - Sair e fechar conexão");
+            Integer operacao = Integer.parseInt(leitor.nextLine());
+
+            Veiculo v = new Veiculo();
+            ArquivoBD arquivo = new ArquivoBD();
+            List<Object> l = new ArrayList<Object>();
+
+            switch (operacao)
+            {
+                case 1:
+                    v = lerVeiculo();
+                    l.add(v);
+
+                    arquivo.setOpe(operacao);
+                    arquivo.setObjetos(l);
+
+                    arquivo = comunicar(s, arquivo);
+                break;
+
+                case 2:
+                    v = lerVeiculo();
+
+                    arquivo.setOpe(operacao);
+                    arquivo.setObjetos(l);
+
+                    arquivo = comunicar(s, arquivo);
+                break;
+
+                case 3:
+                    System.out.println("Digite a placa do veiculo, sem formatação: ");
+                    v.setPlaca(leitor.nextLine());
+
+                    l.add(v);
+                    arquivo.setOpe(operacao);
+                    arquivo.setObjetos(l);
+
+                    arquivo = comunicar(s, arquivo);
+                break;
+
+                case 4:
+                    System.out.println("Digite a placa do veiculo, sem formatação: ");
+                    v.setPlaca(leitor.nextLine());
+
+                    l.add(v);
+                    arquivo.setOpe(operacao);
+                    arquivo.setObjetos(l);
+
+                    arquivo = comunicar(s, arquivo);
+                break;
+
+                case 5:
+                    v.setTipo(lerTipo());
+
+                    l.add(v);
+                    arquivo.setOpe(operacao);
+                    arquivo.setObjetos(l);
+
+                    arquivo = comunicar(s, arquivo);
+                break;
+
+                case 6:
+                    System.out.println("Digite a placa do veiculo, sem formatação: ");
+                    v.setPlaca(leitor.nextLine());
+
+                    System.out.println("Digite a data da localização(Formato DD/MM/YYYY HH:MM:SS), ou deixe-a em branco para pegar todas as localizações");
+                    String data = leitor.nextLine();
+
+                    if (!data.equals(""))
                     {
-                        case 1:
-                            v = lerVeiculo();
-                            l.add(v);
-                            
-                            arquivo.setOpe(operacao);
-                            arquivo.setObjetos(l);
-                            
-                            esc.writeObject(arquivo);
-                            esc.flush();
-                        break;
-
-                        case 2:
-                            v = lerVeiculo();
-                            
-                            arquivo.setOpe(operacao);
-                            arquivo.setObjetos(l);
-                            
-                            esc.writeObject(arquivo);
-                            esc.flush();
-                        break;
-
-                        case 3:
-                            System.out.println("Digite a placa do veiculo, sem formatação: ");
-                            v.setPlaca(leitor.nextLine());
-                            
-                            l.add(v);
-                            arquivo.setOpe(operacao);
-                            arquivo.setObjetos(l);
-                            
-                            esc.writeObject(arquivo);
-                            esc.flush();
-                        break;
-
-                        case 4:
-                            System.out.println("Digite a placa do veiculo, sem formatação: ");
-                            v.setPlaca(leitor.nextLine());
-                            
-                            l.add(v);
-                            arquivo.setOpe(operacao);
-                            arquivo.setObjetos(l);
-                            
-                            esc.writeObject(arquivo);
-                            esc.flush();
-                        break;
-
-                        case 5:
-                            v.setTipo(lerTipo());
-                            
-                            l.add(v);
-                            arquivo.setOpe(operacao);
-                            arquivo.setObjetos(l);
-                            
-                            esc.writeObject(arquivo);
-                            esc.flush();
-                        break;
-
-                        case 6:
-                            System.out.println("Digite a placa do veiculo, sem formatação: ");
-                            v.setPlaca(leitor.nextLine());
-                            
-                            System.out.println("Digite a data da localização(Formato DD/MM/YYYY HH:MM:SS), ou deixe-a em branco para pegar todas as localizações");
-                            String data = leitor.nextLine();
-
-                            if (!data.equals(""))
-                            {
-                                Calendar cal = Calendar.getInstance();
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss", Locale.ENGLISH);
-                                cal.setTime(sdf.parse(data));
-                                arquivo.setData(cal);
-                            }
-                            
-                            l.add(v);
-                            arquivo.setObjetos(l);
-
-                            
-                            esc.writeObject(arquivo);
-                            esc.flush();
-                            
-                        break;
-
-                        case 7:
-                            s.close();
-                            System.exit(0);
-                        break;
-                        default:
-                            System.out.println("Operação Inválida");
-                        break;
+                        Calendar cal = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss", Locale.ENGLISH);
+                        cal.setTime(sdf.parse(data));
+                        arquivo.setData(cal);
                     }
-                }
+
+                    l.add(v);
+                    arquivo.setObjetos(l);
+
+
+                    arquivo = comunicar(s, arquivo);
+
+                break;
+
+                case 7:
+                    s.close();
+                    System.exit(0);
+                break;
+                default:
+                    System.out.println("Operação Inválida");
+                break;
+            }
         }
     }    
 }

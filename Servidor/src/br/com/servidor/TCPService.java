@@ -22,8 +22,7 @@ public class TCPService {
      */
     public static void main(String[] args)throws Exception{
         // TODO code application logic here
-        int porta = 2006; // DEFINE A PORTA
-        byte buffer[] = new byte[100];
+        int porta = 2010;
         System.out.println("Servidor Executando");
         
         // CRIA SERVIDOR E O EXECUTA
@@ -33,15 +32,25 @@ public class TCPService {
         //VeiculoController veiCon = new VeiculoController();
         while (true) {       
             Socket s = soc.accept(); // AGUARDA NOVOS DADOS
+            System.out.println("Aceito");
             // LE O DADO RECEBIDO
             ObjectInputStream esc = new ObjectInputStream(s.getInputStream());
-            Object a = esc.readObject();
+            Object obj = esc.readObject();
             // ASSUME QUE O DADO RECEBIDO É DO TIPO VEICULO BD
-            ArquivoBD b = (ArquivoBD) a;
+            ArquivoBD arquivo = (ArquivoBD) obj;
+            System.out.println("Aceito2");
             
-            System.out.println(b.getObjetos().size());
-            System.out.println(((Veiculo)b.getObjetos().get(0)).getPosicoes().get(0).getVeiculo().getPlaca());
-            System.out.println(b.getRetorno());
+            switch (arquivo.getOpe())
+            {
+                case 3:
+                    Veiculo v = (Veiculo) arquivo.getObjetos().get(0);
+                    System.out.println(v.getPlaca());
+                break;
+            }
+            
+//            System.out.println(b.getObjetos().size());
+//            System.out.println(((Veiculo)b.getObjetos().get(0)).getPosicoes().get(0).getVeiculo().getPlaca());
+//            System.out.println(b.getRetorno());
             
            // ObjectOutputStream esc_out = new ObjectOutputStream(s.getOutputStream());
            // esc_out.writeObject(b);
