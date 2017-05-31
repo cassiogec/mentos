@@ -20,31 +20,31 @@ import org.hibernate.Transaction;
 public class PosicaoDAO {
     
     private boolean reaope;
+    private int tipban;
     
     public PosicaoDAO() {
+        reaope=true;
+        tipban=0;
     }
     
      public Session retornaSession()
     {
+        
         try
         {
-            HibernateUtil3.getSessionFactory().openSession()
-                         .createQuery("SELECT COUNT(codvei) FROM Veiculo")
-                         .setTimeout(6);
-            System.out.println("BANCO ORIGINAL");
-            Session s = HibernateUtil3.getSessionFactory().openSession();
-            reaope=true;
-            return s;
+                Session s = HibernateUtil3.getSessionFactory().openSession();
+                System.out.println("BANCO ORIGINAL");
+                tipban=1;
+                reaope=true;
+                return s;
         }
         catch (ExceptionInInitializerError ex) {
-            HibernateUtil2.getSessionFactory().openSession()
-                         .createQuery("SELECT COUNT(codvei) FROM Veiculo")
-                         .setTimeout(6);
-            Session s2 = HibernateUtil2.getSessionFactory().openSession();
-            System.out.println("BANCO REPLICADO");
-            reaope=false;
-            return s2;
-        } 
+                Session s2 = HibernateUtil2.getSessionFactory().openSession();
+                System.out.println("BANCO REPLICADO");
+                tipban=2;
+                reaope=false;
+                return s2;
+        }
     }
     
     public boolean verificacodigo(int codigo) {
