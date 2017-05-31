@@ -40,19 +40,24 @@ and open the template in the editor.
 
         <script type="text/javascript" language="javascript" src="consulta_veiculos.json"></script> 
 
+        <script type="text/javascript" src="js/js-cadastro.js"> </script>
+
+        <script type="text/javascript" src="js/js-exclui.js"> </script>
+
+        
         <script id="listaFrota" type="text/x-jquery-tmpl">
 
-            <tr dt-id="${id}"> 
+            <tr dt_id="${codigo}"> 
                 <th scope="row"></th> 
                 <td>${placa}</td> 
                 <td>${tipo}</td> 
                 <td>${capacidade}</td>
                 <td>${uncapac}</td>
                <td>
-                    <a style="margin:0px; " href="javascript:void(0)" data-toggle="modal" data-target="#insert-dialog" class="btn btn-block btn-success">Alterar</a>
+                    <a id="alterar" dt_id="${codigo}" style="margin:0px; " href="javascript:void(0)" data-toggle="modal" data-target="#insert-dialog" class="btn btn-block btn-success">Alterar</a>
                 </td>
                 <td>
-                    <a style="margin:0px; " href="javascript:void(0)" data-toggle="modal" data-target="#delete-dialog" class="btn btn-block btn-danger">Excluir</a>
+                    <a id="deletar" dt_id="${codigo}" style="margin:0px; " href="javascript:void(0)" data-toggle="modal" data-target="#delete-dialog" class="btn btn-block btn-danger">Excluir</a>
                 </td>
             </tr>      
         </script>
@@ -92,8 +97,9 @@ and open the template in the editor.
                         <p>Você deseja excluir este registro?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Excluir</button>
+                        <input id="iptDel" type="text" hidden>
+                        <a type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</a>
+                        <a id="confirmar" type="button" class="btn btn-danger" data-dismiss="modal">Excluir</a>
                     </div>
                 </div>
             </div>
@@ -110,42 +116,54 @@ and open the template in the editor.
                 <div class="modal-footer">
                     <div class="col-md-12">
                         <div class="form-group has-success ">
-                            <label for="inputEmail" class="col-md-2 control-label">Placa</label>
+                            <label for="iptPlaca" class="col-md-2 control-label">Placa</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" id="inputEmail">
+                                <input id="iptPlaca" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group has-success is-empty">
-                            <label for="inputEmail" class="col-md-2 control-label">Capacidade</label>
+                            <label for="iptCapacidade" class="col-md-2 control-label">Capacidade</label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" id="inputEmail">
+                                <input id="iptCapacidade" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group has-success">
-                            <label for="inputEmail" class="col-md-2 control-label">Tipo</label>
+                            <input type="text" hidden id="iptTipo" >
+                            <label  class="col-md-2 control-label">Tipo</label>
                             <div class="col-md-6">
                                 <div class="btn-group">
-                                    <a href="javascript:void(0)" class="btn btn-primary btn-raised">Selecione o tipo<div class="ripple-container"></div></a>
+                                    <a id="drop_title" href="javascript:void(0)" data-toggle="dropdown" class="btn btn-primary btn-raised">Selecione o tipo<div class="ripple-container"></div></a>
                                     <a href="bootstrap-elements.html" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><div class="ripple-container"></div></a>
                                     <ul class="dropdown-menu">
-                                      <li><a href="javascript:void(0)">Auedi Ibirubá - UPF 2017/01</a></li>
-                                      <li><a href="javascript:void(0)">Auedi Ibirubá - Cruz alta 2017/01</a></li>
-                                      <li><a href="javascript:void(0)">Auedi Espumoso - UPF 2017/01</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="javascript:void(0)">Separated link</a></li>
+                                      <li><a id="drop_menu" dt_id="1">Tipo 1</a></li>
+                                      <li><a id="drop_menu" dt_id="2">Tipo 2</a></li>
+                                      <li><a id="drop_menu" dt_id="3">Tipo 3</a></li>
+                                      <li><a id="drop_menu" dt_id="4">Tipo 4</a></li>
                                     </ul>
                                   </div>                
                             </div>
                         </div>
                     </div>      
                     <div class="form-group has-success is-empty">
-                        <label for="inputEmail" class="col-md-2 control-label">Unidades</label>
+                        <label for="iptUnidade" class="col-md-2 control-label">Unidades</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="inputEmail">
+                            <input id="iptUnidade" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <span id="alert" class="label label-warning"></span>
+                        </div>
+                        <div class="col-md-8 col-md-offset-2">
+                            <a id="inserir" href="javascript:void(0)" class="btn btn-raised btn-success">Inserir</a>
                         </div>
                     </div>
                 </div>
@@ -301,7 +319,7 @@ and open the template in the editor.
         </div>
     </div>
          <div style="position: fixed;bottom:23px; right: 23px;" id="box_fab_button">
-            <a style="position: relative;" id="btn_insert" href="javascript:void(0)" class="btn btn-primary btn-fab"><i class="material-icons">add</i></a>
+            <a style="position: relative;" id="btn_insert" href="javascript:void(0)" data-toggle="modal" data-target="#insert-dialog" class="btn btn-primary btn-fab"><i class="material-icons">add</i></a>
         </div>
         
         <!-- Material Design for Bootstrap -->
