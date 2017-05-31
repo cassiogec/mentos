@@ -31,7 +31,7 @@ $(document).ready(function()
     $.getJSON( "consulta_veiculos.json" , function( result ){
         console.log(result);
         cont = 0;
-        $('#listaFrota').tmpl(result).appendTo("#results");
+        $('#listaFrota').tmpl(result).appendTo("#table_results");
     });
 
 });
