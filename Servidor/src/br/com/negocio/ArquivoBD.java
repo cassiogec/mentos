@@ -6,6 +6,7 @@
 package br.com.negocio;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -14,22 +15,32 @@ import java.util.List;
  */
 public class ArquivoBD implements Serializable {
     
-    // 1 - ADICIONAR | 2 - EDITAR | 3 - EXCLUIR | 4 - CONSULTAR
-    int ope;
-    // 1 - VEICULO | 2 - LOCALIZAÇÃO
-    int tipobj;
+//    1 - Adicionar Veiculo
+//    2 - Alterar Veiculo
+//    3 - Excluir Veiculo
+//    4 - Consultar Veiculo
+//    5 - Listar veiculos por tipo
+//    6 - Localização do Veiculo
+    Integer ope;
+    
     // LISTA DE OBJETOS DO TIPO SELECIONADO
     List<Object> objetos;
-    // MENSAGEM DE RETORNO
-    String retorno;
     
-    public int getTipobj() {
-        return tipobj;
+    Calendar data;
+    
+    // 1 - Erro / 0 - Sucesso
+    Integer code;
+
+    public Calendar getData() {
+        return data;
     }
 
-    public void setTipobj(int tipobj) {
-        this.tipobj = tipobj;
+    public void setData(Calendar data) {
+        this.data = data;
     }
+    
+    // MENSAGEM DE RETORNO
+    String retorno;
 
     public List<Object> getObjetos() {
         return objetos;
@@ -58,15 +69,4 @@ public class ArquivoBD implements Serializable {
 
     public ArquivoBD() {
     }
-
-    public ArquivoBD(int ope) {
-        this.ope = ope;
-    }
-
-    public ArquivoBD(int ope, int tipobj, List<Object> objetos) {
-        this.ope = ope;
-        this.tipobj = tipobj;
-        this.objetos = objetos;
-    }   
-    
 }
