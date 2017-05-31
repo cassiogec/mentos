@@ -7,10 +7,10 @@ package br.com.DAO;
 
 import br.com.negocio.Posicao;
 import br.com.util.HibernateUtil3;
-import br.com.util.HibernateUtil2;
 import java.util.Calendar;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 /**
@@ -20,11 +20,9 @@ import org.hibernate.Transaction;
 public class PosicaoDAO {
     
     private boolean reaope;
-    private int tipban;
     
     public PosicaoDAO() {
-        reaope=true;
-        tipban=0;
+       
     }
     
      public Session retornaSession()
@@ -32,19 +30,22 @@ public class PosicaoDAO {
         
         try
         {
-                Session s = HibernateUtil3.getSessionFactory().openSession();
-                System.out.println("BANCO ORIGINAL");
-                tipban=1;
-                reaope=true;
-                return s;
+            System.out.println("A");
+            if (HibernateUtil3.getSessionFactory().isClosed())
+                System.out.println("FECHADA");
+            System.out.println("B");
+            Session s = HibernateUtil3.getSessionFactory().openSession();
+            s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
+            System.out.println("BANCO ORIGINAL");
+            reaope=true;
+            return s;
         }
         catch (ExceptionInInitializerError ex) {
-                Session s2 = HibernateUtil2.getSessionFactory().openSession();
+                Session s2 = HibernateUtil3.getSessionFactory2().openSession();
                 System.out.println("BANCO REPLICADO");
-                tipban=2;
                 reaope=false;
                 return s2;
-        }
+        } 
     }
     
     public boolean verificacodigo(int codigo) {
