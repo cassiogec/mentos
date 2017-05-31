@@ -42,8 +42,8 @@ Contributor(s):
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://186.251.255.190:5432/TrabalhoSD</property>
-    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://40.114.40.22:5432/TrabalhoSD</property>
+    <property name="hibernate.connection.username">admin</property>
     <property name="hibernate.connection.password">03961996</property>
     <property name="hibernate.connection.release_mode">auto</property>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
@@ -51,9 +51,8 @@ Contributor(s):
     <property name="hibernate.connection.autocommit">false</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.show_sql">true</property>
-    <property name="hibernate.connection.pool_size">20</property>
-    
-  
+    <property name="hibernate.connection.pool_size">10</property>
+        
     <mapping class="br.com.negocio.Veiculo"/>
     <mapping class="br.com.negocio.Posicao"/>
   </session-factory>

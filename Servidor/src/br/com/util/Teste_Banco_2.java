@@ -31,7 +31,17 @@ public class Teste_Banco_2 {
         VeiculoDAO dao = new VeiculoDAO();
         PosicaoDAO daopos = new PosicaoDAO();
         
-        Veiculo a = dao.consultarVeiculo(19);
+        Posicao pos = daopos.consultarPosicao(42, 1);
+        
+        Posicao pos2 = daopos.consultarPosicao(42, 1);
+        
+        System.out.println("Posicao: "+pos.getLatitude());
+        
+        Veiculo vei = dao.consultarVeiculo(43);
+        
+        System.out.println(vei.getPlaca());
+        
+        //Veiculo a = dao.consultarVeiculo(19);
         //dao.incluir(a);
         Calendar data = new GregorianCalendar();
         SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd");
@@ -40,8 +50,8 @@ public class Teste_Banco_2 {
         } catch (ParseException e) {
                 e.printStackTrace();
         }
-        Posicao b = new Posicao(a, Calendar.getInstance(), new Float(1), new Float(1));
-        daopos.incluir(b);
+        //Posicao b = new Posicao(a, Calendar.getInstance(), new Float(1), new Float(1));
+        //daopos.incluir(b);
         
         Calendar cal = Calendar.getInstance();
         DateFormat f = DateFormat.getDateInstance();

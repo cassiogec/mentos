@@ -14,7 +14,7 @@ import org.hibernate.SessionFactory;
  *
  * @author leonardo.rocha
  */
-public class HibernateUtil {
+public class HibernateUtil3 {
 
     private static final SessionFactory sessionFactory;
     
@@ -25,7 +25,7 @@ public class HibernateUtil {
             sessionFactory = new Configuration().configure().buildSessionFactory();            
         } catch (Throwable ex) {
             // Log the exception.
-            System.err.println("Initial SessionFactory creation failed." + ex);
+            System.err.println("Falha ao Iniciar BD Principal." + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
@@ -33,4 +33,5 @@ public class HibernateUtil {
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
+    
 }

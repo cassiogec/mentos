@@ -6,7 +6,7 @@
 package br.com.DAO;
 
 import br.com.negocio.Veiculo;
-import br.com.util.HibernateUtil;
+import br.com.util.HibernateUtil3;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,7 +32,7 @@ public class VeiculoDAO {
     }
     
     public boolean verificacodigo(int codigo) {
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
                  .setInteger("a", codigo)
                  .setTimeout(30)
@@ -45,7 +45,7 @@ public class VeiculoDAO {
     }
     
     public boolean verificaplaca(String placa) {
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE placa = :a")
                 .setString("a", placa)
                 .setTimeout(30)
@@ -65,7 +65,7 @@ public class VeiculoDAO {
         if (!verificaStringCarro(Veiculo))
             throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres e o Campo 'UnCapac' Deve Possuir Exatamente 5 Caracteres");
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.save(Veiculo);
@@ -80,7 +80,7 @@ public class VeiculoDAO {
         if (!verificaStringCarro(Veiculo))
             throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres e o Campo 'UnCapac' Deve Possuir Exatamente 5 Caracteres");
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.update(Veiculo);
@@ -94,7 +94,7 @@ public class VeiculoDAO {
             throw new Exception("Objeto Veículo 'NULL'");
         if (!verificacodigo(Veiculo.getCodigo()))
             throw new Exception("Veículo Não Localizado");
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.delete(Veiculo);
@@ -104,7 +104,7 @@ public class VeiculoDAO {
     
     // RETORNA A LISTA DE TODOS OS VEÍCULOS
     public List<Veiculo> consultarVeiculos(){
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         List<Veiculo> u =  s.createQuery("FROM Veiculo") 
                     .setTimeout(30)
                     .list();
@@ -114,7 +114,7 @@ public class VeiculoDAO {
     
     // RETORNA A LISTA DOS VEÍCULOS DO TIPO SELECIONADO
     public List<Veiculo> consultarVeiculosPorTipo(int tipo){
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         List<Veiculo> u = s.createQuery("FROM Veiculo WHERE tipo = :a")
                     .setInteger("a", tipo)
                     .setTimeout(30)
@@ -125,7 +125,7 @@ public class VeiculoDAO {
     
     // RETORNA VEÍCULO ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(int codvei){
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE codigo = :a")
                     .setInteger("a", codvei)
                     .setTimeout(30)
@@ -136,7 +136,7 @@ public class VeiculoDAO {
     
     // RETORNA VEÍCULO POR PLACA ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(String plavei){
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = HibernateUtil3.getSessionFactory().openSession();
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE placa = :a")
                     .setString("a", plavei)
                     .setTimeout(30)
