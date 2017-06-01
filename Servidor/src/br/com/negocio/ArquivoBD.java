@@ -21,15 +21,15 @@ public class ArquivoBD implements Serializable {
 //    4 - Consultar Veiculo
 //    5 - Listar veiculos por tipo
 //    6 - Localização do Veiculo
-    Integer ope;
+    private Integer ope;
     
     // LISTA DE OBJETOS DO TIPO SELECIONADO
-    List<Object> objetos;
+    private List<Object> objetos;
     
-    Calendar data;
+    private Calendar data;
     
     // 1 - Erro / 0 - Sucesso
-    Integer code;
+    private Integer code;
 
     public Calendar getData() {
         return data;
@@ -66,6 +66,13 @@ public class ArquivoBD implements Serializable {
         this.ope = ope;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
 
     public ArquivoBD() {
     }

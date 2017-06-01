@@ -2,6 +2,7 @@ package TCPCliente;
 
 import br.com.negocio.Veiculo;
 import br.com.negocio.ArquivoBD;
+import br.com.negocio.Posicao;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
@@ -29,7 +30,7 @@ public class TCPClient {
             System.out.println("2 - Caminhão Toco");
             System.out.println("3 - Caminhão Carreta");
             System.out.println("4 - Caminhão Bitrem");
-            System.out.println("5 - Caminh]ao Treminhão");
+            System.out.println("5 - Caminhão Treminhão");
             System.out.println("6 - Moto");
             System.out.println("7 - Triciclo");
             System.out.println("8 - Quadriciclo");
@@ -44,6 +45,39 @@ public class TCPClient {
             {
                 return tipo;
             }
+        }
+    }
+    
+    private static String formataTipo(Integer tipo)
+    {
+        switch (tipo)
+        {
+            case 1:
+                return "Carro";
+
+            case 2:
+                return "Caminhão Toco";
+
+            case 3:
+                return "Caminhão Carreta";
+                
+            case 4:
+                return "Caminhão Bitrem";
+
+            case 5:
+                return "Caminhão Treminhão";
+
+            case 6:
+                return "Moto";
+
+            case 7:
+                return "Triciclo";
+
+            case 8:
+                return "Quadriciclo";
+                    
+            default: 
+                return "";
         }
     }
     
@@ -102,16 +136,15 @@ public class TCPClient {
 
         while (true)
         {
-            System.out.println("Digite o código da operação: \n");
             System.out.println("1 - Adicionar Veiculo");
             System.out.println("2 - Alterar Veiculo");
             System.out.println("3 - Excluir Veiculo");
             System.out.println("4 - Consultar Veiculo");
             System.out.println("5 - Listar veiculos por tipo");
             System.out.println("6 - Localização do Veiculo");
-            System.out.println("7 - Sair e fechar conexão\n");
+            System.out.println("7 - Sair e fechar conexão");
+            System.out.println("Digite o código da operação: ");
             Integer operacao = Integer.parseInt(leitor.nextLine());
-            System.out.println("");
 
             Veiculo v = new Veiculo();
             ArquivoBD arquivo = new ArquivoBD();
@@ -127,6 +160,15 @@ public class TCPClient {
                     arquivo.setObjetos(l);
 
                     arquivo = comunicar(s, arquivo);
+                    
+                    if (arquivo.getCode() == 0)
+                    {
+                        System.out.println(arquivo.getRetorno());
+                    }
+                    else if (arquivo.getCode() == 1)
+                    {
+                        System.out.println("Erro: " + arquivo.getRetorno());
+                    }
                 break;
 
                 case 2:
@@ -136,6 +178,15 @@ public class TCPClient {
                     arquivo.setObjetos(l);
 
                     arquivo = comunicar(s, arquivo);
+                    
+                    if (arquivo.getCode() == 0)
+                    {
+                        System.out.println(arquivo.getRetorno());
+                    }
+                    else if (arquivo.getCode() == 1)
+                    {
+                        System.out.println("Erro: " + arquivo.getRetorno());
+                    }
                 break;
 
                 case 3:
@@ -147,6 +198,15 @@ public class TCPClient {
                     arquivo.setObjetos(l);
 
                     arquivo = comunicar(s, arquivo);
+                    
+                    if (arquivo.getCode() == 0)
+                    {
+                        System.out.println(arquivo.getRetorno());
+                    }
+                    else if (arquivo.getCode() == 1)
+                    {
+                        System.out.println("Erro: " + arquivo.getRetorno());
+                    }
                 break;
 
                 case 4:
@@ -158,6 +218,21 @@ public class TCPClient {
                     arquivo.setObjetos(l);
 
                     arquivo = comunicar(s, arquivo);
+                    
+                    if (arquivo.getCode() == 0)
+                    {
+                        v = (Veiculo) arquivo.getObjetos().get(0);
+                        
+                        System.out.println("Placa: " + v.getPlaca());
+                        System.out.println("Capacidade: " + v.getCapacidade());
+                        System.out.println("Tipo: " + formataTipo(v.getTipo()));
+                        System.out.println("Unidade: " + v.getUncapac());
+                    }
+                    else if (arquivo.getCode() == 1)
+                    {
+                        System.out.println("Erro: " + arquivo.getRetorno());
+                    }
+                    
                 break;
 
                 case 5:
@@ -168,6 +243,27 @@ public class TCPClient {
                     arquivo.setObjetos(l);
 
                     arquivo = comunicar(s, arquivo);
+                    
+                    if (arquivo.getCode() == 0)
+                    {
+                        System.out.println("Tipo: " + formataTipo(v.getTipo()));
+                        System.out.println("-----------------------------------------------------------");
+                        
+                        for (Object vei : arquivo.getObjetos())
+                        {
+                            v = (Veiculo) vei;
+
+                            System.out.print("Placa: " + v.getPlaca());
+                            System.out.print(" Capacidade: " + v.getCapacidade());
+                            System.out.print(" Tipo: " + formataTipo(v.getTipo()));
+                            System.out.print(" Unidade: " + v.getUncapac());
+                            System.out.println("-----------------------------------------------------------");
+                        }
+                    }
+                    else if (arquivo.getCode() == 1)
+                    {
+                        System.out.println("Erro: " + arquivo.getRetorno());
+                    }
                 break;
 
                 case 6:
@@ -188,9 +284,27 @@ public class TCPClient {
                     l.add(v);
                     arquivo.setObjetos(l);
 
-
                     arquivo = comunicar(s, arquivo);
 
+                    if (arquivo.getCode() == 0)
+                    {
+                        System.out.println("Veiculo: " + v.getPlaca());
+                        System.out.println("-----------------------------------------------------------");
+                        
+                        for (Object pos : arquivo.getObjetos())
+                        {
+                            Posicao p = (Posicao) pos;
+
+                            System.out.print("Data: " + p.getDatahora().toString());
+                            System.out.print(" Latitude: " + p.getLatitude());
+                            System.out.print(" Longitude: " + p.getLongitude());
+                            System.out.println("-----------------------------------------------------------");
+                        }
+                    }
+                    else if (arquivo.getCode() == 1)
+                    {
+                        System.out.println("Erro: " + arquivo.getRetorno());
+                    }
                 break;
 
                 case 7:
