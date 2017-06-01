@@ -34,18 +34,32 @@ public class UDPServiceAux extends Thread{
             Logger.getLogger(UDPServiceAux.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+
+        
         List <Veiculo> listaveiculos = new VeiculoDAO().consultarVeiculos();
         List <Posicao> posicoescadaveiculo;
+        List <ObjApresentar> listatela = null; 
+        
+        String placa = null;
+        Float ultima_latitude = null;
+        Float ultima_longitude = null;
         Calendar datahora_ultimainsercao = null;
         
         for (Veiculo vei : listaveiculos) {
             posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
             for (Posicao pos : posicoescadaveiculo) {
                 datahora_ultimainsercao = pos.getDatahora();
-            }   
+                ultima_latitude = pos.getLatitude();
+                ultima_longitude = pos.getLongitude();
+            }
+            
+            ObjApresentar o = new ObjApresentar(vei.getPlaca(), ultima_latitude, ultima_longitude, datahora_ultimainsercao);
+            listatela.add(o);
             System.out.println("Thread Aux, Placa: "+vei.getPlaca()+" Data/Hota ultima insercao "+datahora_ultimainsercao);
+               
         }
         
+        System.out.println("executou a segunda thread");
         
     }
 
@@ -71,3 +85,5 @@ public class UDPServiceAux extends Thread{
     }
     
 }
+
+

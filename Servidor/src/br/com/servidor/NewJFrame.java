@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ServidorUDP;
+package br.com.servidor;
 
+import br.com.servidor.ObjApresentar;
 import java.awt.GridLayout;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +24,7 @@ public class NewJFrame extends javax.swing.JFrame {
     JPanel painelFundo;
     JTable tabela;
     JScrollPane barraRolagem;
+    List <ObjApresentar> dadoslista;
        
     Object [][] dados = {
         {"Ana Monteiro", "48 9923-7898", "ana.monteiro@gmail.com"},
@@ -33,12 +38,25 @@ public class NewJFrame extends javax.swing.JFrame {
         super ("Contatos");
     }
     
+    public void organizaTabela(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Placa");
+        modelo.addColumn("latitude");
+        modelo.addColumn("Longitude");
+        modelo.addColumn("Data/Hora");
+        modelo.addColumn("Status");
+//        int i = null;
+//        for( i = 0; i < dadoslista.size();i++)
+        modelo.addRow((Vector) dadoslista);
+        tabela.setModel(modelo);
+    }
+    
     
     public void criaJanela(){
         
         painelFundo = new JPanel();
         painelFundo.setLayout(new GridLayout(1, 1));
-        tabela = new JTable(dados, colunas);
+        //tabela = new JTable(dados, colunas);
         barraRolagem = new JScrollPane(tabela);
         painelFundo.add(barraRolagem); 
         
@@ -74,7 +92,9 @@ public class NewJFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         NewJFrame njf = new NewJFrame();
+        njf.organizaTabela();
         njf.criaJanela();
     }
 
