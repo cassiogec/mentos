@@ -113,13 +113,13 @@ public class TCPClient {
     }
     
     public static ArquivoBD comunicar (Socket s,
-                                       ArquivoBD a) throws Exception
+                                       ArquivoBD a,
+                                       ObjectOutputStream esc,
+                                       ObjectInputStream inp) throws Exception
     {
-        ObjectOutputStream esc = new ObjectOutputStream(s.getOutputStream());
         esc.writeObject(a);
         esc.flush();
         
-        ObjectInputStream inp = new ObjectInputStream(s.getInputStream());
         return (ArquivoBD) inp.readObject();
     }
     
@@ -137,6 +137,8 @@ public class TCPClient {
                 host = "localhost";
             
             Socket s = new Socket(host, porta);
+            ObjectOutputStream esc = new ObjectOutputStream(s.getOutputStream());
+            ObjectInputStream inp = new ObjectInputStream(s.getInputStream());
             System.out.println("Cliente conectado ao servidor na porta " + porta + "\n");
             
             while (true)
@@ -164,7 +166,7 @@ public class TCPClient {
                         
                         arquivo.setObjetos(l);
                         
-                        arquivo = comunicar(s, arquivo);
+                        arquivo = comunicar(s, arquivo, esc, inp);
                         
                         if (arquivo.getCode() == 0)
                         {
@@ -186,7 +188,7 @@ public class TCPClient {
                         
                         arquivo.setObjetos(l);
                         
-                        arquivo = comunicar(s, arquivo);
+                        arquivo = comunicar(s, arquivo, esc, inp);
                         
                         if (arquivo.getCode() == 0)
                         {
@@ -210,15 +212,19 @@ public class TCPClient {
 
                         arquivo.setObjetos(l);
                         
-                        arquivo = comunicar(s, arquivo);
+                        arquivo = comunicar(s, arquivo, esc, inp);
                         
                         if (arquivo.getCode() == 0)
                         {
-                            System.out.println("\n" + arquivo.getRetorno() + "\n");
+                            System.out.println("\n----------------------------------------------------");
+                            System.out.println(arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         else if (arquivo.getCode() == 1)
                         {
-                            System.out.println("\n" + "Erro: " + arquivo.getRetorno() + "\n");
+                            System.out.println("\n----------------------------------------------------");
+                            System.out.println("Erro: " + arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         break;
                         
@@ -230,7 +236,7 @@ public class TCPClient {
 
                         arquivo.setObjetos(l);
                         
-                        arquivo = comunicar(s, arquivo);
+                        arquivo = comunicar(s, arquivo, esc, inp);
                         
                         if (arquivo.getCode() == 0)
                         {
@@ -259,7 +265,7 @@ public class TCPClient {
 
                         arquivo.setObjetos(l);
                         
-                        arquivo = comunicar(s, arquivo);
+                        arquivo = comunicar(s, arquivo, esc, inp);
                         
                         if (arquivo.getCode() == 0)
                         {
@@ -303,7 +309,7 @@ public class TCPClient {
                         l.add(v);
                         arquivo.setObjetos(l);
                         
-                        arquivo = comunicar(s, arquivo);
+                        arquivo = comunicar(s, arquivo, esc, inp);
                         
                         if (arquivo.getCode() == 0)
                         {
@@ -329,8 +335,7 @@ public class TCPClient {
                         break;
                         
                     case 7:
-                        
-                        arquivo = comunicar(s, arquivo);
+                        arquivo = comunicar(s, arquivo, esc, inp);
                         
                         s.close();
                         System.exit(0);
