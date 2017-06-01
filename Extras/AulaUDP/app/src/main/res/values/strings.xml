@@ -5,4 +5,10 @@
     <string name="check_status_gps">Por favor!!! verifique se seu gps está ativado</string>
     <string name="close">Fechar</string>
     <string name="obtain_location">Obtendo Localização...</string>
+    <string name="CONSUMER_KEY">BA6hD8iDQ7Dss5eDA9ybdO0eQ</string>
+    <string name="CONSUMER_SECRET">lvwj6vlDn2KGu6XrBMqm4feSBuHLsxjfHyfOThejH7BQlW8ODf</string>
+    <string name="ip">IP</string>
+    <string name="placa">Placa</string>
+    <string name="save">Salvar</string>
+    <string name="configue">Configurar</string>
 </resources>

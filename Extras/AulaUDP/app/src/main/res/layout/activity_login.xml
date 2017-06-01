@@ -9,13 +9,14 @@
 
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_cnfigure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@string/configue"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>
