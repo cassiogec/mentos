@@ -6,10 +6,6 @@ import br.com.negocio.Posicao;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,8 +13,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class TCPClient {
 
@@ -135,7 +129,14 @@ public class TCPClient {
             
             int porta = 2010;
             
-            Socket s = new Socket("localhost", porta);
+            System.out.println("Digite o IP de conexão ou deixe em branco para 'localhost': ");
+            
+            String host = leitor.nextLine();
+            
+            if (host.equals(""))
+                host = "localhost";
+            
+            Socket s = new Socket(host, porta);
             System.out.println("Cliente conectado ao servidor na porta " + porta + "\n");
             
             while (true)
@@ -153,43 +154,51 @@ public class TCPClient {
                 Veiculo v = new Veiculo();
                 ArquivoBD arquivo = new ArquivoBD();
                 List<Object> l = new ArrayList<Object>();
-                
+                arquivo.setOpe(operacao);
+                                        
                 switch (operacao)
                 {
                     case 1:
                         v = lerVeiculo();
                         l.add(v);
                         
-                        arquivo.setOpe(operacao);
                         arquivo.setObjetos(l);
                         
                         arquivo = comunicar(s, arquivo);
                         
                         if (arquivo.getCode() == 0)
                         {
+                            System.out.println("\n----------------------------------------------------");
                             System.out.println(arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         else if (arquivo.getCode() == 1)
                         {
+                            System.out.println("\n----------------------------------------------------");
                             System.out.println("Erro: " + arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         break;
                         
                     case 2:
                         v = lerVeiculo();
+                        l.add(v);
                         
-                        arquivo.setOpe(operacao);
                         arquivo.setObjetos(l);
                         
                         arquivo = comunicar(s, arquivo);
                         
                         if (arquivo.getCode() == 0)
                         {
+                            System.out.println("\n----------------------------------------------------");
                             System.out.println(arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         else if (arquivo.getCode() == 1)
                         {
+                            System.out.println("\n----------------------------------------------------");
                             System.out.println("Erro: " + arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         break;
                         
@@ -198,18 +207,18 @@ public class TCPClient {
                         v.setPlaca(leitor.nextLine());
                         
                         l.add(v);
-                        arquivo.setOpe(operacao);
+
                         arquivo.setObjetos(l);
                         
                         arquivo = comunicar(s, arquivo);
                         
                         if (arquivo.getCode() == 0)
                         {
-                            System.out.println(arquivo.getRetorno());
+                            System.out.println("\n" + arquivo.getRetorno() + "\n");
                         }
                         else if (arquivo.getCode() == 1)
                         {
-                            System.out.println("Erro: " + arquivo.getRetorno());
+                            System.out.println("\n" + "Erro: " + arquivo.getRetorno() + "\n");
                         }
                         break;
                         
@@ -218,7 +227,7 @@ public class TCPClient {
                         v.setPlaca(leitor.nextLine());
                         
                         l.add(v);
-                        arquivo.setOpe(operacao);
+
                         arquivo.setObjetos(l);
                         
                         arquivo = comunicar(s, arquivo);
@@ -227,14 +236,18 @@ public class TCPClient {
                         {
                             v = (Veiculo) arquivo.getObjetos().get(0);
                             
+                            System.out.println("\n----------------------------------------------------");
                             System.out.println("Placa: " + v.getPlaca());
                             System.out.println("Capacidade: " + v.getCapacidade());
                             System.out.println("Tipo: " + formataTipo(v.getTipo()));
                             System.out.println("Unidade: " + v.getUncapac());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         else if (arquivo.getCode() == 1)
                         {
+                            System.out.println("\n----------------------------------------------------");
                             System.out.println("Erro: " + arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         
                         break;
@@ -243,14 +256,14 @@ public class TCPClient {
                         v.setTipo(lerTipo());
                         
                         l.add(v);
-                        arquivo.setOpe(operacao);
+
                         arquivo.setObjetos(l);
                         
                         arquivo = comunicar(s, arquivo);
                         
                         if (arquivo.getCode() == 0)
                         {
-                            System.out.println("Tipo: " + formataTipo(v.getTipo()));
+                            System.out.println("\nTipo: " + formataTipo(v.getTipo()));
                             System.out.println("-----------------------------------------------------------");
                             
                             for (Object vei : arquivo.getObjetos())
@@ -261,12 +274,14 @@ public class TCPClient {
                                 System.out.print(" Capacidade: " + v.getCapacidade());
                                 System.out.print(" Tipo: " + formataTipo(v.getTipo()));
                                 System.out.print(" Unidade: " + v.getUncapac());
-                                System.out.println("-----------------------------------------------------------");
+                                System.out.println("-----------------------------------------------------------\n");
                             }
                         }
                         else if (arquivo.getCode() == 1)
                         {
+                            System.out.println("\n----------------------------------------------------");
                             System.out.println("Erro: " + arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         break;
                         
@@ -292,7 +307,7 @@ public class TCPClient {
                         
                         if (arquivo.getCode() == 0)
                         {
-                            System.out.println("Veiculo: " + v.getPlaca());
+                            System.out.println("\nVeiculo: " + v.getPlaca());
                             System.out.println("-----------------------------------------------------------");
                             
                             for (Object pos : arquivo.getObjetos())
@@ -302,16 +317,21 @@ public class TCPClient {
                                 System.out.print("Data: " + p.getDatahora().toString());
                                 System.out.print(" Latitude: " + p.getLatitude());
                                 System.out.print(" Longitude: " + p.getLongitude());
-                                System.out.println("-----------------------------------------------------------");
+                                System.out.println("-----------------------------------------------------------\n");
                             }
                         }
                         else if (arquivo.getCode() == 1)
                         {
+                            System.out.println("\n----------------------------------------------------");
                             System.out.println("Erro: " + arquivo.getRetorno());
+                            System.out.println("----------------------------------------------------\n");
                         }
                         break;
                         
                     case 7:
+                        
+                        arquivo = comunicar(s, arquivo);
+                        
                         s.close();
                         System.exit(0);
                         break;
@@ -321,9 +341,9 @@ public class TCPClient {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         } catch (Exception ex) {
-            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
     }    
 }

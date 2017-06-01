@@ -162,12 +162,15 @@ public class VeiculoDAO {
     }
     
     // RETORNA VEÍCULO POR PLACA ATRAVÉS DO CÓDIGO
-    public Veiculo consultarVeiculo(String plavei){
+    public Veiculo consultarVeiculo(String plavei) throws Exception{
         Session s = retornaSession();
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE placa = :a")
                     .setString("a", plavei)
                     .setTimeout(30)
                     .uniqueResult();
+        if (u == null)
+            throw new Exception("Veículo não encontrado!");
+        
         s.close();
         return u;
     }

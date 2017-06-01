@@ -154,7 +154,11 @@ public class UDPService extends Thread {
 //                    if(vetor_msg_recebida[1].equals("adiciona")){
 //                        //CONSULTA A TABELA POSICAO PARA VER 
                         if(!new VeiculoDAO().verificaplaca(vetor_msg_recebida[0])){
-                           vei = new VeiculoDAO().consultarVeiculo(vetor_msg_recebida[0]);
+                    try {
+                        vei = new VeiculoDAO().consultarVeiculo(vetor_msg_recebida[0]);
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
                            pos = montaObjPosicao(vei,vetor_msg_recebida);
                             try {
                                 new PosicaoDAO().incluir(pos);
