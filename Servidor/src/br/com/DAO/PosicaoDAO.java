@@ -6,10 +6,11 @@
 package br.com.DAO;
 
 import br.com.negocio.Posicao;
-import br.com.util.HibernateUtil;
+import br.com.util.HibernateUtil3;
 import java.util.Calendar;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 /**
@@ -18,31 +19,33 @@ import org.hibernate.Transaction;
  */
 public class PosicaoDAO {
     
+    private boolean reaope;
+    
     public PosicaoDAO() {
+       
     }
     
-     public Session retornaSession()
+    public Session retornaSession()
     {
+        
         try
         {
-            System.out.println("A");
-            HibernateUtil.getSessionFactory().openSession()
-                         .createQuery("SELECT COUNT(codvei) FROM Veiculo")
-                         .setTimeout(6);
-            System.out.println("BB");
-            Session s = HibernateUtil.getSessionFactory().openSession();
+            Session s = HibernateUtil3.getSessionFactory().openSession();
+            s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
+            System.out.println("BANCO ORIGINAL");
+            reaope=true;
             return s;
         }
         catch (ExceptionInInitializerError ex) {
-            System.out.println("B");
-            //Session s2 = HibernateUtil.getSessionFactory2().openSession();
-            //return s2;
-        }
-        return null;   
+                Session s2 = HibernateUtil3.getSessionFactory2().openSession();
+                System.out.println("BANCO REPLICADO");
+                reaope=false;
+                return s2;
+        } 
     }
     
     public boolean verificacodigo(int codigo) {
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = retornaSession();
         Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
                  .setInteger("a", codigo)
                  .setTimeout(30)
@@ -57,10 +60,14 @@ public class PosicaoDAO {
     public void incluir(Posicao posicao) throws Exception{ 
        if (posicao == null)
             throw new Exception("Objeto Posição 'NULL'");
+       if (posicao.getVeiculo() == null)
+            throw new Exception("Objeto Veículo 'NULL'");
         if (!verificacodigo(posicao.getVeiculo().getCodigo()))
             throw new Exception("Veículo Informado Não Localizado");
+        if (!reaope)
+            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.save(posicao);
@@ -72,10 +79,14 @@ public class PosicaoDAO {
     public void alterar(Posicao posicao) throws Exception{ 
         if (posicao == null)
             throw new Exception("Objeto Posição 'NULL'");
+        if (posicao.getVeiculo() == null)
+            throw new Exception("Objeto Veículo 'NULL'");
         if (!verificacodigo(posicao.getVeiculo().getCodigo()))
             throw new Exception("Veículo Informado Não Localizado");
+        if (!reaope)
+            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.update(posicao);
@@ -88,7 +99,11 @@ public class PosicaoDAO {
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         if (posicao == null)
             throw new Exception("Objeto Posição 'NULL'");
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        if (posicao.getVeiculo() == null)
+            throw new Exception("Objeto Veículo 'NULL'");
+        if (!reaope)
+            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
+        Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.delete(posicao);
@@ -98,7 +113,7 @@ public class PosicaoDAO {
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public Posicao consultarPosicao(int codvei, int posicao){
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = retornaSession();
         Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b")
                     .setInteger("a", posicao)
                     .setInteger("b", codvei)
@@ -110,7 +125,7 @@ public class PosicaoDAO {
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DE UM INTERVALO DE DATAS
     public List<Posicao> consultarPosicao(int codvei, Calendar datIni) throws Exception{
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = retornaSession();
         
         List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND veiculo.codigo = :b")
                     .setCalendar("a", datIni)
@@ -123,7 +138,7 @@ public class PosicaoDAO {
     
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public List<Posicao> consultarPosicoesCarro(int codvei){
-        Session s = HibernateUtil.getSessionFactory().openSession();
+        Session s = retornaSession();
         List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a")
                     .setInteger("a", codvei)
                     .setTimeout(30)

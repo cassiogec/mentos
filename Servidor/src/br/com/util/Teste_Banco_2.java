@@ -16,6 +16,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,8 +32,20 @@ public class Teste_Banco_2 {
         // TODO code application logic here
         VeiculoDAO dao = new VeiculoDAO();
         PosicaoDAO daopos = new PosicaoDAO();
+        Scanner ler = new Scanner(System.in);
         
-        Veiculo a = dao.consultarVeiculo(19);
+        Posicao pos = daopos.consultarPosicao(42, 1);
+        System.out.println("A");
+        int n = ler.nextInt();        
+        Posicao pos2 = daopos.consultarPosicao(42, 1);
+        
+        System.out.println("Posicao: "+pos.getLatitude());
+        n = ler.nextInt();  
+       // Veiculo vei = dao.consultarVeiculo(43);
+        
+      //  System.out.println(vei.getPlaca());
+        Posicao pos3 = daopos.consultarPosicao(42, 1);
+        //Veiculo a = dao.consultarVeiculo(19);
         //dao.incluir(a);
         Calendar data = new GregorianCalendar();
         SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd");
@@ -40,8 +54,8 @@ public class Teste_Banco_2 {
         } catch (ParseException e) {
                 e.printStackTrace();
         }
-        Posicao b = new Posicao(a, Calendar.getInstance(), new Float(1), new Float(1));
-        daopos.incluir(b);
+        //Posicao b = new Posicao(a, Calendar.getInstance(), new Float(1), new Float(1));
+        //daopos.incluir(b);
         
         Calendar cal = Calendar.getInstance();
         DateFormat f = DateFormat.getDateInstance();

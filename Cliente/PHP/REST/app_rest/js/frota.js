@@ -7,10 +7,6 @@
 $(document).ready(function() 
 {   
     
-    $.getJSON( "consulta_veiculos.json" , function( result ){
-        console.log(result);
-    });
-    
     var parameters = {
         method : 'GET',
           data : null,
@@ -28,11 +24,11 @@ $(document).ready(function()
 //            console.log('não, não deu');
 //        }); 
 
-    $.getJSON( "consulta_veiculos.json" , function( result ){
-        console.log(result);
-        cont = 0;
-        $('#listaFrota').tmpl(result).appendTo("#results");
-    });
+//    $.getJSON( "consulta_veiculos.json" , function( result ){
+//        console.log(result);
+//        cont = 0;
+//        $('#listaFrota').tmpl(result).appendTo("#table_results");
+//    });
 
 });
 
