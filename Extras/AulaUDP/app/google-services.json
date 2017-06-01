@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "983483361130",
+    "project_id": "midyear-precept-161207"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983483361130:android:d668c27b4395edf6",
+        "android_client_info": {
+          "package_name": "com.whdev.garagem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983483361130-ai7s2aj1h05fd9iagpq3vu5f3urr2lj5.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "983483361130-aubqpumd2muqmrbnb6nus2d0cqje3k15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whdev.garagem",
+            "certificate_hash": "9dfc589404960e9051e907825ee7e922a52c7905"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzKeBkSF26orwkNn6jevyDN4jWcf_UY9U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

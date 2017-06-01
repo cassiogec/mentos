@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Extras</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="chek_status_wifi">Por favor!!! verifique sua conexão de internet</string>
+    <string name="check_status_gps">Por favor!!! verifique se seu gps está ativado</string>
+    <string name="close">Fechar</string>
+    <string name="obtain_location">Obtendo Localização...</string>
+</resources>
