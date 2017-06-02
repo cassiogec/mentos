@@ -19,6 +19,7 @@ import java.net.SocketException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -258,6 +259,8 @@ public class UDPService extends Thread {
 //        } catch (ParseException ex) {
 //            Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        car.clear();
+        car.setTime(new Date());
         pos_aux.setDatahora(car);
         pos_aux.setLatitude(Float.parseFloat(msg_recebida[1]));
         pos_aux.setLongitude(Float.parseFloat(msg_recebida[2]));
