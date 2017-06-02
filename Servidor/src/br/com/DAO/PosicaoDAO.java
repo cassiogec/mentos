@@ -75,6 +75,8 @@ public class PosicaoDAO {
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
         if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
+        if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
+            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();

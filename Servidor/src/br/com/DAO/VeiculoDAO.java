@@ -96,6 +96,8 @@ public class VeiculoDAO {
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
         if (!verificaPlaca(Veiculo.getPlaca()))
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
+        if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
+            throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
@@ -115,6 +117,8 @@ public class VeiculoDAO {
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
         if (!verificaPlaca(Veiculo.getPlaca()))
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
+        if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
+            throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
