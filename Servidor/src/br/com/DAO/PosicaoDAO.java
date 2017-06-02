@@ -9,6 +9,7 @@ import br.com.negocio.Posicao;
 import br.com.util.HibernateUtil3;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -44,6 +45,12 @@ public class PosicaoDAO {
         } 
     }
     
+    private boolean verificaPlaca(String placa)
+    {
+        Pattern p = Pattern.compile("[a-zA-Z]{3}[0-9]{4}");
+        return p.matcher(placa).matches();
+    }
+    
     public boolean verificacodigo(int codigo) {
         Session s = retornaSession();
         Long u = (Long)s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE codigo = :a")
@@ -66,6 +73,8 @@ public class PosicaoDAO {
             throw new Exception("Veículo Informado Não Localizado");
         if (!reaope)
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
+        if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
+            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
@@ -85,6 +94,8 @@ public class PosicaoDAO {
             throw new Exception("Veículo Informado Não Localizado");
         if (!reaope)
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
+        if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
+            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
@@ -103,6 +114,8 @@ public class PosicaoDAO {
             throw new Exception("Objeto Veículo 'NULL'");
         if (!reaope)
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
+        if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
+            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
