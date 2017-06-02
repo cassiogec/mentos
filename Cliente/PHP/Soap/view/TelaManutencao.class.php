@@ -9,7 +9,7 @@
       if (isset($this->objDados) && is_object($this->objDados))
       {
         $cdVeiculo    = $this->objDados->codigo;
-        $dsPlaca      = $this->objDados->placa;
+        $dsPlaca      = formataPlaca($this->objDados->placa, "sys");
         $idTipo       = $this->objDados->tipo;
         $vlCapacidade = $this->objDados->capacidade;
         $dsUnidade    = $this->objDados->uncapac;

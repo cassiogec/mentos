@@ -64,15 +64,31 @@
     }
 
     /**
-     * @param string $idTipo
+     * @param string $idFiltro
+     * @param string $cdValor
      * @return array
      */
-    public function listarVeiculosMenu($idTipo = "")
+    public function listarVeiculosMenu($idFiltro = "", $cdValor = "")
     {
       $Cliente = new ClienteSoap();
 
-      if (strValue($idTipo))
-        $this->objRetorno = $Cliente->listaTipo($idTipo);
+      if (strValue($cdValor))
+      {
+        switch ($idFiltro)
+        {
+          case "codigo":
+            $this->objRetorno = $Cliente->consultarVeiculo($cdValor);
+          break;
+          case "placa":
+            $this->objRetorno = $Cliente->consultarVeiculoPlaca($cdValor);
+          break;
+          case "tipo":
+            $this->objRetorno = $Cliente->listaTipo($cdValor);
+          break;
+          default:
+            $this->objRetorno = $Cliente->listaTodosVeiculos();
+        }
+      }
       else
         $this->objRetorno = $Cliente->listaTodosVeiculos();
 

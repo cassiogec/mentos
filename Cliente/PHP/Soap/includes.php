@@ -22,5 +22,6 @@
   require_once("view/TelaManutencao.class.php");
   require_once("view/TelaConsulta.class.php");
   require_once("view/TelaLocalizacao.class.php");
+  require_once("view/TelaIP.class.php");
 
   require_once("model/Model.class.php");

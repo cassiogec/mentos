@@ -21,10 +21,27 @@
       if (isset($_REQUEST["info_message"]) && strValue($_REQUEST["info_message"]))
         $html->addAlertMessage($_REQUEST["info_message"], "info", false);
 
+      $js = <<<JS
+        $(document).ready(function(){
+          $('#tipoFiltroMenu').change(function(){
+            $('.filtroMenu').hide();
+          
+            if ($(this).val() == 'codigo')
+              $('input[name=form_cd_veiculo]').show();
+            else if ($(this).val() == 'placa')
+              $('input[name=form_ds_placa]').show();
+            else if ($(this).val() == 'tipo')
+              $('select[name=form_id_tipo]').show();
+          });
+        });
+JS;
+
+      $html->addJS($js);
+
       $table = new DTable("Listagem de Veículos");
 
       $dsOptions  =
-        "<select name='form_id_tipo' class='form-control' required><option value='' selected disabled>Selecione um tipo!</option>";
+        "<select name='form_id_tipo' class='form-control filtroMenu' style='display: none;'><option value='' selected disabled>Selecione um tipo!</option>";
 
       foreach (obterTipoVeiculo() AS $val => $desc)
         $dsOptions .= "<option value='$val'>$desc</option>";
@@ -33,14 +50,26 @@
 
       $table->add(<<<HTML
         <div class="col-md-6">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               $dsOptions
+              <input type="text"   name="form_ds_placa"   class='form-control filtroMenu' placeholder="Digite a Placa"  style="display: none;">
+              <input type="number" name="form_cd_veiculo" class='form-control filtroMenu' placeholder="Digite o Código" style="display: none;">
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
-              <input type="submit" value="Pesquisar por Tipo" class="btn btn-raised btn-info"><div class="ripple-container"></div></input>   
+              <select name='form_id_tipo_filtro' id="tipoFiltroMenu" class='form-control' required>
+                <option value='' selected disabled>Filtro</option>
+                <option value='codigo'>Código</option>
+                <option value='placa'>Placa</option>
+                <option value='tipo'>Tipo</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input type="submit" value="Pesquisar" class="btn btn-raised btn-info"><div class="ripple-container"></div></input>   
             </div>
           </div>
         </div>

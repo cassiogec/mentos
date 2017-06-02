@@ -31,6 +31,9 @@ public interface WebServiceSoapInterface {
     @WebMethod public Veiculo consultarVeiculo(
             @XmlElement(name="cdVeiculo", required=true) Integer cdVeiculo) throws Exception;
     
+    @WebMethod public Veiculo consultarVeiculoPlaca(
+            @XmlElement(name="dsPlaca", required=true) String dsPlaca) throws Exception;
+    
     @WebMethod public List<Veiculo> listaTipo(
             @XmlElement(name="idTipo", required=true) Integer idTipo) throws Exception;
     

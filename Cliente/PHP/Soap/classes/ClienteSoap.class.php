@@ -24,7 +24,7 @@
     /**
      * @var string
      */
-    private static $wsdl = "http://127.0.0.1:9876/Servidor/WebServiceSoap?wsdl";
+    private static $wsdl;
 
     /**
      * @var bool
@@ -37,6 +37,7 @@
      */
     public function __construct($idSilence = false)
     {
+      self::$wsdl = "http://{$_SESSION["s_ds_ip"]}:9876/Servidor/WebServiceSoap?wsdl";
       $this->idSilence = $idSilence;
       $this->createNewSoapClient();
     }
@@ -169,6 +170,18 @@
     {
       return $this->execute("consultarVeiculo", $this->paramsHandler(
         $this->param("cdVeiculo", $cdVeiculo)
+      ));
+    }
+
+    /**
+     * @param $dsPlaca
+     * @return bool|mixed
+     * @throws Exception
+     */
+    public function consultarVeiculoPlaca($dsPlaca)
+    {
+      return $this->execute("consultarVeiculoPlaca", $this->paramsHandler(
+        $this->param("dsPlaca", $dsPlaca)
       ));
     }
 

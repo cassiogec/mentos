@@ -6,6 +6,7 @@
     const TELA_MANUTENCAO  = "tela_manutencao";
     const TELA_LOCALIZACAO = "tela_localizacao";
     const TELA_CONSULTA    = "tela_consulta";
+    const TELA_IP          = "tela_ip";
 
     /**
      * @var string
@@ -54,6 +55,7 @@
         case self::TELA_MANUTENCAO:  new TelaManutencao( $this->Erro, $this->objDados); break;
         case self::TELA_LOCALIZACAO: new TelaLocalizacao($this->Erro, $this->objDados); break;
         case self::TELA_CONSULTA:    new TelaConsulta(   $this->Erro, $this->objDados); break;
+        case self::TELA_IP:          new TelaIP(         $this->Erro                 ); break;
       }
     }
 
@@ -72,7 +74,24 @@
     protected function listarTipoAction()
     {
       $this->idTela   = self::TELA_MENU;
-      $this->objDados = $this->Model->listarVeiculosMenu($this->getParam("form_id_tipo"));
+
+      $idTipoFiltro = $this->getParam("form_id_tipo_filtro");
+      $cdValor      = "";
+
+      switch ($idTipoFiltro)
+      {
+        case "codigo":
+          $cdValor = $this->getParam("form_cd_veiculo");
+        break;
+        case "placa":
+          $cdValor = $this->getParam("form_ds_placa");
+        break;
+        case "tipo":
+          $cdValor = $this->getParam("form_id_tipo");
+        break;
+      }
+
+      $this->objDados = $this->Model->listarVeiculosMenu($idTipoFiltro, $cdValor);
     }
 
     /**
@@ -164,6 +183,25 @@
     {
       $this->objDados = $this->Model->consultarVeiculoManutencao($this->getParam("form_cd_veiculo"));
       $this->idTela   = self::TELA_CONSULTA;
+    }
+
+    /**
+     * Tela para alterar IP do servidor
+     */
+    protected function alterarIPAction()
+    {
+      $this->idTela = self::TELA_IP;
+    }
+
+    /**
+     * Alteração do IP
+     */
+    protected function confirmarIPAction()
+    {
+      if (strValue($this->getParam("form_ds_IP")))
+        $_SESSION["s_ds_ip"] = $this->getParam("form_ds_IP");
+
+      $this->infoMessage("IP do Servidor alterado com sucesso");
     }
 
     /**
