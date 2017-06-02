@@ -104,6 +104,24 @@ public class WebServiceSoap implements WebServiceSoapInterface{
     
     /**
      *
+     * @param dsPlaca
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Veiculo consultarVeiculoPlaca(String dsPlaca) throws Exception{
+        try {
+            VeiculoDAO vdao = new VeiculoDAO();
+            Veiculo v = vdao.consultarVeiculo(dsPlaca);
+            v.setPosicoes(null);
+            return v;
+        } catch (Exception ex) {
+            throw new Exception("Não foi possivel consultar o veículo");
+        }
+    }
+    
+    /**
+     *
      * @param idTipo
      * @return
      * @throws Exception

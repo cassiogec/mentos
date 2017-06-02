@@ -103,6 +103,9 @@
                       </ul>
                     </li>
                   </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="menu.php?action=alterarIP">IP Atual: {$_SESSION["s_ds_ip"]}</a></li>
+                  </ul>
                 </div>
               </div>
             </div>
