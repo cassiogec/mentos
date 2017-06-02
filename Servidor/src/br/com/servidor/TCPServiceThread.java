@@ -164,7 +164,8 @@ public class TCPServiceThread extends Thread{
             System.out.println("Conexão estabelecida.");
             // LÊ O DADO RECEBIDO
             inp = new ObjectInputStream(s.getInputStream());
-
+            esc = new ObjectOutputStream(s.getOutputStream());
+            
             while (true)
             {
                 Object obj = inp.readObject();
@@ -302,7 +303,6 @@ public class TCPServiceThread extends Thread{
                         return;
                 }
                 
-                esc = new ObjectOutputStream(s.getOutputStream());
                 esc.writeObject(arquivo);
                 esc.flush();
             }

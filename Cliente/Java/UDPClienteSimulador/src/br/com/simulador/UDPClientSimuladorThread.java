@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -35,7 +36,14 @@ public class UDPClientSimuladorThread extends Thread {
         try {
             Integer porta = 2006;
             InetAddress address;
-            String host = "localhost";
+            Scanner leitor = new Scanner(System.in);
+            System.out.println("Digite o IP de conexão ou deixe em branco para 'localhost': ");
+            
+            String host = leitor.nextLine();
+            
+            if (host.equals(""))
+                host = "localhost";
+            
             address = InetAddress.getByName(host);
             byte buffer[] = new byte[100];
             
