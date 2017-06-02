@@ -285,13 +285,12 @@ public class TCPServiceThread extends Thread{
                         break;
 
                     case 6: //localização do veículo
-                        localizacao(dsPlaca, dtLocalizacaoInicio);
                         try
                         {
                             for (Posicao pos : localizacao(dsPlaca, dtLocalizacaoInicio))
                             {
                             listRetorno.add((Object)pos);
-                        }
+                            }
                             arquivo.setObjetos(listRetorno);
                             arquivo.setRetorno("Posições consultadas com sucesso.");
                             arquivo.setCode(0);
