@@ -10,6 +10,7 @@ import br.com.DAO.VeiculoDAO;
 import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,23 +44,26 @@ public class UDPServiceAux extends Thread{
         String placa = null;
         Float ultima_latitude = null;
         Float ultima_longitude = null;
-        Calendar datahora_ultimainsercao = null;
+        Calendar datahora = null;
         
         for (Veiculo vei : listaveiculos) {
             posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
             for (Posicao pos : posicoescadaveiculo) {
-                datahora_ultimainsercao = pos.getDatahora();
+                datahora = pos.getDatahora();
                 ultima_latitude = pos.getLatitude();
                 ultima_longitude = pos.getLongitude();
             }
             
-            ObjApresentar o = new ObjApresentar(vei.getPlaca(), ultima_latitude, ultima_longitude, datahora_ultimainsercao);
-            listatela.add(o);
-            System.out.println("Thread Aux, Placa: "+vei.getPlaca()+" Data/Hota ultima insercao "+datahora_ultimainsercao);
+//            ObjApresentar o = new ObjApresentar(vei.getPlaca(), ultima_latitude, ultima_longitude, datahora_ultimainsercao);
+//            listatela.add(o);
+            System.out.println("Placa: "+vei.getPlaca()+" Data/Hota ultima insercao "+datahora);
                
         }
         
-        System.out.println("executou a segunda thread");
+        datahora.clear();
+        datahora.setTime(new Date());
+        
+        System.out.println("executou a segunda thread, Data Hora "+datahora);
         
     }
 
