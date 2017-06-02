@@ -154,6 +154,7 @@ public class TCPServiceThread extends Thread{
         }
     }
     
+    @SuppressWarnings("empty-statement")
     public void run()
     {
         ObjectInputStream inp = null;
@@ -287,9 +288,9 @@ public class TCPServiceThread extends Thread{
                         localizacao(dsPlaca, dtLocalizacaoInicio);
                         try
                         {
-                            //for (Veiculo vei : listaTipo(idTipo))
+                            for (Posicao pos : localizacao(dsPlaca, dtLocalizacaoInicio))
                             {
-    //                        listRetorno.add((Object)vei);
+                            listRetorno.add((Object)pos);
                         }
                             arquivo.setObjetos(listRetorno);
                             arquivo.setRetorno("Posições consultadas com sucesso.");
