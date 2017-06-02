@@ -22,12 +22,8 @@ import java.util.logging.Logger;
 public class UDPServiceAux extends Thread{
     
     private Integer timeexecucao;
-    private Integer timestatus;
+    private Long timestatus;
 
-    
-
-
-    
     public void run(){
         try {
             sleep(timeexecucao);
@@ -35,39 +31,34 @@ public class UDPServiceAux extends Thread{
             Logger.getLogger(UDPServiceAux.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-
-        
         List <Veiculo> listaveiculos = new VeiculoDAO().consultarVeiculos();
         List <Posicao> posicoescadaveiculo;
-        List <ObjApresentar> listatela = null; 
         
         String placa = null;
-        Float ultima_latitude = null;
-        Float ultima_longitude = null;
-        Calendar datahora = null;
+        String status = null;
+        Calendar datahora = Calendar.getInstance();
+        Calendar datahora_atual = Calendar.getInstance();
         
         for (Veiculo vei : listaveiculos) {
             posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
             for (Posicao pos : posicoescadaveiculo) {
                 datahora = pos.getDatahora();
-                ultima_latitude = pos.getLatitude();
-                ultima_longitude = pos.getLongitude();
             }
-            
-//            ObjApresentar o = new ObjApresentar(vei.getPlaca(), ultima_latitude, ultima_longitude, datahora_ultimainsercao);
-//            listatela.add(o);
-            System.out.println("Placa: "+vei.getPlaca()+" Data/Hota ultima insercao "+datahora);
+
+            if(datahora_atual.getTimeInMillis() < datahora.getTimeInMillis()+ timestatus){
+                status = "Veículo Suspeito de estar fora da area de cobertura";
+            } else {
+                status = "Veículo fora da área de cobertura";
+            }
+            System.out.println("Placa: "+vei.getPlaca()+" Status: "+status+"Data/Hora "+datahora);
                
         }
-        
-        datahora.clear();
-        datahora.setTime(new Date());
         
         System.out.println("executou a segunda thread, Data Hora "+datahora);
         
     }
 
-    public UDPServiceAux(Integer timeexecucao, Integer timestatus) {
+    public UDPServiceAux(Integer timeexecucao, Long timestatus) {
         this.timeexecucao = timeexecucao;
         this.timestatus = timestatus;
     }
@@ -80,13 +71,15 @@ public class UDPServiceAux extends Thread{
         this.timeexecucao = timeexecucao;
     }
 
-    public Integer getTimestatus() {
+    public Long getTimestatus() {
         return timestatus;
     }
 
-    public void setTimestatus(Integer timestatus) {
+    public void setTimestatus(Long timestatus) {
         this.timestatus = timestatus;
     }
+
+
     
 }
 

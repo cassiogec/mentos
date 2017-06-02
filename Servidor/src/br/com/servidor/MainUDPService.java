@@ -21,7 +21,7 @@ public class MainUDPService {
     public static void main(String[] args) throws Exception{
         
         int intervaloexecucaothread =30; //Integer.parseInt(args[0]);
-        int intervalomudastatus = 5;//Integer.parseInt(args[1]);
+        long intervalomudastatus = 5000;//Integer.parseInt(args[1]);
         
         UDPService servUDP = new UDPService();
         servUDP.start();
