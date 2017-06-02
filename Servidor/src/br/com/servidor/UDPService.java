@@ -154,23 +154,23 @@ public class UDPService extends Thread {
 //                    //ADICIONA POSICAO
 //                    if(vetor_msg_recebida[1].equals("adiciona")){
 //                        //CONSULTA A TABELA POSICAO PARA VER 
-                        if(!new VeiculoDAO().verificaplaca(vetor_msg_recebida[0])){
+                if(!new VeiculoDAO().verificaplaca(vetor_msg_recebida[0])){
                     try {
                         vei = new VeiculoDAO().consultarVeiculo(vetor_msg_recebida[0]);
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
-                           pos = montaObjPosicao(vei,vetor_msg_recebida);
-                            try {
-                                new PosicaoDAO().incluir(pos);
-                                System.out.println("Operacao Adiciona Posicao realizada com sucesso");
-                            } catch (Exception ex) {
-                                Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                        else{
-                            System.out.println("Operação Adiciona Posicao falhou, veiculo nao está inserido no banco");
-                        }
+                    pos = montaObjPosicao(vei,vetor_msg_recebida);
+                    try {
+                        new PosicaoDAO().incluir(pos);
+                        System.out.println("Operacao Adiciona Posicao realizada com sucesso");
+                    } catch (Exception ex) {
+                        Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else{
+                    System.out.println("Operação Adiciona Posicao falhou, veiculo nao está inserido no banco");
+                }
 //                    }
 //                    //LOCALIZAÇÃO
 //                    if(vetor_msg_recebida[1].equals("consulta")){
