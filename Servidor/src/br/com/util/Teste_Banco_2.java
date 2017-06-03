@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,21 +31,13 @@ public class Teste_Banco_2 {
      */
     public static void main(String[] args) throws Exception {
         // TODO code application logic here
-        VeiculoDAO dao = new VeiculoDAO();
+       /* VeiculoDAO dao = new VeiculoDAO();
         PosicaoDAO daopos = new PosicaoDAO();
         Scanner ler = new Scanner(System.in);
         
-        Posicao pos = daopos.consultarPosicao(42, 1);
-        System.out.println("A");
-        int n = ler.nextInt();        
-        Posicao pos2 = daopos.consultarPosicao(42, 1);
+        Veiculo vei = dao.consultarVeiculo(47);
         
-        System.out.println("Posicao: "+pos.getLatitude());
-        n = ler.nextInt();  
-       // Veiculo vei = dao.consultarVeiculo(43);
         
-      //  System.out.println(vei.getPlaca());
-        Posicao pos3 = daopos.consultarPosicao(42, 1);
         //Veiculo a = dao.consultarVeiculo(19);
         //dao.incluir(a);
         Calendar data = new GregorianCalendar();
@@ -54,8 +47,8 @@ public class Teste_Banco_2 {
         } catch (ParseException e) {
                 e.printStackTrace();
         }
-        //Posicao b = new Posicao(a, Calendar.getInstance(), new Float(1), new Float(1));
-        //daopos.incluir(b);
+        Posicao b = new Posicao(vei, Calendar.getInstance(), new Float(1), new Float(1));
+        daopos.incluir(b);
         
         Calendar cal = Calendar.getInstance();
         DateFormat f = DateFormat.getDateInstance();
@@ -70,7 +63,12 @@ public class Teste_Banco_2 {
        // List<Posicao> d = daopos.consultarPosicao(19, cal, cal2);
        // System.out.println(d.size());
         //System.out.println("INT: "+d.getCodigo());
-        //System.out.println("TAMANHO: " + a.getPosicoes().size());
+        //System.out.println("TAMANHO: " + a.getPosicoes().size());*/
+       Pattern p = Pattern.compile("[a-zA-Z]{3}[0-9]{4}");
+       String teste="AAA9873";
+       System.out.println(p.matcher(teste).matches());
+       teste="AAA973";
+       System.out.println(p.matcher(teste).matches());
     }
     
 }
