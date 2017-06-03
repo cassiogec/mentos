@@ -136,8 +136,6 @@ public class VeiculoDAO {
             throw new Exception("Veículo Não Localizado");
         if (!reaope)
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
-        if (!verificaPlaca(Veiculo.getPlaca()))
-            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);

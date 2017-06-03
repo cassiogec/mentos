@@ -24,11 +24,14 @@ public class UDPClientSimuladorThread extends Thread {
     private List<Posicao> json;
     
     private Integer tempo;
+    
+    private String host;
 
-    public UDPClientSimuladorThread(String dsPlaca, List<Posicao> json, Integer tempo) {
+    public UDPClientSimuladorThread(String dsPlaca, List<Posicao> json, Integer tempo, String host) {
         this.dsPlaca = dsPlaca;
         this.json = json;
         this.tempo = tempo;
+        this.host = host;
     }
     
     public void run()
@@ -36,15 +39,8 @@ public class UDPClientSimuladorThread extends Thread {
         try {
             Integer porta = 2006;
             InetAddress address;
-            Scanner leitor = new Scanner(System.in);
-            System.out.println("Digite o IP de conexão ou deixe em branco para 'localhost': ");
-            
-            String host = leitor.nextLine();
-            
-            if (host.equals(""))
-                host = "localhost";
-            
-            address = InetAddress.getByName(host);
+
+            address = InetAddress.getByName(this.host);
             byte buffer[] = new byte[100];
             
             for (Posicao p : this.json)

@@ -1,23 +1,8 @@
 package br.com.servidor;
 
-import br.com.DAO.PosicaoDAO;
-import br.com.DAO.VeiculoDAO;
-import br.com.negocio.Veiculo;
-import br.com.negocio.ArquivoBD;
-import br.com.negocio.Posicao;
-import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class TCPService {
     

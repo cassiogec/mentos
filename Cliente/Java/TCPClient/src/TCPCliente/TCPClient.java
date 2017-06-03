@@ -278,9 +278,8 @@ public class TCPClient {
                                 
                                 System.out.print("Placa: " + v.getPlaca());
                                 System.out.print(" Capacidade: " + v.getCapacidade());
-                                System.out.print(" Tipo: " + formataTipo(v.getTipo()));
                                 System.out.print(" Unidade: " + v.getUncapac());
-                                System.out.println("-----------------------------------------------------------\n");
+                                System.out.println("\n-----------------------------------------------------------");
                             }
                         }
                         else if (arquivo.getCode() == 1)
@@ -323,7 +322,7 @@ public class TCPClient {
                                 System.out.print("Data: " + p.getDatahora().toString());
                                 System.out.print(" Latitude: " + p.getLatitude());
                                 System.out.print(" Longitude: " + p.getLongitude());
-                                System.out.println("-----------------------------------------------------------\n");
+                                System.out.println("\n-----------------------------------------------------------");
                             }
                         }
                         else if (arquivo.getCode() == 1)

@@ -18,8 +18,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -77,6 +75,7 @@ public class TCPServiceThread extends Thread{
     public static Boolean excluirVeiculo(String dsPlaca) throws Exception{
         try {
             VeiculoDAO vdao = new VeiculoDAO();
+            System.out.println(vdao.consultarVeiculo(dsPlaca).getCodigo());
             Veiculo v = new Veiculo(vdao.consultarVeiculo(dsPlaca).getCodigo());
             vdao.excluir(v);
             return true;
@@ -245,6 +244,7 @@ public class TCPServiceThread extends Thread{
                             arquivo.setRetorno("Veiculo excluído com sucesso");
                             arquivo.setCode(0);
                         } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
                             arquivo.setRetorno(ex.getMessage());
                             arquivo.setCode(1);
                         }
