@@ -4,6 +4,7 @@ import br.com.DAO.PosicaoDAO;
 import br.com.DAO.VeiculoDAO;
 import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
+import br.com.util.Logger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,11 +30,14 @@ public class WebServiceSoap implements WebServiceSoapInterface{
         try {
             Veiculo v = new Veiculo(dsPlaca, idTipo, vlCapacidade, dsUnidade);
             VeiculoDAO vdao = new VeiculoDAO();
-            vdao.incluir(v);
+            vdao.incluir(v);            
+            Logger.logMethod("Soap", "");
             return true;
         } catch (SQLException e) {
+            Logger.logMethod("Soap", e.getMessage());
             throw new Exception("Não foi possivel inserir o veículo.");
         } catch (Exception ex) {
+            Logger.logMethod("Soap",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -56,11 +60,14 @@ public class WebServiceSoap implements WebServiceSoapInterface{
         try {
             Veiculo v = new Veiculo(cdVeiculo, dsPlaca, idTipo, vlCapacidade, dsUnidade);
             VeiculoDAO vdao = new VeiculoDAO();
-            vdao.alterar(v);
+            vdao.alterar(v);            
+            Logger.logMethod("Soap", "");
             return true;
         } catch (SQLException e) {
+            Logger.logMethod("Soap", e.getMessage());
             throw new Exception("Não foi possivel alterar o veículo.");
         } catch (Exception ex) {
+            Logger.logMethod("Soap", ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -76,12 +83,15 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             Veiculo v = new Veiculo(cdVeiculo);
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.excluir(v);
+            Logger.logMethod("Soap", "");
             return true;
         }  catch (SQLException e) {
+            Logger.logMethod("Soap", e.getMessage());
             throw new Exception("Não foi possivel excluir o veículo.");
         } catch (Exception ex) {
+            Logger.logMethod("Soap", ex.getMessage());
             throw new Exception(ex.getMessage());
-        }
+        } 
     }
 
     /**
@@ -96,10 +106,12 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             VeiculoDAO vdao = new VeiculoDAO();
             Veiculo v = vdao.consultarVeiculo(cdVeiculo);
             v.setPosicoes(null);
+            Logger.logMethod("Soap", "");
             return v;
         } catch (Exception ex) {
+            Logger.logMethod("Soap",  ex.getMessage());
             throw new Exception("Não foi possivel consultar o veículo");
-        }
+        } 
     }
     
     /**
@@ -132,11 +144,15 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             VeiculoDAO vdao = new VeiculoDAO();
             List<Veiculo> list = vdao.consultarVeiculosPorTipo(idTipo);
 
-            for (Veiculo v : list) {
+            for (Veiculo v : list)
+            {
                 v.setPosicoes(null);
             }
+            
+            Logger.logMethod("Soap", "");
             return list;
         } catch (Exception ex) {
+            Logger.logMethod("Soap",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -155,8 +171,11 @@ public class WebServiceSoap implements WebServiceSoapInterface{
             for (Veiculo v : list) {
                 v.setPosicoes(null);
             }
+            
+            Logger.logMethod("Soap", "");
             return list;
         } catch (Exception ex) {
+            Logger.logMethod("Soap",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -188,9 +207,11 @@ public class WebServiceSoap implements WebServiceSoapInterface{
                 p.setVeiculo(null);
             }
             
+            Logger.logMethod("Soap", "");
             return list;
             
         } catch (Exception ex) {
+            Logger.logMethod("Soap",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
