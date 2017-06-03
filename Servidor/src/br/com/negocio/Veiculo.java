@@ -41,7 +41,7 @@ public class Veiculo implements Serializable {
      private List<Posicao> posicoes;
 
     public Veiculo(String placa, int tipo, int capacidade, String uncapac) {
-        this.placa = placa;
+        this.placa = placa.toUpperCase();
         this.tipo = tipo;
         this.capacidade = capacidade;
         this.uncapac = uncapac;
@@ -51,7 +51,7 @@ public class Veiculo implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 53 * hash + this.codigo;
-        hash = 53 * hash + Objects.hashCode(this.placa);
+        hash = 53 * hash + Objects.hashCode(this.placa.toUpperCase());
         hash = 53 * hash + this.tipo;
         hash = 53 * hash + this.capacidade;
         hash = 53 * hash + Objects.hashCode(this.uncapac);
@@ -90,7 +90,7 @@ public class Veiculo implements Serializable {
 
     public Veiculo(int codigo, String placa, int tipo, int capacidade, String uncapac) {
         this.codigo = codigo;
-        this.placa = placa;
+        this.placa = placa.toUpperCase();
         this.tipo = tipo;
         this.capacidade = capacidade;
         this.uncapac = uncapac;
@@ -126,7 +126,7 @@ public class Veiculo implements Serializable {
     }
 
     public void setPlaca(String placa) {
-        this.placa = placa;
+        this.placa = placa.toUpperCase();
     }
 
     public int getTipo() {
