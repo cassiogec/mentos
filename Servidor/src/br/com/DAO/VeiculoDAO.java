@@ -73,6 +73,8 @@ public class VeiculoDAO {
     }
     
     public boolean verificaplaca(String placa) {
+        placa = placa.toUpperCase();
+        
         Session s = retornaSession();
         Long u = (Long) s.createQuery("SELECT COUNT(codigo) FROM Veiculo WHERE placa = :a")
                 .setString("a", placa)
@@ -99,6 +101,8 @@ public class VeiculoDAO {
         if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
             throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+        Veiculo.setPlaca(Veiculo.getPlaca().toUpperCase());
+        
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
@@ -120,6 +124,8 @@ public class VeiculoDAO {
         if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
             throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+        Veiculo.setPlaca(Veiculo.getPlaca().toUpperCase());
+        
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
@@ -178,6 +184,8 @@ public class VeiculoDAO {
     
     // RETORNA VEÍCULO POR PLACA ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(String plavei) throws Exception{
+        plavei = plavei.toUpperCase();
+        
         Session s = retornaSession();
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE placa = :a")
                     .setString("a", plavei)

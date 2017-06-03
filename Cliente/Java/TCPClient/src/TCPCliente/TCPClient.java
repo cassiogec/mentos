@@ -35,7 +35,9 @@ public class TCPClient {
 
             if (tipo >= 9 || tipo < 1)
             {
-                System.out.println("Tipo Invalido");
+                System.out.println("\n----------------------------------------------------");
+                System.out.println("Erro: Tipo inválido");
+                System.out.println("----------------------------------------------------\n");
                 continue;
             }
             else
@@ -270,17 +272,27 @@ public class TCPClient {
                         if (arquivo.getCode() == 0)
                         {
                             System.out.println("\nTipo: " + formataTipo(v.getTipo()));
-                            System.out.println("-----------------------------------------------------------");
-                            
-                            for (Object vei : arquivo.getObjetos())
+                            if (arquivo.getObjetos().size() > 0)
                             {
-                                v = (Veiculo) vei;
-                                
-                                System.out.print("Placa: " + v.getPlaca());
-                                System.out.print(" Capacidade: " + v.getCapacidade());
-                                System.out.print(" Unidade: " + v.getUncapac());
-                                System.out.println("\n-----------------------------------------------------------");
+                                System.out.println("-----------------------------------------------------------");
+                            
+                                for (Object vei : arquivo.getObjetos())
+                                {
+                                    v = (Veiculo) vei;
+
+                                    System.out.print("Placa: " + v.getPlaca());
+                                    System.out.print(" Capacidade: " + v.getCapacidade());
+                                    System.out.print(" Unidade: " + v.getUncapac());
+                                    System.out.println("\n-----------------------------------------------------------");
+                                }
                             }
+                            else
+                            {
+                                System.out.println("-----------------------------------------------------------");
+                                System.out.println("Nenhum veículo encontrado!");
+                                System.out.println("-----------------------------------------------------------");
+                            }
+
                         }
                         else if (arquivo.getCode() == 1)
                         {
@@ -313,16 +325,26 @@ public class TCPClient {
                         if (arquivo.getCode() == 0)
                         {
                             System.out.println("\nVeiculo: " + v.getPlaca());
-                            System.out.println("-----------------------------------------------------------");
                             
-                            for (Object pos : arquivo.getObjetos())
+                            if (arquivo.getObjetos().size() > 0)
                             {
-                                Posicao p = (Posicao) pos;
-                                
-                                System.out.print("Data: " + p.getDatahora().toString());
-                                System.out.print(" Latitude: " + p.getLatitude());
-                                System.out.print(" Longitude: " + p.getLongitude());
-                                System.out.println("\n-----------------------------------------------------------");
+                                System.out.println("-----------------------------------------------------------");
+
+                                for (Object pos : arquivo.getObjetos())
+                                {
+                                    Posicao p = (Posicao) pos;
+
+                                    System.out.print("Data: " + p.getDatahora().toString());
+                                    System.out.print(" Latitude: " + p.getLatitude());
+                                    System.out.print(" Longitude: " + p.getLongitude());
+                                    System.out.println("\n-----------------------------------------------------------");
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("-----------------------------------------------------------");
+                                System.out.println("Nenhuma localização encontrada!");
+                                System.out.println("-----------------------------------------------------------");
                             }
                         }
                         else if (arquivo.getCode() == 1)
@@ -340,7 +362,9 @@ public class TCPClient {
                         System.exit(0);
                         break;
                     default:
-                        System.out.println("Operação Inválida");
+                        System.out.println("\n----------------------------------------------------");
+                        System.out.println("Erro: Operação Inválida!");
+                        System.out.println("----------------------------------------------------\n");
                         break;
                 }
             }
