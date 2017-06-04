@@ -141,7 +141,7 @@ public class WebServiceRest {
     }
     
     @GET
-    @Path("/get/listar-tipo/{idTipo}")
+    @Path("/get/consultar-veiculos-tipo/{idTipo}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Veiculo> listaTipo(@PathParam("idTipo")  Integer idTipo) throws Exception{
         try {
