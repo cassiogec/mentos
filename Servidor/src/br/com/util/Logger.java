@@ -16,41 +16,36 @@ import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- *
- * @author Fabrício Pedroso Nunes
- */
 public class Logger
 {
-    public static void logMethod(String fileName) throws IOException
+    public static void logMethod(String fileName, String fileException) throws IOException
     {       
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         String classLog                        = "";
         
         for (int i = 0; i < stackTraceElements.length; i++)
         {
-            if (!stackTraceElements[i].getClassName().contains("Logger") && stackTraceElements[i].getClassName().contains("br.com"))
-            {
-                if (i != 0)
-                    classLog += " >> ";
-                
-                classLog += stackTraceElements[i].getClassName() + "." + stackTraceElements[i].getMethodName();
-            }
+            if (!stackTraceElements[i].getClassName().contains("Logger") && stackTraceElements[i].getClassName().contains("br.com"))  
+              classLog += stackTraceElements[i].getClassName() + "." + stackTraceElements[i].getMethodName();            
         }
         
-        String log = classLog + System.getProperty("line.separator");
-        writeEspecificLog(fileName, log);
+        String log = classLog;
+        writeEspecificLog(fileName, log, fileException);
     }
     
-    public static void writeEspecificLog(String arq, String dsLog) throws IOException
+    public static void writeEspecificLog(String arq, String dsLog, String fileException) throws IOException
     {
         String arquivo = getFileName(arq);
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
         Date data            = new Date();
-        String dataAtual     = sdf.format(data);
+        String dataAtual     = sdf.format(data);    
         
-        dsLog = dataAtual + " >> " + dsLog.replaceAll("\\n", System.getProperty("line.separator"));
+        if (fileException == "")        
+          dsLog = dataAtual + " >> " + dsLog + System.getProperty("line.separator");        
+        else        
+          dsLog = dataAtual + " >> " + dsLog + "  Erro (" + fileException + ");" + System.getProperty("line.separator");        
+        
         Files.write(Paths.get(arquivo), dsLog.getBytes(), StandardOpenOption.APPEND);
     }
     

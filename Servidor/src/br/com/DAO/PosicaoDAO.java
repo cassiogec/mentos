@@ -78,6 +78,8 @@ public class PosicaoDAO {
         if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+        posicao.getVeiculo().setPlaca(posicao.getVeiculo().getPlaca().toUpperCase());
+        
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
@@ -99,6 +101,8 @@ public class PosicaoDAO {
         if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+        posicao.getVeiculo().setPlaca(posicao.getVeiculo().getPlaca().toUpperCase());
+        
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);

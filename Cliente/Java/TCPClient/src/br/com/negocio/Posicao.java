@@ -6,6 +6,7 @@ import java.sql.Array;
 import java.util.Calendar;
 import java.util.Calendar;
 import java.util.Objects;
+import static javassist.CtMethod.ConstParameter.integer;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

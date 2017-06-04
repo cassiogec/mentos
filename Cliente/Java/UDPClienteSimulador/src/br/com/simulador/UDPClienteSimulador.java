@@ -31,6 +31,13 @@ public class UDPClienteSimulador {
         Scanner leitor = new Scanner(System.in);
         List<UDPClientSimuladorThread> listThreads = new ArrayList<UDPClientSimuladorThread>();
         
+        System.out.println("Digite o IP de conexão ou deixe em branco para 'localhost': ");
+
+        String host = leitor.nextLine();
+
+        if (host.equals(""))
+            host = "localhost";
+            
         while (true)
         {
             System.out.println("Digite o código da operação: ");
@@ -60,7 +67,7 @@ public class UDPClienteSimulador {
                         System.out.println("Segundos entre cada envio de posição: ");
                         Integer tempo = Integer.parseInt(leitor.nextLine());
                         
-                        UDPClientSimuladorThread t = new UDPClientSimuladorThread(placa, jsonArray, tempo);
+                        UDPClientSimuladorThread t = new UDPClientSimuladorThread(placa, jsonArray, tempo, host);
                         t.start();
                         
                         listThreads.add(t);
