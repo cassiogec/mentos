@@ -202,41 +202,41 @@ public class UDPService extends Thread {
                 
                 
                 //RETORNANDO A REQUISIÇÃO
-                InetAddress end_requisicao = pacote.getAddress();
-                int porta_requisicao = pacote.getPort();
-
-                soc.close();
-
-                String msg_retorno = new String(pacote.getData());
-                msg_retorno = msg_retorno.toUpperCase();
-
-                buffer = msg_retorno.getBytes();
-
-                DatagramSocket sock = null;
-
-                try {
-                    sock = new DatagramSocket();
-                } catch (SocketException ex) {
-                    Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                DatagramPacket pack = new DatagramPacket(buffer, buffer.length, end_requisicao, porta_requisicao);
-
-                int tentativas_entrega = 10;
-                int controle = 0;
-                while(true){
-                    if(controle < tentativas_entrega){
-                        try {
-                            sock.send(pack);
-                            //System.out.println("sock enviou "+controle+" vezes");
-                            controle++;
-                        } catch (IOException ex) {
-                            Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    else
-                        break;
-                }            
+//                InetAddress end_requisicao = pacote.getAddress();
+//                int porta_requisicao = pacote.getPort();
+//
+//                soc.close();
+//
+//                String msg_retorno = new String(pacote.getData());
+//                msg_retorno = msg_retorno.toUpperCase();
+//
+//                buffer = msg_retorno.getBytes();
+//
+//                DatagramSocket sock = null;
+//
+//                try {
+//                    sock = new DatagramSocket();
+//                } catch (SocketException ex) {
+//                    Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//
+//                DatagramPacket pack = new DatagramPacket(buffer, buffer.length, end_requisicao, porta_requisicao);
+//
+//                int tentativas_entrega = 10;
+//                int controle = 0;
+//                while(true){
+//                    if(controle < tentativas_entrega){
+//                        try {
+//                            sock.send(pack);
+//                            //System.out.println("sock enviou "+controle+" vezes");
+//                            controle++;
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                    }
+//                    else
+//                        break;
+//                }            
         }
     }
 
@@ -259,7 +259,6 @@ public class UDPService extends Thread {
 //        } catch (ParseException ex) {
 //            Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        car.clear();
         car.setTime(new Date());
         pos_aux.setDatahora(car);
         pos_aux.setLatitude(Float.parseFloat(msg_recebida[1]));

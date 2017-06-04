@@ -25,36 +25,39 @@ public class UDPServiceAux extends Thread{
     private Long timestatus;
 
     public void run(){
-        try {
-            sleep(timeexecucao);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(UDPServiceAux.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-        List <Veiculo> listaveiculos = new VeiculoDAO().consultarVeiculos();
-        List <Posicao> posicoescadaveiculo;
-        
-        String placa = null;
-        String status = null;
-        Calendar datahora = Calendar.getInstance();
-        Calendar datahora_atual = Calendar.getInstance();
-        
-        for (Veiculo vei : listaveiculos) {
-            posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
-            for (Posicao pos : posicoescadaveiculo) {
-                datahora = pos.getDatahora();
+        while(true){
+            try {
+                sleep(timeexecucao*1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UDPServiceAux.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if(datahora_atual.getTimeInMillis() < datahora.getTimeInMillis()+ timestatus){
-                status = "Veículo Suspeito de estar fora da area de cobertura";
-            } else {
-                status = "Veículo fora da área de cobertura";
+            List <Veiculo> listaveiculos = new VeiculoDAO().consultarVeiculos();
+            List <Posicao> posicoescadaveiculo;
+
+            String placa = null;
+            String status = null;
+            Calendar datahora = Calendar.getInstance();
+            Calendar datahora_atual = Calendar.getInstance();
+
+            for (Veiculo vei : listaveiculos) {
+                posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
+                for (Posicao pos : posicoescadaveiculo) {
+                    datahora = pos.getDatahora();
+                }
+
+                if(datahora_atual.getTimeInMillis() < datahora.getTimeInMillis()+ timestatus){
+                    status = "Veículo Suspeito de estar fora da area de cobertura";
+                } else {
+                    status = "Veículo fora da área de cobertura";
+                }
+                System.out.println("Placa: "+vei.getPlaca()+" Status: "+status+" Data/Hora: "+datahora);
+
             }
-            System.out.println("Placa: "+vei.getPlaca()+" Status: "+status+"Data/Hora "+datahora);
-               
+
+            System.out.println("Fim da Execução da Segunda Thread");
         }
-        
-        System.out.println("executou a segunda thread, Data Hora "+datahora);
         
     }
 

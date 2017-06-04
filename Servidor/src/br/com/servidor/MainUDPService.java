@@ -7,6 +7,7 @@ package br.com.servidor;
 
 
 import br.com.servidor.UDPService;
+import br.com.servidor.UDPServiceAux;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,14 +21,15 @@ public class MainUDPService {
      */
     public static void main(String[] args) throws Exception{
         
-        int intervaloexecucaothread =30; //Integer.parseInt(args[0]);
-        long intervalomudastatus = 5000;//Integer.parseInt(args[1]);
+        int intervaloexecucaothread = 20;//Integer.parseInt(args[0]);
+        long intervalomudastatus = 500; //Long.parseLong(args[1]);
+        
+        UDPServiceAux servAuxUDP = new UDPServiceAux(intervaloexecucaothread,intervalomudastatus);
+        servAuxUDP.start();
         
         UDPService servUDP = new UDPService();
         servUDP.start();
 
-        UDPServiceAux servAuxUDP = new UDPServiceAux(intervaloexecucaothread,intervalomudastatus);
-        servAuxUDP.start();
     }
     
 }
