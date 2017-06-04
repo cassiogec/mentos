@@ -9,4 +9,16 @@
             30
         </session-timeout>
     </session-config>
+    <servlet>
+        <servlet-name>CORS Filter</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+           <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
+           <param-value>br.com.servidor.rest.ResponseCorsFilter</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CORS Filter</servlet-name>
+        <url-pattern>/Servidor/*</url-pattern>
+    </servlet-mapping>
 </web-app>
