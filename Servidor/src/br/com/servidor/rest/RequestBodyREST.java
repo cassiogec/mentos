@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.servidor;
+package br.com.servidor.rest;
 
 import java.util.Calendar;
 import javax.xml.bind.annotation.XmlElement;
