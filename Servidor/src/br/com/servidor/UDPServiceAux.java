@@ -42,21 +42,24 @@ public class UDPServiceAux extends Thread{
             Calendar datahora_atual = Calendar.getInstance();
 
             for (Veiculo vei : listaveiculos) {
-                posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
+                posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());              
                 for (Posicao pos : posicoescadaveiculo) {
                     datahora = pos.getDatahora();
                 }
-
-                if(datahora_atual.getTimeInMillis() < datahora.getTimeInMillis()+ timestatus){
-                    status = "Veículo Suspeito de estar fora da area de cobertura";
-                } else {
-                    status = "Veículo fora da área de cobertura";
+                if(datahora.DAY_OF_YEAR == Calendar.getInstance().DAY_OF_YEAR){
+                    if(datahora_atual.getTimeInMillis() < datahora.getTimeInMillis()+ timestatus){
+                        status = "Veiculo Suspeito de estar fora da area de cobertura";
+                    } else {
+                        status = "Veiculo fora da área de cobertura";
+                    }
+                    System.out.println("Placa: "+vei.getPlaca()+" Status: "+status+" Data/Hora: "+datahora);
                 }
-                System.out.println("Placa: "+vei.getPlaca()+" Status: "+status+" Data/Hora: "+datahora);
-
+                else{
+                    System.out.println("Data/Hora da Posicao do Veiculo fora da especificacao");
+                }
             }
 
-            System.out.println("Fim da Execução da Segunda Thread");
+            System.out.println("Fim da Execucao da Atualizacao de Status dos Veiculos");
         }
         
     }

@@ -55,7 +55,7 @@ public class UDPService extends Thread {
                     Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                System.out.println("Servidor Recebeu a Menssagem :"+ new String(pacote.getData())+" Da Porta "+pacote.getPort());
+                System.out.println("Servidor Recebeu a Mensagem :"+ new String(pacote.getData())+" Da Porta "+pacote.getPort());
                 
                 String msg_recebida = new String(pacote.getData());
                 
@@ -169,7 +169,7 @@ public class UDPService extends Thread {
                     }
                 }
                 else{
-                    System.out.println("Operação Adiciona Posicao falhou, veiculo nao está inserido no banco");
+                    System.out.println("Operacao Adiciona Posicao falhou, veiculo nao esta inserido no banco");
                 }
 //                    }
 //                    //LOCALIZAÇÃO
