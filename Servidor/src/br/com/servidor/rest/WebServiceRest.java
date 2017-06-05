@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,7 +39,8 @@ public class WebServiceRest {
     @POST
     @Path("/post/incluir-veiculo")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean adicionarVeiculo(RequestBodyREST requestBodyREST) throws Exception {
+    @Produces(MediaType.APPLICATION_JSON)
+    public String adicionarVeiculo(RequestBodyREST requestBodyREST) throws Exception {
         try {
             Veiculo v = new Veiculo(requestBodyREST.dsPlaca, 
                     requestBodyREST.idTipo,
@@ -47,20 +49,22 @@ public class WebServiceRest {
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.incluir(v);
         //    Logger.logMethod("Rest", "");
-            return true;
+        return MsgReturn.retorna("true", "Cadastrou", v);
         } catch (SQLException e) { 
         //    Logger.logMethod("Rest", e.getMessage());
-            throw new Exception("Não foi possivel inserir o veículo.");
+        return MsgReturn.retorna("false", "Ops, algo deu errado");
+         //   throw new Exception("Não foi possivel inserir o veículo.");
         } catch (Exception ex) {
+            return MsgReturn.retorna("false", ex.getMessage());
         //    Logger.logMethod("Rest", ex.getMessage());
-            throw new Exception(ex.getMessage());
+          //  throw new Exception(ex.getMessage());
         }
     }
 
     @PUT
     @Path("/put/alterar-veiculo")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean alterarVeiculo(RequestBodyREST requestBodyREST) throws Exception {
+    public String alterarVeiculo(RequestBodyREST requestBodyREST) throws Exception {
         try {
             Veiculo v = new Veiculo(requestBodyREST.cdVeiculo,
                     requestBodyREST.dsPlaca,
@@ -70,13 +74,13 @@ public class WebServiceRest {
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.alterar(v);
            // Logger.logMethod("Rest", "");
-            return true;
+            return MsgReturn.retorna("true", "Alterado");
         } catch (SQLException e) {
            // Logger.logMethod("Rest", e.getMessage());
-            throw new Exception("Não foi possivel alterar o veículo.");
+            return MsgReturn.retorna("false", "Não foi possível alterar");
         } catch (Exception ex) {
            // Logger.logMethod("Rest", ex.getMessage());
-            throw new Exception(ex.getMessage());
+           return MsgReturn.retorna("false", ex.getMessage());
         }
     }
     
@@ -85,22 +89,24 @@ public class WebServiceRest {
     * estaria corrigido, porém, não conseguimos usa-lo.
     * Link: http://bugs.java.com/view_bug.do?bug_id=7157360
     */
-    @POST
-    @Path("/delete/excluir-veiculo")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean excluirVeiculo(RequestBodyREST requestBodyREST) throws Exception{
+    @GET
+    @Path("/delete/excluir-veiculo/{cdVeiculo}")
+//    @Consumes(MediaType.APPLICATION_JSON)
+    public String excluirVeiculo(@PathParam("cdVeiculo")  Integer cdVeiculo) throws Exception{
         try {
-            Veiculo v = new Veiculo(requestBodyREST.cdVeiculo);
+            Veiculo v = new Veiculo(cdVeiculo);
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.excluir(v);
         //    Logger.logMethod("Rest", "");
-            return true;
+            return MsgReturn.retorna("true", "Excluido");
         }  catch (SQLException e) {
         //    Logger.logMethod("Rest", e.getMessage());
-            throw new Exception("Não foi possivel excluir o veículo.");
+        return MsgReturn.retorna("false","possível");
+           // throw new Exception("Não foi possivel excluir o veículo.");
         } catch (Exception ex) {
         //    Logger.logMethod("Rest", ex.getMessage());
-            throw new Exception(ex.getMessage());
+            return MsgReturn.retorna("false", ex.getMessage());
+           // throw new Exception(ex.getMessage());
         }
     }
     
@@ -116,7 +122,6 @@ public class WebServiceRest {
                 v.setPosicoes(null);
             }
             
-          //  Logger.logMethod("Rest", "");
             return list;
         } catch (Exception ex) {
          //   Logger.logMethod("Rest", ex.getMessage());
@@ -139,6 +144,23 @@ public class WebServiceRest {
             throw new Exception("Não foi possivel consultar o veículo");
         }
     }
+    
+      @GET
+    @Path("/get/consultar-veiculos-placa/{dsPlaca}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Veiculo consultarVeiculoPlaca(@PathParam("dsPlaca")  String dsPlaca) throws Exception{
+       try {
+            VeiculoDAO vdao = new VeiculoDAO();
+            Veiculo veiculo = vdao.consultarVeiculo(dsPlaca);
+            veiculo.setPosicoes(null);
+        //    Logger.logMethod("Rest", "");
+            return veiculo;
+        } catch (Exception ex) {
+        //    Logger.logMethod("Rest", ex.getMessage());
+            throw new Exception("Não foi possivel consultar o veículo");
+        }
+    }
+    
     
     @GET
     @Path("/get/consultar-veiculos-tipo/{idTipo}")
