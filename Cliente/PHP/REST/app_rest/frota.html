@@ -40,27 +40,29 @@ and open the template in the editor.
 
         <script src="js/jquery.maskedinput.js" type="text/javascript"></script>
         
-        <script type="text/javascript" language="javascript" src="consulta_veiculos.json"></script> 
-
+        <script type="text/javascript" src="js/request.js"> </script>
+        
         <script type="text/javascript" src="js/js-cadastro.js"> </script>
-
+        
+        <script type="text/javascript" src="js/js-exclui.js"> </script>
+        
         <script type="text/javascript" src="js/js-filtro.js"> </script>
         
+        <script type="text/javascript" src="js/js-search.js"> </script>
 
-        
         <script id="listaFrota" type="text/x-jquery-tmpl">
 
             <tr dt_id="${codigo}"> 
                 <th scope="row"></th> 
-                <td><a data-toggle="modal" data-target="#menu-dialog" id="modal_localizacao">${placa}</a></td> 
-                <td>${tipo}</td> 
-                <td>${capacidade}</td>
-                <td>${uncapac}</td>
+                <td><a dt_id='${codigo}' id='dsPlaca' data-toggle="modal" data-target="#menu-dialog" id="modal_localizacao">${placa}</a></td> 
+                <td dt_id='${codigo}' id='idTipo' >${tipo}</td> 
+                <td dt_id='${codigo}' id='vlCapacidade' >${capacidade}</td>
+                <td dt_id='${codigo}' id='dsUnidade' >${uncapac}</td>
                <td>
-                    <a id="alterar" dt_id="${codigo}" style="margin:0px; " href="javascript:void(0)" data-toggle="modal" data-target="#insert-dialog" class="btn btn-block btn-success">Alterar</a>
+                    <a id="alterar" dt_id="${codigo}" style="margin:0px; " data-toggle="modal" data-target="#insert-dialog" class="btn btn-block btn-success">Alterar</a>
                 </td>
                 <td>
-                    <a id="deletar" dt_id="${codigo}" style="margin:0px; " href="javascript:void(0)" data-toggle="modal" data-target="#delete-dialog" class="btn btn-block btn-danger">Excluir</a>
+                    <a id="deletar" dt_id="${codigo}" style="margin:0px; " data-toggle="modal" data-target="#delete-dialog" class="btn btn-block btn-danger">Excluir</a>
                 </td>
             </tr>      
         </script>
@@ -131,7 +133,7 @@ and open the template in the editor.
                 <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">Cadastro de veículos</h4>
+                    <h4 id="modal_title" class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
                 </div>
@@ -189,7 +191,7 @@ and open the template in the editor.
                             <span id="alert" class="label label-warning"></span>
                         </div>
                         <div class="col-md-8 col-md-offset-2">
-                            <a id="inserir" href="javascript:void(0)" class="btn btn-raised btn-success">Inserir</a>
+                            <a id="inserir" dt_id="null" dt_fruit="null" class="btn btn-raised btn-success">Inserir</a>
                         </div>
                     </div>
                 </div>
@@ -278,12 +280,12 @@ and open the template in the editor.
                                 <div class="col-md-6">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Informe a placa">
+                                            <input id="ipt_search" type="text" class="form-control" placeholder="Informe a placa">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <a href="javascript:void(0)" class="btn btn-raised btn-info">Buscar<div class="ripple-container"></div></a>   
+                                            <a id="btn_search" class="btn btn-raised btn-info">@<div class="ripple-container"></div></a>   
                                         </div>
                                     </div>
                                 </div>
@@ -331,9 +333,9 @@ and open the template in the editor.
             </div>
         </div>
     </div>
-         <div style="position: fixed;bottom:23px; right: 23px;" id="box_fab_button">
-            <a style="position: relative;" id="btn_insert" href="javascript:void(0)" data-toggle="modal" data-target="#insert-dialog" class="btn btn-primary btn-fab"><i class="material-icons">add</i></a>
-        </div>
+     <div style="position: fixed;bottom:23px; right: 23px;" id="box_fab_button">
+        <a style="position: relative;" id="btn_insert" data-toggle="modal" data-target="#insert-dialog" class="btn btn-primary btn-fab"><i class="material-icons">add</i></a>
+    </div>
         
         <!-- Material Design for Bootstrap -->
         <script src="dist/js/material.js"></script>

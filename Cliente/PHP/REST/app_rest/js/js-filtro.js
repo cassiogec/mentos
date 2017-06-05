@@ -7,46 +7,53 @@
 
 $(document).on('click', 'a#fil_tipo', function() {
     $('#title_drop_tipo').text($(this).text());
+    
     var tipo = $(this).attr('dt_id');
     
     if(tipo == -1) {
         var parameters = {
            method : 'GET',
-             data : tipo,
-              url : 'get/listar-tipo/'
+             data : null,
+      contentType : null,
+              url : 'get/consultar-veiculos/'
         };
         
         $('#table_results').empty();
-        $.getJSON( "consulta_veiculos.json" , function( result ){
-            console.log(result);
-            cont = 0;
-            $('#listaFrota').tmpl(result).appendTo("#table_results");
-        });
-        
-    }else {
+        requestService(parameters)
+            .done(function(ret) 
+            {
+                $.each(ret, function(key, value) 
+                {   
+                    value['tipo'] = setaTipo(value['tipo']);   
+                });
+                $('#listaFrota').tmpl(ret).appendTo("#table_results");
+            })
+            .fail(function (ret) 
+            {
+                console.log('não, não deu');
+            });
+    } else {
         var parameters = {
            method : 'GET',
              data : null,
-              url : 'get/consultar-veiculos'
+      contentType : null,
+              url : 'get/consultar-veiculos-tipo/'+tipo
         };
         
         $('#table_results').empty();
-        $.getJSON( "consulta_veiculos_tipo.json" , function( result ){
-            console.log(result);
-            cont = 0;
-            $('#listaFrota').tmpl(result).appendTo("#table_results");
-        });
+        
+        requestService(parameters)
+            .done(function(ret) 
+            {
+                $.each(ret, function(key, value) 
+                {   
+                    value['tipo'] = setaTipo(value['tipo']);   
+                });
+                $('#listaFrota').tmpl(ret).appendTo("#table_results");
+            })
+            .fail(function (ret) 
+            {
+                console.log('não, não deu');
+            });
     }
-    
-//    requestService(parameters)
-//        .done(function(ret) 
-//        {
-//            a = 
-//            console.log('oi, deu');
-//        })
-//        .fail(function (ret) 
-//        {
-//            console.log('não, não deu');
-//        }); 
-
 });
