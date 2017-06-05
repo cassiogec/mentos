@@ -4,6 +4,12 @@
  * and open the template in the editor.
  */
 
+$(document).on('click', 'a#abre_mapa', function() {
+    var id = $(this).attr('dt_id');
+    
+    location.href = 'maps.html?veiculo='+id;
+});
+
 $(document).on('click' ,'a#dsPlaca', function() 
 {
     var id = $(this).attr('dt_id');
@@ -13,7 +19,7 @@ $(document).on('click' ,'a#dsPlaca', function()
     $('a#listar').attr('dt_placa', placa);
     
     $('a#lista').attr('dt_id', id);
-    $('a#mapa').attr('dt_id', id);
+    $('a#abre_mapa').attr('dt_id', id);
     
 });
 
