@@ -21,14 +21,14 @@ import java.util.logging.Logger;
  */
 public class UDPServiceAux extends Thread{
     
-    private Integer timeexecucao;
-    private Long timestatus;
+    private Integer atualizacao;
+    private Long ciclos;
 
     public void run(){
         
         while(true){
             try {
-                sleep(timeexecucao*1000);
+                sleep(atualizacao*1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(UDPServiceAux.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -50,9 +50,9 @@ public class UDPServiceAux extends Thread{
                     }
                    
                     if(datahora.DAY_OF_YEAR == Calendar.getInstance().DAY_OF_YEAR){
-                        if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + ((timestatus * timeexecucao) * 1000))) {
+                        if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + ((ciclos * atualizacao) * 1000))) {
                             status = "Fora da Area de cobertura";
-                        } else if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + (timestatus * 1000))) {
+                        } else if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + (atualizacao * 1000))) {
                             status = "Suspeito de estar fora da Area de Cobertura";
                         } else {
                             status = "Dentro da Area de Cobertura";
@@ -77,24 +77,24 @@ public class UDPServiceAux extends Thread{
     }
 
     public UDPServiceAux(Integer timeexecucao, Long timestatus) {
-        this.timeexecucao = timeexecucao;
-        this.timestatus = timestatus;
+        this.atualizacao = timeexecucao;
+        this.ciclos = timestatus;
     }
 
-    public Integer getTimeexecucao() {
-        return timeexecucao;
+    public Integer getAtualizacao() {
+        return atualizacao;
     }
 
-    public void setTimeexecucao(Integer timeexecucao) {
-        this.timeexecucao = timeexecucao;
+    public void setAtualizacao(Integer atualizacao) {
+        this.atualizacao = atualizacao;
     }
 
-    public Long getTimestatus() {
-        return timestatus;
+    public Long getCiclos() {
+        return ciclos;
     }
 
-    public void setTimestatus(Long timestatus) {
-        this.timestatus = timestatus;
+    public void setCiclos(Long ciclos) {
+        this.ciclos = ciclos;
     }
 }
 
