@@ -5,31 +5,24 @@
  */
 package br.com.servidor;
 
-
-import br.com.servidor.UDPService;
-import br.com.servidor.UDPServiceAux;
-import java.util.concurrent.TimeUnit;
-
 /**
  *
  * @author Rubens Rangel da Silva
  */
-public class MainUDPService {
+public class MainUDPService
+{
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception{
-        
-        int intervaloexecucaothread = 20;//Integer.parseInt(args[0]);
-        long intervalomudastatus = 500; //Long.parseLong(args[1]);
+        int intervaloexecucaothread = 6;//Integer.parseInt(args[0]);
+        long intervalomudastatus    = 10; //Long.parseLong(args[1]);
         
         UDPServiceAux servAuxUDP = new UDPServiceAux(intervaloexecucaothread,intervalomudastatus);
         servAuxUDP.start();
         
         UDPService servUDP = new UDPService();
         servUDP.start();
-
     }
-    
 }

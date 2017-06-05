@@ -25,6 +25,5 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(br.com.servidor.rest.WebServiceRest.class);
-        resources.add(br.com.servidor.rest.ResponseCorsFilter.class);
     }
 }
