@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import br.com.util.Logger;
 
 /**
  *
@@ -47,10 +48,13 @@ public class TCPServiceThread extends Thread{
             Veiculo v = new Veiculo(dsPlaca, idTipo, vlCapacidade, dsUnidade);
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.incluir(v);
+            Logger.logMethod("TCP", "");
             return true;
         } catch (SQLException e) {
+            Logger.logMethod("TCP", e.getMessage());
             throw new Exception("Não foi possivel inserir o veículo.");
         } catch (Exception ex) {
+            Logger.logMethod("TCP",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -64,10 +68,13 @@ public class TCPServiceThread extends Thread{
             Veiculo v = new Veiculo(vdao.consultarVeiculo(dsPlaca).getCodigo(), dsPlaca, idTipo, vlCapacidade, dsUnidade);
             
             vdao.alterar(v);
+            Logger.logMethod("TCP", "");
             return true;
         } catch (SQLException e) {
+            Logger.logMethod("TCP", e.getMessage());
             throw new Exception("Não foi possivel alterar o veículo.");
         } catch (Exception ex) {
+            Logger.logMethod("TCP",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -78,10 +85,13 @@ public class TCPServiceThread extends Thread{
             System.out.println(vdao.consultarVeiculo(dsPlaca).getCodigo());
             Veiculo v = new Veiculo(vdao.consultarVeiculo(dsPlaca).getCodigo());
             vdao.excluir(v);
+            Logger.logMethod("TCP", "");
             return true;
         }  catch (SQLException e) {
+            Logger.logMethod("TCP", e.getMessage());
             throw new Exception("Não foi possivel excluir o veículo.");
         } catch (Exception ex) {
+            Logger.logMethod("TCP",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -91,8 +101,10 @@ public class TCPServiceThread extends Thread{
             VeiculoDAO vdao = new VeiculoDAO();
             Veiculo v = vdao.consultarVeiculo(dsPlaca);
             v.setPosicoes(null);
+            Logger.logMethod("TCP", "");
             return v;
         } catch (Exception ex) {
+            Logger.logMethod("TCP",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -105,8 +117,10 @@ public class TCPServiceThread extends Thread{
             for (Veiculo v : list) {
                 v.setPosicoes(null);
             }
+            Logger.logMethod("TCP", "");
             return list;
         } catch (Exception ex) {
+            Logger.logMethod("TCP",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -119,8 +133,10 @@ public class TCPServiceThread extends Thread{
             for (Veiculo v : list) {
                 v.setPosicoes(null);
             }
+            Logger.logMethod("TCP", "");
             return list;
         } catch (Exception ex) {
+            Logger.logMethod("TCP",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -145,10 +161,11 @@ public class TCPServiceThread extends Thread{
             for (Posicao p : list) {
                 p.setVeiculo(null);
             }
-            
+            Logger.logMethod("TCP", "");
             return list;
             
         } catch (Exception ex) {
+            Logger.logMethod("TCP",  ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
