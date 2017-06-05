@@ -33,13 +33,11 @@ public class PosicaoDAO {
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
             s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
-            System.out.println("BANCO ORIGINAL");
             reaope=true;
             return s;
         }
         catch (ExceptionInInitializerError ex) {
                 Session s2 = HibernateUtil3.getSessionFactory2().openSession();
-                System.out.println("BANCO REPLICADO");
                 reaope=false;
                 return s2;
         } 
@@ -133,7 +131,7 @@ public class PosicaoDAO {
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public Posicao consultarPosicao(int codvei, int posicao){
         Session s = retornaSession();
-        Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b")
+        Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b ORDER BY datahora")
                     .setInteger("a", posicao)
                     .setInteger("b", codvei)
                     .setTimeout(30)
@@ -146,7 +144,7 @@ public class PosicaoDAO {
     public List<Posicao> consultarPosicao(int codvei, Calendar datIni) throws Exception{
         Session s = retornaSession();
         
-        List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND veiculo.codigo = :b")
+        List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND veiculo.codigo = :b ORDER BY datahora")
                     .setCalendar("a", datIni)
                     .setInteger("b", codvei)
                     .setTimeout(30)
@@ -158,7 +156,7 @@ public class PosicaoDAO {
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public List<Posicao> consultarPosicoesCarro(int codvei){
         Session s = retornaSession();
-        List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a")
+        List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a ORDER BY datahora")
                     .setInteger("a", codvei)
                     .setTimeout(30)
                     .list();
