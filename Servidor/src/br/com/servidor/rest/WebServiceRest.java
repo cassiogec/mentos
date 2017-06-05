@@ -197,6 +197,10 @@ public class WebServiceRest {
                         requestBodyREST.dtLocalizacao);
             }
             
+            for (Posicao p : list) {
+                p.setVeiculo(null);
+            }
+            
         //    Logger.logMethod("Rest", "");
             return list;
             
