@@ -51,7 +51,7 @@ public class Logger
     
     private static String getFileName(String arq) throws FileNotFoundException, UnsupportedEncodingException
     {
-        String arquivo = "logs/log" + arq + ".txt";
+        String arquivo = "log" + arq + ".txt";
         createLogFile(arquivo);
         return arquivo;
     }

@@ -37,7 +37,7 @@
      */
     public function __construct($idSilence = false)
     {
-      self::$wsdl = "http://{$_SESSION["s_ds_ip"]}:9876/Servidor/WebServiceSoap?wsdl";
+      self::$wsdl = "http://{$_SESSION["s_ds_ip"]}:8080/Servidor/WebServiceSoapService?wsdl";
       $this->idSilence = $idSilence;
       $this->createNewSoapClient();
     }
