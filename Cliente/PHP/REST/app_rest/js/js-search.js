@@ -14,26 +14,30 @@
 $(document).on('click', 'a#btn_search', function() 
 {    
         var placa = $('#ipt_search').val();
-        var parameters = {
-           method : 'GET',
-             data : null,
-      contentType : null,
-              url : 'get/consultar-veiculos-placa/'+placa
-        };
         
-        $('#table_results').empty();
-        requestService(parameters)
-            .done(function(ret) 
-            {
-                $.each(ret, function(key, value) 
-                {   
-                    value['tipo'] = setaTipo(value['tipo']);   
+        if(placa !="") 
+        {
+            var parameters = {
+               method : 'GET',
+                 data : null,
+          contentType : null,
+                  url : 'get/consultar-veiculos-placa/'+placa
+            };
+
+            $('#table_results').empty();
+            requestService(parameters)
+                .done(function(ret) 
+                {
+                    $.each(ret, function(key, value) 
+                    {   
+                        value['tipo'] = setaTipo(value['tipo']);   
+                    });
+                    $('#listaFrota').tmpl(ret).appendTo("#table_results");
+                })
+                .fail(function (ret) 
+                {
+                    console.log('não, não deu');
                 });
-                $('#listaFrota').tmpl(ret).appendTo("#table_results");
-            })
-            .fail(function (ret) 
-            {
-                console.log('não, não deu');
-            });
+        }
 });
 

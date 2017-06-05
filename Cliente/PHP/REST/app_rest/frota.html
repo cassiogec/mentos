@@ -60,7 +60,7 @@ and open the template in the editor.
 
             <tr dt_id="${codigo}"> 
                 <th scope="row"></th> 
-                <td><a dt_id='${codigo}' id='dsPlaca' data-toggle="modal" data-target="#menu-dialog" id="modal_localizacao">${placa}</a></td> 
+                <td><a dt_id='${codigo}' dt_placa='${placa}' id='dsPlaca' data-toggle="modal" data-target="#menu-dialog" id="modal_localizacao">${placa}</a></td> 
                 <td dt_id='${codigo}' id='idTipo' >${tipo}</td> 
                 <td dt_id='${codigo}' id='vlCapacidade' >${capacidade}</td>
                 <td dt_id='${codigo}' id='dsUnidade' >${uncapac}</td>
@@ -70,6 +70,13 @@ and open the template in the editor.
                 <td>
                     <a id="deletar" dt_id="${codigo}" style="margin:0px; " data-toggle="modal" data-target="#delete-dialog" class="btn btn-block btn-danger">Excluir</a>
                 </td>
+            </tr>      
+        </script>
+        
+        <script id="listaLocalizacao" type="text/x-jquery-tmpl">
+            <tr> 
+                <td>${latitude}</td> 
+                <td>${longitude}</td>
             </tr>      
         </script>
   
@@ -211,48 +218,48 @@ and open the template in the editor.
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <div class="col-md-4">
+                   <!-- <div class="col-md-4">
                         <div class="form-group has-success ">
-                            <label for="iptPlaca" class="col-md-2 control-label">Placa</label>
+                            <label for="iptPlaca_coord" class="col-md-2 control-label">Placa</label>
                             <div class="col-md-8">
-                                <input id="iptPlaca" type="text" class="form-control">
+                                <input id="iptPlaca_coord" type="text" class="form-control">
+                            </div>
+                        </div> 
+                    </div>-->
+                    <div class="col-md-4">
+                        <div class="form-group has-success is-empty">
+                            <label for="iptData_coord" class="col-md-2 control-label">Data</label>
+                            <div class="col-md-8">
+                                <input id="iptData_coord" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group has-success is-empty">
-                            <label for="iptCapacidade" class="col-md-2 control-label">Data</label>
+                            <label for="iptHora_coord" class="col-md-2 control-label">Hora</label>
                             <div class="col-md-8">
-                                <input id="iptCapacidade" type="text" class="form-control">
+                                <input id="iptHora_coord" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group has-success is-empty">
-                            <label for="iptCapacidade" class="col-md-2 control-label">Hora</label>
-                            <div class="col-md-8">
-                                <input id="iptCapacidade" type="text" class="form-control">
-                            </div>
+                        <div class="form-group">
+                            <a id="listar" dt_id="null" dt_placa="null" dt_fruit="null" class="btn btn-block btn-success">Listar</a>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <div class="col-md-6 col-md-offset-3">
-                                <a id="inserir" dt_id="null" dt_fruit="null" class="btn btn-block btn-success">Listar</a>
-                            </div>
-                        </div>
+                </div>
+                    <div style=" height: 300px; display: block; width: 600px;coverflow: auto;">
+                        <table id="t_location" style="display: none;" class="table"> 
+                            <thead> 
+                                <tr>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
+                                </tr> 
+                            </thead> 
+                            <tbody style="" id="table_location">
+                            </tbody> 
+                        </table> 
                     </div>
-                    <table style="display: none;" class="table"> 
-                        <thead> 
-                            <tr>
-                                <th>Latitude</th>
-                                <th>Longitude</th>
-                            </tr> 
-                        </thead> 
-                        <tbody id="table_lat_lng">
-                        </tbody> 
-                    </table> 
                 </div>
             </div>
           </div>

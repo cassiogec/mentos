@@ -4,9 +4,15 @@
  * and open the template in the editor.
  */
 
-//jQuery(function($){
-//  $('#iptPlaca').mask("aaa - 9999"); 
-//});
+jQuery(function($){
+    $('#iptPlaca').mask("aaa-9999");
+    
+    $('#iptPlaca_coord').mask("aaa-9999");
+    $('#iptData_coord').mask("99/99/9999");
+    $('#iptHora_coord').mask("99:99");
+
+    $("#iptUnidade").mask("A",  {minlength: 5,maxlength: 5});
+});
 
 function setaTipo(tipo) 
 {
@@ -76,6 +82,9 @@ $(document).on('click', 'a#inserir', function()
     var capacidade = $('#iptCapacidade').val();
     var tipo       = $('#iptTipo').val();
     var unidade    = $('#iptUnidade').val();
+    
+    placa = placa.replace('-', '');
+    console.log('placa: '+placa);
     
     if(placa != "" || capacidade != "" || tipo != "") 
     {    
