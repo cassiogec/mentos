@@ -43,6 +43,9 @@ function limpaFormulario()
     $('#iptCapacidade').val("");
     $('#iptTipo').val("");
     $('#iptUnidade').val("");
+    $('#drop_title').text("Selecione o Tipo");
+    
+    
 }
 
 function printAlert(res) {
@@ -116,7 +119,9 @@ $(document).on('click', 'a#inserir', function()
                 contentType : parameters.contentType,
                    dataType : "json",
                 data        : parameters.data,
-                success     : function (result) { result; },
+                success     : function (result) {
+                
+                },
                 error       : function (error) { error }
             });
         }
