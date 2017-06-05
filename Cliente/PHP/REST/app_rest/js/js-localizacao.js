@@ -7,7 +7,7 @@
 $(document).on('click', 'a#abre_mapa', function() {
     var id = $(this).attr('dt_id');
     
-    location.href = 'maps.html?veiculo='+id;
+    window.open('maps.html?veiculo='+id, '_blank');
 });
 
 $(document).on('click' ,'a#dsPlaca', function() 

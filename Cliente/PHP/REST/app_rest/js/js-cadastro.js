@@ -11,7 +11,7 @@ jQuery(function($){
     $('#iptData_coord').mask("99/99/9999");
     $('#iptHora_coord').mask("99:99");
 
-    $("#iptUnidade").mask("A",  {minlength: 5,maxlength: 5});
+//    $("#iptUnidade").mask("A",  {minlength: 5,maxlength: 5});
 });
 
 function setaTipo(tipo) 
@@ -104,22 +104,6 @@ $(document).on('click', 'a#inserir', function()
                 url    : 'post/incluir-veiculo/',
             };
         
-            console.log(parameters);
-
-            var new_veiculo = 
-            " <tr dt_id='10'>                  "
-            + "        <th scope='row'></th>   "
-            + "        <td dt_id='10' id='dsPlaca'>"+veiculo.dsPlaca+"</td>       "
-            + "        <td dt_id='10' id='dsTipo'>"+veiculo.idTipo+"</td>        "
-            + "        <td dt_id='10' id='dsCapacidade'> "+veiculo.vlCapacidade+"</td>  "
-            + "        <td dt_id='10' id='dsUnidade'>"+veiculo.dsUnidade+"</td>     "
-            + "       <td>"
-            + "            <a id='alterar' dt_id='10' style='margin:0px;' data-toggle='modal' data-target='#insert-dialog' class='btn btn-block btn-success'>Alterar</a> "
-            + "        </td>"
-            + "        <td>"
-            + "            <a id='deletar' dt_id='10' style='margin:0px;' data-toggle='modal' data-target='#delete-dialog' class='btn btn-block btn-danger'>Excluir</a> "
-            + "        </td>"
-            + "    </tr>     ";
        
             $.ajax({
                 crossDomain : true, 
@@ -128,8 +112,35 @@ $(document).on('click', 'a#inserir', function()
                 contentType : parameters.contentType,
                    dataType : "json",
                 data        : parameters.data,
-                success     : function (result) {
-                
+                success     : function (result) 
+                {
+                    if(result['ret']=='true') {
+                        $.each(result['objeto'], function(key, value) {
+                            if(key == 'codigo')  {
+                                 codigo = value;
+                            }
+                            if(key == 'placa')  {
+                                 placa = value;
+                            }
+
+                        });
+                        var new_veiculo = 
+                        " <tr dt_id='"+result['objeto']['codigo']+"'>                  "
+                        + "        <th scope='row'></th>   "
+                        + "        <td > <a dt_id='"+codigo+"' dt_placa='"+placa+"' id='dsPlaca' data-toggle='modal' data-target='#menu-dialog' id='modal_localizacao'> "+placa+" </a></td>"
+                        + "        <td dt_id='"+codigo+"' id='dsTipo'>"+veiculo.idTipo+"</td>        "
+                        + "        <td dt_id='"+codigo+"' id='dsCapacidade'> "+veiculo.vlCapacidade+"</td>  "
+                        + "        <td dt_id='"+codigo+"' id='dsUnidade'>"+veiculo.dsUnidade+"</td>     "
+                        + "       <td>"
+                        + "            <a id='alterar' dt_id='"+codigo+"' style='margin:0px;' data-toggle='modal' data-target='#insert-dialog' class='btn btn-block btn-success'>Alterar</a> "
+                        + "        </td>"
+                        + "        <td>"
+                        + "            <a id='deletar' dt_id='"+codigo+"' style='margin:0px;' data-toggle='modal' data-target='#delete-dialog' class='btn btn-block btn-danger'>Excluir</a> "
+                        + "        </td>"
+                        + "    </tr>     ";
+
+                        $('#table_results').append(new_veiculo);
+                    }
                 },
                 error       : function (error) { error }
             });
@@ -162,6 +173,7 @@ $(document).on('click', 'a#inserir', function()
                 data        : parameters.data,
                 success     : function (result) 
                 {     
+                    
                     $('a#dsPlaca[dt_id="'+id+'"]').text(veiculo.dsPlaca);
                     $('td#idTipo[dt_id="'+id+'"]').text(setaTipo(veiculo.idTipo));
                     $('td#vlCapacidade[dt_id="'+id+'"]').text(veiculo.vlCapacidade);

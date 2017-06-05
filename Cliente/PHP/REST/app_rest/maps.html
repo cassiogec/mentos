@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Simple Polylines</title>
+    <title>Rota do veículo - Maps</title>
     
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -54,10 +54,27 @@
         margin: 0;
         padding: 0;
       }
+      
+/* do not group these rules */
+*::-webkit-input-placeholder {
+    color: red;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: red;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: red;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: red;
+}
     </style>
   </head>
   <body>
-      <div style=" z-index: 9000; font-weight: bold; background-color: #6495ED; box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);" class="navbar">
+      <div style=" color: #333; position: fixed; width: 100%; z-index: 9000; opacity: 1.8; font-weight: bold; background-color: rgba(0,0,0,0.1); box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);" class="navbar navbar-success">
             <div class="container-fluid">
                 <div class="container">
               <div class="navbar-header">
@@ -69,7 +86,7 @@
                 <a class="navbar-brand" href="javascript:void(0)">Brand</a>
               </div>
               <div class="navbar-collapse navbar-warning-collapse collapse in" aria-expanded="true">
-                <ul class="nav navbar-nav">
+              <!--  <ul class="nav navbar-nav">
                   <li class="dropdown">
                     <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Menu
                       <b class="caret"></b></a>
@@ -82,9 +99,23 @@
                       <li><a href="javascript:void(0)">Empresas cadastradas</a></li>
                     </ul>
                   </li>
-                </ul>
+                </ul> -->
+                <form class="navbar-form navbar-left">
+                  <div class="form-group is-empty">
+                    <input type="text" class="form-control col-md-8" placeholder="Informe a placa">
+                  </div>
+                  <div class="form-group is-empty">
+                    <input type="text" class="form-control col-md-8" placeholder="Informe a data">
+                  </div>
+                  <div class="form-group is-empty">
+                    <input type="text" class="form-control col-md-8" placeholder="Informe a hora">
+                  </div>
+                  <div class="form-group is-empty">
+                        <a id="btn_search" style="margin: 0px;" class="btn btn-raised btn-info">Pesquisar<div class="ripple-container"></div></a>   
+                  </div>
+                </form>
                 <ul class="nav navbar-nav navbar-right">
-                  <li><a href="">Daniel Matheus</a></li>
+                  <li><a style="color: #333;" href="">Daniel Matheus</a></li>
                     
                   <li class="dropdown">
                     <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -104,7 +135,7 @@
         </div>
       
           
-    <div style="z-index: 8000; margin-top: -30px; height: 100%; width: 100%;" id="map"></div>
+    <div style="position: fixed; z-index: 8000; height: 100%; width: 100%;" id="map"></div>
     <script>
 
       // This example creates a 2-pixel-wide red polyline showing the path of William
