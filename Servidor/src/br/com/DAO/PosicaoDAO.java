@@ -109,7 +109,7 @@ public class PosicaoDAO {
         s.close();
     }
     
-    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
+    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR (THROWS)
     public void excluir(Posicao posicao) throws Exception{ 
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         if (posicao == null)
