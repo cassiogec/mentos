@@ -11,8 +11,6 @@ import br.com.negocio.Posicao;
 import br.com.negocio.Veiculo;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,29 +40,29 @@ public class UDPServiceAux extends Thread{
             String placa = null;
             String status = null;
             Calendar datahora = null;
-            //System.out.println("Tamnha da lista de veiculo"+listaveiculos.size());
             for (Veiculo vei : listaveiculos) {
         
                 posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
-                //System.out.println("Veiculo placa "+vei.getPlaca()+" Tamanho da lista de Posicoes "+posicoescadaveiculo.size());
                 if(posicoescadaveiculo.size()>0){
                     
                     for (Posicao pos : posicoescadaveiculo) {
                         datahora = pos.getDatahora();
-                        System.out.println("Placa "+vei.getPlaca()+" DataHora: "+datahora);
                     }
                    
                     if(datahora.DAY_OF_YEAR == Calendar.getInstance().DAY_OF_YEAR){
-                        if(Calendar.getInstance().getTimeInMillis() < datahora.getTimeInMillis()+ timestatus){
+                        if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + ((timestatus * timeexecucao) * 1000))) {
+                            status = "Fora da Area de cobertura";
+                        } else if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + (timestatus * 1000))) {
                             status = "Suspeito de estar fora da Area de Cobertura";
                         } else {
-                            status = "Fora da Area de cobertura";
+                            status = "Dentro da Area de Cobertura";
                         }
+                        
                         ObjetosApresentar o = new ObjetosApresentar(vei.getPlaca(), datahora, status);
                         listaapresentar.add(o);
                     }
                     else{
-                        System.out.println("Data/Hora da Posicao do Veiculo fora da especificacao trabalho");
+                        System.err.println("Data/Hora da Posicao do Veiculo fora da especificacao trabalho");
                     }
                      
                 }    
@@ -75,10 +73,7 @@ public class UDPServiceAux extends Thread{
                 System.out.println("Veiculo: "+a.getPlaca()+" Status: "+a.getStatus());
                 
             }
-
-            System.out.println("Fim da Execucao da Atualizacao de Status dos Veiculos");
         }
-        
     }
 
     public UDPServiceAux(Integer timeexecucao, Long timestatus) {
@@ -101,8 +96,5 @@ public class UDPServiceAux extends Thread{
     public void setTimestatus(Long timestatus) {
         this.timestatus = timestatus;
     }
-
-
-    
 }
 
