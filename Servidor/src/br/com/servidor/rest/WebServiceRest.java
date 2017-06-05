@@ -48,16 +48,14 @@ public class WebServiceRest {
                     requestBodyREST.dsUnidade);
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.incluir(v);
-        //    Logger.logMethod("Rest", "");
+            Logger.logMethod("Rest", "");
             return MsgReturn.retorna("true", "Cadastrou", v);
         } catch (SQLException e) { 
-        //    Logger.logMethod("Rest", e.getMessage());
+            Logger.logMethod("Rest", e.getMessage());
             return MsgReturn.retorna("false", "Ops, algo deu errado");
-         //   throw new Exception("Não foi possivel inserir o veículo.");
         } catch (Exception ex) {
+            Logger.logMethod("Rest", ex.getMessage());
             return MsgReturn.retorna("false", ex.getMessage());
-        //    Logger.logMethod("Rest", ex.getMessage());
-          //  throw new Exception(ex.getMessage());
         }
     }
 
@@ -73,14 +71,14 @@ public class WebServiceRest {
                     requestBodyREST.dsUnidade);
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.alterar(v);
-           // Logger.logMethod("Rest", "");
+            Logger.logMethod("Rest", "");
             return MsgReturn.retorna("true", "Alterado");
         } catch (SQLException e) {
-           // Logger.logMethod("Rest", e.getMessage());
+            Logger.logMethod("Rest", e.getMessage());
             return MsgReturn.retorna("false", "Não foi possível alterar");
         } catch (Exception ex) {
-           // Logger.logMethod("Rest", ex.getMessage());
-           return MsgReturn.retorna("false", ex.getMessage());
+            Logger.logMethod("Rest", ex.getMessage());
+            return MsgReturn.retorna("false", ex.getMessage());
         }
     }
     
@@ -91,20 +89,18 @@ public class WebServiceRest {
     */
     @GET
     @Path("/delete/excluir-veiculo/{cdVeiculo}")
-//    @Consumes(MediaType.APPLICATION_JSON)
     public String excluirVeiculo(@PathParam("cdVeiculo")  Integer cdVeiculo) throws Exception{
         try {
             Veiculo v = new Veiculo(cdVeiculo);
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.excluir(v);
-        //    Logger.logMethod("Rest", "");
+            Logger.logMethod("Rest", "");
             return MsgReturn.retorna("true", "Excluido");
         }  catch (SQLException e) {
-        //    Logger.logMethod("Rest", e.getMessage());
-        return MsgReturn.retorna("false","possível");
-           // throw new Exception("Não foi possivel excluir o veículo.");
+            Logger.logMethod("Rest", e.getMessage());
+            return MsgReturn.retorna("false","possível");
         } catch (Exception ex) {
-        //    Logger.logMethod("Rest", ex.getMessage());
+            Logger.logMethod("Rest", ex.getMessage());
             return MsgReturn.retorna("false", ex.getMessage());
         }
     }
@@ -123,7 +119,7 @@ public class WebServiceRest {
             
             return list;
         } catch (Exception ex) {
-         //   Logger.logMethod("Rest", ex.getMessage());
+            Logger.logMethod("Rest", ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -136,12 +132,11 @@ public class WebServiceRest {
             VeiculoDAO vdao = new VeiculoDAO();
             Veiculo veiculo = vdao.consultarVeiculo(cdVeiculo);
             veiculo.setPosicoes(null);
-        //    Logger.logMethod("Rest", "");
+            Logger.logMethod("Rest", "");
             return MsgReturn.retorna("true", "Encontrou", veiculo);
         } catch (Exception ex) {
-        //    Logger.logMethod("Rest", ex.getMessage());
-           // throw new Exception("Não foi possivel consultar o veículo");
-           return MsgReturn.retorna("false", "Não encontrou");
+            Logger.logMethod("Rest", ex.getMessage());
+            return MsgReturn.retorna("false", "Não encontrou");
         }
     }
     
@@ -153,10 +148,10 @@ public class WebServiceRest {
             VeiculoDAO vdao = new VeiculoDAO();
             Veiculo veiculo = vdao.consultarVeiculo(dsPlaca);
             veiculo.setPosicoes(null);
-        //    Logger.logMethod("Rest", "");
+            Logger.logMethod("Rest", "");
             return MsgReturn.retorna("true", "Encontrou", veiculo);
         } catch (Exception ex) {
-        //    Logger.logMethod("Rest", ex.getMessage());
+            Logger.logMethod("Rest", ex.getMessage());
             return MsgReturn.retorna("false", "Não Encontrou");
         }
     }
@@ -173,10 +168,10 @@ public class WebServiceRest {
             for (Veiculo v : list) {
                 v.setPosicoes(null);
             }
-        //    Logger.logMethod("Rest", "");
+            Logger.logMethod("Rest", "");
             return list;
         } catch (Exception ex) {
-        //    Logger.logMethod("Rest", ex.getMessage());
+            Logger.logMethod("Rest", ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -201,11 +196,11 @@ public class WebServiceRest {
                 p.setVeiculo(null);
             }
             
-        //    Logger.logMethod("Rest", "");
+            Logger.logMethod("Rest", "");
             return list;
             
         } catch (Exception ex) {
-        //    Logger.logMethod("Rest", ex.getMessage());
+            Logger.logMethod("Rest", ex.getMessage());
             throw new Exception(ex.getMessage());
        } 
     }
