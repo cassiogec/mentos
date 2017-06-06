@@ -47,6 +47,29 @@ public class TCPClient {
         }
     }
     
+    private static String lerPlaca()
+    {
+        Scanner leitor = new Scanner(System.in);
+                
+        while (true)
+        {
+            System.out.println("Digite a placa do veiculo, sem formatação: ");
+            String placa = leitor.nextLine();
+        
+            if (placa.equals(""))
+            {
+                System.out.println("\n----------------------------------------------------");
+                System.out.println("Erro: Digite uma placa válida!");
+                System.out.println("----------------------------------------------------\n");
+                continue;
+            }
+            else
+            {
+                return placa;
+            }
+        }
+    }
+    
     private static String formataTipo(Integer tipo)
     {
         switch (tipo)
@@ -86,8 +109,7 @@ public class TCPClient {
         
         Veiculo v = new Veiculo();
 
-        System.out.println("Digite a placa do veiculo, sem formatação: ");
-        v.setPlaca(leitor.nextLine());
+        v.setPlaca(lerPlaca());
         
         v.setTipo(lerTipo());
 
@@ -207,8 +229,7 @@ public class TCPClient {
                         break;
                         
                     case 3:
-                        System.out.println("Digite a placa do veiculo, sem formatação: ");
-                        v.setPlaca(leitor.nextLine());
+                        v.setPlaca(lerPlaca());
                         
                         l.add(v);
 
@@ -231,8 +252,7 @@ public class TCPClient {
                         break;
                         
                     case 4:
-                        System.out.println("Digite a placa do veiculo, sem formatação: ");
-                        v.setPlaca(leitor.nextLine());
+                        v.setPlaca(lerPlaca());
                         
                         l.add(v);
 
@@ -303,16 +323,15 @@ public class TCPClient {
                         break;
                         
                     case 6:
-                        System.out.println("Digite a placa do veiculo, sem formatação: ");
-                        v.setPlaca(leitor.nextLine());
+                        v.setPlaca(lerPlaca());
                         
                         System.out.println("Digite a data da localização(Formato DD/MM/YYYY HH:MM:SS), ou deixe-a em branco para pegar todas as localizações");
                         String data = leitor.nextLine();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                         
                         if (!data.equals(""))
                         {
                             Calendar cal = Calendar.getInstance();
-                            SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss", Locale.ENGLISH);
                             cal.setTime(sdf.parse(data));
                             arquivo.setData(cal);
                         }
@@ -329,12 +348,12 @@ public class TCPClient {
                             if (arquivo.getObjetos().size() > 0)
                             {
                                 System.out.println("-----------------------------------------------------------");
-
+                                
                                 for (Object pos : arquivo.getObjetos())
                                 {
                                     Posicao p = (Posicao) pos;
 
-                                    System.out.print("Data: " + p.getDatahora().toString());
+                                    System.out.print("Data: " + sdf.format(p.getDatahora().getTime()));
                                     System.out.print(" Latitude: " + p.getLatitude());
                                     System.out.print(" Longitude: " + p.getLongitude());
                                     System.out.println("\n-----------------------------------------------------------");

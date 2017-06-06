@@ -32,15 +32,13 @@ public class VeiculoDAO {
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
             s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
-            System.out.println("BANCO ORIGINAL");
             reaope=true;
             return s;
         }
         catch (ExceptionInInitializerError ex) {
-                Session s2 = HibernateUtil3.getSessionFactory2().openSession();
-                System.out.println("BANCO REPLICADO");
-                reaope=false;
-                return s2;
+            Session s2 = HibernateUtil3.getSessionFactory2().openSession();
+            reaope=false;
+            return s2;
         } 
     }
     
@@ -101,12 +99,11 @@ public class VeiculoDAO {
     }
     
     public void incluir(Veiculo veiculo) throws Exception{ 
-        validarParametros(veiculo);
-        
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         
         Session s = retornaSession();
+        validarParametros(veiculo);
+        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.save(veiculo);
@@ -115,12 +112,12 @@ public class VeiculoDAO {
     }
     
     public void alterar(Veiculo veiculo) throws Exception{ 
-        validarParametros(veiculo);
         
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         
         Session s = retornaSession();
+        validarParametros(veiculo);
+        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.update(veiculo);
@@ -162,7 +159,6 @@ public class VeiculoDAO {
         return u;
     }
     
-    // RETORNA VEÍCULO ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(int codvei){
         Session s = retornaSession();
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE codigo = :a")
@@ -173,7 +169,6 @@ public class VeiculoDAO {
         return u;
     }
     
-    // RETORNA VEÍCULO POR PLACA ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(String plavei) throws Exception{
         plavei = plavei.toUpperCase();
         

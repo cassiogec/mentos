@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.servidor;
 
 import br.com.DAO.PosicaoDAO;
@@ -82,7 +77,6 @@ public class TCPServiceThread extends Thread{
     public static Boolean excluirVeiculo(String dsPlaca) throws Exception{
         try {
             VeiculoDAO vdao = new VeiculoDAO();
-            System.out.println(vdao.consultarVeiculo(dsPlaca).getCodigo());
             Veiculo v = new Veiculo(vdao.consultarVeiculo(dsPlaca).getCodigo());
             vdao.excluir(v);
             Logger.logMethod("TCP", "");
@@ -179,7 +173,7 @@ public class TCPServiceThread extends Thread{
         try {
             String oper = "";
             System.out.println("Conexão estabelecida.");
-            // LÊ O DADO RECEBIDO
+
             inp = new ObjectInputStream(s.getInputStream());
             esc = new ObjectOutputStream(s.getOutputStream());
             
@@ -188,36 +182,7 @@ public class TCPServiceThread extends Thread{
                 Object obj = inp.readObject();
                 ArquivoBD arquivo = (ArquivoBD) obj;
 
-                if(arquivo.getOpe()== 1)
-                    oper = "Adicionar veículo";
-
-                if(arquivo.getOpe()== 2)
-                    oper = "Alterar Veiculo";
-
-                if(arquivo.getOpe()== 3)
-                    oper = "Excluir Veiculo";
-
-                if(arquivo.getOpe()== 4)
-                    oper = "Consultar Veiculo";
-
-                if(arquivo.getOpe()== 5)
-                    oper = "Listar veiculos por tipo";
-
-                if(arquivo.getOpe()== 6)
-                    oper = "Localização do Veiculo";
-
-                if(arquivo.getOpe()== 7)
-                    oper = "O cliente finalizou a conexão";
-
                 Veiculo v = (Veiculo) arquivo.getObjetos().get(0);
-
-                if (arquivo.getOpe() >= 1 || arquivo.getOpe() <= 6)
-                {
-                    System.out.println("Dados recebidos para processamento de: " + oper + " :" + v.getPlaca());
-                }   //            if (arquivo.getOpe() == 7)
-    //            {
-    //                System.out.println("O cliente encerrou a conexão.");
-    //            }
 
                 String dsPlaca = v.getPlaca();
                 Integer idTipo = v.getTipo();
@@ -261,7 +226,6 @@ public class TCPServiceThread extends Thread{
                             arquivo.setRetorno("Veiculo excluído com sucesso");
                             arquivo.setCode(0);
                         } catch (Exception ex) {
-                            System.out.println(ex.getMessage());
                             arquivo.setRetorno(ex.getMessage());
                             arquivo.setCode(1);
                         }
@@ -306,8 +270,9 @@ public class TCPServiceThread extends Thread{
                         {
                             for (Posicao pos : localizacao(dsPlaca, dtLocalizacaoInicio))
                             {
-                            listRetorno.add((Object)pos);
+                                listRetorno.add((Object)pos);
                             }
+                            
                             arquivo.setObjetos(listRetorno);
                             arquivo.setRetorno("Posições consultadas com sucesso.");
                             arquivo.setCode(0);

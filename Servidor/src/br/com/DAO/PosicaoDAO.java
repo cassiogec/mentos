@@ -35,9 +35,9 @@ public class PosicaoDAO {
             return s;
         }
         catch (ExceptionInInitializerError ex) {
-                Session s2 = HibernateUtil3.getSessionFactory2().openSession();
-                reaope=false;
-                return s2;
+            Session s2 = HibernateUtil3.getSessionFactory2().openSession();
+            reaope=false;
+            return s2;
         } 
     }
     
@@ -79,12 +79,11 @@ public class PosicaoDAO {
     }
     
     public void incluir(Posicao posicao) throws Exception{ 
+        Session s = retornaSession();
         validarParametros(posicao);
         
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         posicao.getVeiculo().setPlaca(posicao.getVeiculo().getPlaca().toUpperCase());
-        
-        Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.save(posicao);
@@ -93,12 +92,12 @@ public class PosicaoDAO {
     }
     
     public void alterar(Posicao posicao) throws Exception{ 
+        Session s = retornaSession();
         validarParametros(posicao);
         
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         posicao.getVeiculo().setPlaca(posicao.getVeiculo().getPlaca().toUpperCase());
         
-        Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
         s.update(posicao);
