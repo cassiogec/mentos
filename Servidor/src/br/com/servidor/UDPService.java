@@ -53,7 +53,7 @@ public class UDPService extends Thread {
             // AS FUNÇÕES APÓS CHEGADO DO PACOTE
             Veiculo vei = new Veiculo();
             Posicao pos = new Posicao();
-
+            
             if(!new VeiculoDAO().verificaplaca(vetor_msg_recebida[0])){
                 try {
                     vei = new VeiculoDAO().consultarVeiculo(vetor_msg_recebida[0]);

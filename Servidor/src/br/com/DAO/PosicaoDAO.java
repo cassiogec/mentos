@@ -33,13 +33,13 @@ public class PosicaoDAO {
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
             s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
-            System.out.println("BANCO ORIGINAL");
+            //System.out.println("BANCO ORIGINAL");
             reaope=true;
             return s;
         }
         catch (ExceptionInInitializerError ex) {
                 Session s2 = HibernateUtil3.getSessionFactory2().openSession();
-                System.out.println("BANCO REPLICADO");
+                //System.out.println("BANCO REPLICADO");
                 reaope=false;
                 return s2;
         } 
