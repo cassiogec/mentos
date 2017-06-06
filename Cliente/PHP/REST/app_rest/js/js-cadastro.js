@@ -86,7 +86,6 @@ $(document).on('click', 'a#inserir', function()
     var unidade    = $('#iptUnidade').val();
     
     placa = placa.replace('-', '');
-    console.log('placa: '+placa);
     
     if(placa != "" || capacidade != "" || tipo != "") 
     {
@@ -153,10 +152,8 @@ $(document).on('click', 'a#inserir', function()
             });
         }
         
-        if(controller == 'alterar') {
-                    
-            limpaFormulario(); /* limpa formulário antes de tentar requisitar servidor */
-    
+        if(controller == 'alterar') 
+        {  
             var id = $(this).attr('dt_id');
             console.log('alterar: '+id);
             var veiculo = {
@@ -183,14 +180,18 @@ $(document).on('click', 'a#inserir', function()
                 data        : parameters.data,
                 success     : function (result) 
                 {     
-                    $('a#dsPlaca[dt_id="'+id+'"]').text(veiculo.dsPlaca);
-                    $('td#idTipo[dt_id="'+id+'"]').text(setaTipo(veiculo.idTipo));
-                    $('td#vlCapacidade[dt_id="'+id+'"]').text(veiculo.vlCapacidade);
-                    $('td#dsUnidade[dt_id="'+id+'"]').text(veiculo.dsUnidade);
-                    
-                    $('button.close').click();
-                    limpaFormulario();
-                    DialogMsg('Sucesso', 'Veículo alterado', 'alert-success');
+                    if(result['ret'] && result['ret']=='true') {
+                        $('a#dsPlaca[dt_id="'+id+'"]').text(veiculo.dsPlaca);
+                        $('td#idTipo[dt_id="'+id+'"]').text(setaTipo(veiculo.idTipo));
+                        $('td#vlCapacidade[dt_id="'+id+'"]').text(veiculo.vlCapacidade);
+                        $('td#dsUnidade[dt_id="'+id+'"]').text(veiculo.dsUnidade);
+
+                        $('button.close').click();
+                        limpaFormulario();
+                        DialogMsg('Sucesso', 'Veículo alterado', 'alert-success');
+                    }else{
+                        DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+                    }
                 },
                 error       : function (error) {
                     DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');

@@ -10,6 +10,11 @@ $(document).on('click', 'a#abre_mapa', function() {
     window.open('maps.html?veiculo='+id, '_blank');
 });
 
+$(document).on('click', 'a#lista', function() {
+    $('#t_location').hide();
+    $('#table_location').empty();
+});
+
 $(document).on('click' ,'a#dsPlaca', function() 
 {
     var id = $(this).attr('dt_id');

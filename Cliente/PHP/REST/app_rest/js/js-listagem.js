@@ -29,6 +29,8 @@ $(document).on('click', 'a#alterar', function() {
     $('a#inserir').attr('dt_id', $(this).attr('dt_id'));
     $('a#inserir').attr('dt_fruit', 'alterar');
     
+    limpaFormulario(); /* limpa formulário antes de tentar requisitar servidor */
+    
      var parameters = {
         'method' : 'GET',
         'data'   : null,
@@ -38,11 +40,16 @@ $(document).on('click', 'a#alterar', function() {
     requestService(parameters)
         .done(function(data) 
         {
-            $('#iptPlaca').val(data['placa']);
-            $('#iptCapacidade').val(data['capacidade']);
-            $('#iptTipo').val(data['tipo']);
-            $('#drop_menu[dt_id="'+data['tipo']+'"]').click();
-            $('#iptUnidade').val(data['uncapac']);  
+            
+            if(data['ret']=='true'){
+                $('#iptPlaca').val(data['objeto']['placa']);
+                $('#iptCapacidade').val(data['objeto']['capacidade']);
+                $('#iptTipo').val(data['objeto']['tipo']);
+                $('#drop_menu[dt_id="'+data['objeto']['tipo']+'"]').click();
+                $('#iptUnidade').val(data['objeto']['uncapac']);  
+            }else {
+                DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+            }
         })
         .fail(function (ret) 
         {
@@ -54,7 +61,8 @@ $(document).on('click', 'a#alterar', function() {
 $(document).on('click', 'a#btn_insert', function() {
     $('#modal_title').text("Cadastro de Veículos");
     $('a#inserir').attr('dt_fruit', 'inserir');
-    limpaFormulario();
+    
+    limpaFormulario(); /* limpa formulário antes de tentar requisitar servidor */
 });
 
 $(document).ready(function() 
