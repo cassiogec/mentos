@@ -58,7 +58,7 @@ and open the template in the editor.
 
         <script id="listaFrota" type="text/x-jquery-tmpl">
 
-            <tr dt_id="${codigo}"> 
+            <tr class="nen" dt_id="${codigo}"> 
                 <th scope="row"></th> 
                 <td><a dt_id='${codigo}' dt_placa='${placa}' id='dsPlaca' data-toggle="modal" data-target="#menu-dialog" id="modal_localizacao">${placa}</a></td> 
                 <td dt_id='${codigo}' id='idTipo' >${tipo}</td> 
@@ -394,7 +394,19 @@ and open the template in the editor.
             </div>
         </div>
     </div>
-     <div style="position: fixed;bottom:23px; right: 23px;" id="box_fab_button">
+    <div style="position: fixed; bottom:10px; left: 10px;" id="box_alert">
+        <div class="col-md-12">
+            <div class="bs-component">
+                <div style="display: none; z-index: 1090" id="dialog_alert" class="alert alert-dismissible alert-info">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <div id="dialog_msg">
+                        <strong id="msg">Sucesso!</strong> Cadastro realizado com sucesso
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="position: fixed;bottom:23px; right: 23px;" id="box_fab_button">
         <a style="position: relative;" id="btn_insert" data-toggle="modal" data-target="#insert-dialog" class="btn btn-primary btn-fab"><i class="material-icons">add</i></a>
     </div>
         

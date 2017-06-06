@@ -35,29 +35,30 @@ $(document).on('click', 'a#listar', function()
     var nova_data = from[2]+'-'+from[1]+'-'+from[0]+' '+hora+':00.000';
     
     var dados = {
-                cdVeiculo     : id,
-                dtLocalizacao : nova_data
-            };
+        cdVeiculo     : id,
+        dtLocalizacao : nova_data
+    };
 
-            var parameters = {
-                method : 'POST',
-                data   : JSON.stringify(dados),
-           contentType : "application/json",
-                url    : 'post/localizacao/'
-            };
-    
+    var parameters = {
+        method : 'POST',
+        data   : JSON.stringify(dados),
+   contentType : "application/json",
+        url    : 'post/localizacao/'
+    };
+
     requestService(parameters)
         .done(function(ret) 
         {
-            console.log(ret);
-  
+            if($.isEmptyObject(ret)) {
+                DialogMsg('Nada para mostrar', 'não há coordenadas para este veíulo', 'alert-info');
+            }
             $('#t_location').show(400);
             $('#table_location').empty();
             $('#listaLocalizacao').tmpl(ret).appendTo("#table_location");
         })
         .fail(function (ret) 
         {
-            console.log('não, não deu');
+            DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
         });   
 });
     

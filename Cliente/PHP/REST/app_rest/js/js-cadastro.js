@@ -10,6 +10,8 @@ jQuery(function($){
     $('#iptPlaca_coord').mask("aaa-9999");
     $('#iptData_coord').mask("99/99/9999");
     $('#iptHora_coord').mask("99:99");
+    
+    $('#ipt_search').mask('aaa-9999');
 
 //    $("#iptUnidade").mask("A",  {minlength: 5,maxlength: 5});
 });
@@ -87,8 +89,7 @@ $(document).on('click', 'a#inserir', function()
     console.log('placa: '+placa);
     
     if(placa != "" || capacidade != "" || tipo != "") 
-    {    
-     
+    {
         if(controller=='inserir') {
             var veiculo = {
                 dsPlaca      : placa,
@@ -125,7 +126,7 @@ $(document).on('click', 'a#inserir', function()
 
                         });
                         var new_veiculo = 
-                        " <tr dt_id='"+result['objeto']['codigo']+"'>                  "
+                        " <tr class='nen' dt_id='"+result['objeto']['codigo']+"'>                  "
                         + "        <th scope='row'></th>   "
                         + "        <td > <a dt_id='"+codigo+"' dt_placa='"+placa+"' id='dsPlaca' data-toggle='modal' data-target='#menu-dialog' id='modal_localizacao'> "+placa+" </a></td>"
                         + "        <td dt_id='"+codigo+"' id='dsTipo'>"+veiculo.idTipo+"</td>        "
@@ -140,13 +141,22 @@ $(document).on('click', 'a#inserir', function()
                         + "    </tr>     ";
 
                         $('#table_results').append(new_veiculo);
+                        
+                        DialogMsg('Sucesso!', 'Veículo cadastrado', 'alert-success');
+                    }else {
+                        DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
                     }
                 },
-                error       : function (error) { error }
+                error       : function (error) {
+                    DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+                }
             });
         }
         
         if(controller == 'alterar') {
+                    
+            limpaFormulario(); /* limpa formulário antes de tentar requisitar servidor */
+    
             var id = $(this).attr('dt_id');
             console.log('alterar: '+id);
             var veiculo = {
@@ -173,7 +183,6 @@ $(document).on('click', 'a#inserir', function()
                 data        : parameters.data,
                 success     : function (result) 
                 {     
-                    
                     $('a#dsPlaca[dt_id="'+id+'"]').text(veiculo.dsPlaca);
                     $('td#idTipo[dt_id="'+id+'"]').text(setaTipo(veiculo.idTipo));
                     $('td#vlCapacidade[dt_id="'+id+'"]').text(veiculo.vlCapacidade);
@@ -181,9 +190,10 @@ $(document).on('click', 'a#inserir', function()
                     
                     $('button.close').click();
                     limpaFormulario();
+                    DialogMsg('Sucesso', 'Veículo alterado', 'alert-success');
                 },
                 error       : function (error) {
-                
+                    DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
                 }
             });
         }
