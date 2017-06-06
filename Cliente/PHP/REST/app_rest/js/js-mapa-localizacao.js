@@ -8,7 +8,7 @@ function initMap(pontos, lat_center, lng_center)
 {
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 15,
-      center: {lat: lat_center, lng: lng_center},
+      center: {lat: parseFloat(lat_center), lng: parseFloat(lng_center)},
       mapTypeId: 'terrain'
     });
 
@@ -23,9 +23,8 @@ function initMap(pontos, lat_center, lng_center)
     flightPath.setMap(map);
 }
 
-$(document).ready(function() {
-    
-    
+$(document).ready(function() 
+{       
     var id = _GET('veiculo');
     
     var dados = {
@@ -43,9 +42,8 @@ $(document).ready(function() {
     requestService(parameters)
         .done(function(ret) 
         {
-            
-                var lat_center = ret[0]['latitude'];
-                var lng_center = ret[0]['longitude'];
+                var lat_center =  ret[0]['latitude'];
+                var lng_center =  ret[0]['longitude'];
                 var pontos = [];
                 
                 $.each(ret, function(key, value) {

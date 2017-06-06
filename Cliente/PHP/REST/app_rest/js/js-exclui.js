@@ -21,13 +21,21 @@ $(document).on('click', 'a#confirmar', function()
    
     requestService(parameters)
         .done(function(ret) 
-        {
-            printAlert(true);
+        {            
+            /* Impossibilita a ação durante o perído de exclusão */
+            $('a#dsPlaca[dt_id="'+id+'"]').attr('dt_id', null);
+            $('a#alterar[dt_id="'+id+'"]').attr('dt_id', null);
+            $('a#deletar[dt_id="'+id+'"]').attr('dt_id', null);
             
-            $('tr[dt_id="'+id+'"]').remove();
+            $('tr[dt_id="'+id+'"]').addClass('danger');
+            setTimeout(function(){
+                $('tr[dt_id="'+id+'"]').remove();
+        }, 2000);
+           
+            DialogMsg('Excluido', 'item excluido', 'alert-success');
         })
         .fail(function (ret) 
         {
-            console.log('não, não deu');
+            DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
         });
 });

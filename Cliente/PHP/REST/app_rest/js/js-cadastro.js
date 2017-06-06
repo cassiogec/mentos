@@ -10,8 +10,20 @@ jQuery(function($){
     $('#iptPlaca_coord').mask("aaa-9999");
     $('#iptData_coord').mask("99/99/9999");
     $('#iptHora_coord').mask("99:99");
+    
+    $('#ipt_search').mask('aaa-9999');
+    
 
-//    $("#iptUnidade").mask("A",  {minlength: 5,maxlength: 5});
+
+$('#ipt_Unidade').keypress(function() {
+
+     if($(this).val().length >= 5) {
+        $(this).val($(this).val().slice(0, 5));
+        return false;
+    }
+});
+
+
 });
 
 function setaTipo(tipo) 
@@ -84,11 +96,9 @@ $(document).on('click', 'a#inserir', function()
     var unidade    = $('#iptUnidade').val();
     
     placa = placa.replace('-', '');
-    console.log('placa: '+placa);
     
     if(placa != "" || capacidade != "" || tipo != "") 
-    {    
-     
+    {
         if(controller=='inserir') {
             var veiculo = {
                 dsPlaca      : placa,
@@ -125,10 +135,10 @@ $(document).on('click', 'a#inserir', function()
 
                         });
                         var new_veiculo = 
-                        " <tr dt_id='"+result['objeto']['codigo']+"'>                  "
+                        " <tr class='nen' dt_id='"+result['objeto']['codigo']+"'>                  "
                         + "        <th scope='row'></th>   "
                         + "        <td > <a dt_id='"+codigo+"' dt_placa='"+placa+"' id='dsPlaca' data-toggle='modal' data-target='#menu-dialog' id='modal_localizacao'> "+placa+" </a></td>"
-                        + "        <td dt_id='"+codigo+"' id='dsTipo'>"+veiculo.idTipo+"</td>        "
+                        + "        <td dt_id='"+codigo+"' id='dsTipo'>"+setaTipo(veiculo.idTipo)+"</td>        "
                         + "        <td dt_id='"+codigo+"' id='dsCapacidade'> "+veiculo.vlCapacidade+"</td>  "
                         + "        <td dt_id='"+codigo+"' id='dsUnidade'>"+veiculo.dsUnidade+"</td>     "
                         + "       <td>"
@@ -140,13 +150,20 @@ $(document).on('click', 'a#inserir', function()
                         + "    </tr>     ";
 
                         $('#table_results').append(new_veiculo);
+                        limpaFormulario();
+                        DialogMsg('Sucesso!', 'Veículo cadastrado', 'alert-success');
+                    }else {
+                        DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
                     }
                 },
-                error       : function (error) { error }
+                error       : function (error) {
+                    DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+                }
             });
         }
         
-        if(controller == 'alterar') {
+        if(controller == 'alterar') 
+        {  
             var id = $(this).attr('dt_id');
             console.log('alterar: '+id);
             var veiculo = {
@@ -161,7 +178,7 @@ $(document).on('click', 'a#inserir', function()
                 method : 'PUT',
                 data   : JSON.stringify(veiculo),
            contentType : "application/json",
-                url    : 'put/alterar-veiculo/',
+                url    : 'put/alterar-veiculo/'
             };
             
             $.ajax({
@@ -173,21 +190,31 @@ $(document).on('click', 'a#inserir', function()
                 data        : parameters.data,
                 success     : function (result) 
                 {     
-                    
-                    $('a#dsPlaca[dt_id="'+id+'"]').text(veiculo.dsPlaca);
-                    $('td#idTipo[dt_id="'+id+'"]').text(setaTipo(veiculo.idTipo));
-                    $('td#vlCapacidade[dt_id="'+id+'"]').text(veiculo.vlCapacidade);
-                    $('td#dsUnidade[dt_id="'+id+'"]').text(veiculo.dsUnidade);
-                    
-                    $('button.close').click();
-                    limpaFormulario();
+                    if(result['ret']=='true') 
+                    {
+                        DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+
+                        console.log('depois');
+                        $('a#dsPlaca[dt_id="'+id+'"]').text(veiculo.dsPlaca);
+                        $('td#idTipo[dt_id="'+id+'"]').text(setaTipo(veiculo.idTipo));
+                        $('td#vlCapacidade[dt_id="'+id+'"]').text(veiculo.vlCapacidade);
+                        $('td#dsUnidade[dt_id="'+id+'"]').text(veiculo.dsUnidade);
+
+                        $('button.close').click();
+                        console.log('cheguei aqui');
+                        
+                        
+                        limpaFormulario();
+                    } else {
+                        DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+                    }
                 },
                 error       : function (error) {
-                
+                    DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
                 }
             });
         }
     }else {
-        printAlert(false);
+        DialogMsg('Atenção', 'Insira todos os dados', 'alert-info');
     }    
 });

@@ -5,7 +5,8 @@
  */
 
 
-$(document).on('click', 'a#fil_tipo', function() {
+$(document).on('click', 'a#fil_tipo', function() 
+{
     $('#title_drop_tipo').text($(this).text());
     
     var tipo = $(this).attr('dt_id');
@@ -22,6 +23,9 @@ $(document).on('click', 'a#fil_tipo', function() {
         requestService(parameters)
             .done(function(ret) 
             {
+                if($.isEmptyObject(ret)) {
+                    DialogMsg('Não encontrado', 'acho que você não tem esse tipo de registro', 'alert-info');
+                }
                 $.each(ret, function(key, value) 
                 {   
                     value['tipo'] = setaTipo(value['tipo']);   
@@ -30,7 +34,7 @@ $(document).on('click', 'a#fil_tipo', function() {
             })
             .fail(function (ret) 
             {
-                console.log('não, não deu');
+                DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
             });
     } else {
         var parameters = {
@@ -45,15 +49,19 @@ $(document).on('click', 'a#fil_tipo', function() {
         requestService(parameters)
             .done(function(ret) 
             {
-                $.each(ret, function(key, value) 
-                {   
-                    value['tipo'] = setaTipo(value['tipo']);   
-                });
-                $('#listaFrota').tmpl(ret).appendTo("#table_results");
+                if($.isEmptyObject(ret)) {
+                    DialogMsg('Não encontrado', 'acho que você não tem esse tipo de registro', 'alert-info');
+                }else{
+                    $.each(ret, function(key, value) 
+                    {   
+                        value['tipo'] = setaTipo(value['tipo']);   
+                    });
+                    $('#listaFrota').tmpl(ret).appendTo("#table_results");
+                }
             })
             .fail(function (ret) 
             {
-                console.log('não, não deu');
+                DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
             });
     }
 });

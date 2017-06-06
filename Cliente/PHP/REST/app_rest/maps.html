@@ -7,6 +7,8 @@
     
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
         <!-- Mobile support -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -40,37 +42,36 @@
         
         <script src="js/_GET.js" type="text/javascript"></script>
         
-        
         <script src="js/js-mapa-localizacao.js" type="text/javascript"></script>
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
       
-/* do not group these rules */
-*::-webkit-input-placeholder {
-    color: red;
-}
-*:-moz-placeholder {
-    /* FF 4-18 */
-    color: red;
-}
-*::-moz-placeholder {
-    /* FF 19+ */
-    color: red;
-}
-*:-ms-input-placeholder {
-    /* IE 10+ */
-    color: red;
-}
+        /* do not group these rules */
+        *::-webkit-input-placeholder {
+            color: red;
+        }
+        *:-moz-placeholder {
+            /* FF 4-18 */
+            color: red;
+        }
+        *::-moz-placeholder {
+            /* FF 19+ */
+            color: red;
+        }
+        *:-ms-input-placeholder {
+            /* IE 10+ */
+            color: red;
+        }
     </style>
   </head>
   <body>
@@ -86,20 +87,6 @@
                 <a class="navbar-brand" href="javascript:void(0)">Brand</a>
               </div>
               <div class="navbar-collapse navbar-warning-collapse collapse in" aria-expanded="true">
-              <!--  <ul class="nav navbar-nav">
-                  <li class="dropdown">
-                    <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Menu
-                      <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="javascript:void(0)">Frota</a></li>
-                      <li><a href="javascript:void(0)">Mapa em tempo real</a></li>
-                      <li><a href="javascript:void(0)">Something else here</a></li>
-                      <li class="divider"></li>
-                      <li class="dropdown-header">Veja todas as empresas</li>
-                      <li><a href="javascript:void(0)">Empresas cadastradas</a></li>
-                    </ul>
-                  </li>
-                </ul> -->
                 <form class="navbar-form navbar-left">
                   <div class="form-group is-empty">
                     <input type="text" class="form-control col-md-8" placeholder="Informe a placa">
@@ -133,50 +120,35 @@
           </div>
         </div>
         </div>
-      
+      <div style="position: fixed; bottom:10px; left: 10px; z-index: 9090" id="box_alert">
+        <div class="col-md-12">
+            <div class="bs-component">
+                <div style="display: none; z-index: 1090" id="dialog_alert" class="alert alert-dismissible alert-info">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <div id="dialog_msg">
+                        <strong id="msg">Sucesso!</strong> Cadastro realizado com sucesso
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
           
     <div style="position: fixed; z-index: 8000; height: 100%; width: 100%;" id="map"></div>
-    <script>
-
-      // This example creates a 2-pixel-wide red polyline showing the path of William
-      // Kingsford Smith's first trans-Pacific flight between Oakland, CA, and
-      // Brisbane, Australia.
-/*
-      function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: {lat: -28.266060371156918, lng: -52.407188415527344},
-          mapTypeId: 'terrain'
-        });
-
-        var flightPlanCoordinates =
-[ { lat : -28.266060371156918 , lng : -52.407188415527344 },{ lat : -28.266060371156918 , lng : -52.40530014038086 },{ lat : -28.26598477506209 , lng : -52.403197288513184 },{ lat : -28.265455600896654 , lng : -52.40156650543213 },{ lat : -28.265682390146463 , lng : -52.399678230285645 },{ lat : -28.266098169184225 , lng : -52.398390769958496 },{ lat : -28.266438350826654 , lng : -52.396931648254395 },{ lat : -28.266627340158742 , lng : -52.3952579498291 },{ lat : -28.267421091693247 , lng : -52.39358425140381 },{ lat : -28.268139242748603 , lng : -52.391953468322754 },{ lat : -28.268668403586904 , lng : -52.390408515930176 },{ lat : -28.26870620068909 , lng : -52.38903522491455 },{ lat : -28.267874661343967 , lng : -52.387146949768066 },{ lat : -28.26711871085349 , lng : -52.3853874206543 },{ lat : -28.266438350826654 , lng : -52.383928298950195 },{ lat : -28.265833582711544 , lng : -52.38255500793457 },{ lat : -28.264926424103443 , lng : -52.38075256347656 },{ lat : -28.26424605007953 , lng : -52.379164695739746 },{ lat : -28.263905861438676 , lng : -52.37749099731445 },{ lat : -28.26322548089913 , lng : -52.37603187561035 },{ lat : -28.26178910771803 , lng : -52.375216484069824 },{ lat : -28.260730715092198 , lng : -52.376675605773926 },{ lat : -28.260163714719305 , lng : -52.37852096557617 },{ lat : -28.258916303281914 , lng : -52.37757682800293 },{ lat : -28.258046886677512 , lng : -52.376203536987305 },{ lat : -28.256383635154044 , lng : -52.37500190734863 },{ lat : -28.25490936779066 , lng : -52.374229431152344 },{ lat : -28.25392651155548 , lng : -52.37525939941406 },{ lat : -28.253208264730517 , lng : -52.3767614364624 },{ lat : -28.252074180945005 , lng : -52.37783432006836 },{ lat : -28.25063765750011 , lng : -52.378950119018555 },{ lat : -28.24957915415679 , lng : -52.37998008728027 },{ lat : -28.24852064030616 , lng : -52.38083839416504 },{ lat : -28.24749992057077 , lng : -52.38199710845947 },{ lat : -28.246403581084056 , lng : -52.38302707672119 },{ lat : -28.24572308883739 , lng : -52.38375663757324 },{ lat : -28.245042592248797 , lng : -52.38251209259033 },{ lat : -28.2444755084416 , lng : -52.38156795501709 },{ lat : -28.24375719795745 , lng : -52.38058090209961 },{ lat : -28.242812045213377 , lng : -52.3793363571167 },{ lat : -28.241753464197195 , lng : -52.380194664001465 },{ lat : -28.2423583689214 , lng : -52.38126754760742 },{ lat : -28.24315230116607 , lng : -52.382211685180664 },{ lat : -28.24390842161928 , lng : -52.383456230163574 },{ lat : -28.24500478675544 , lng : -52.38474369049072 },{ lat : -28.24579869930143 , lng : -52.385687828063965 },{ lat : -28.246706020688862 , lng : -52.38688945770264 },{ lat : -28.2478401615681 , lng : -52.388176918029785 },{ lat : -28.248709661407243 , lng : -52.389163970947266 },{ lat : -28.24939013459693 , lng : -52.390408515930176 },{ lat : -28.25056205046691 , lng : -52.39161014556885 },{ lat : -28.25109129857354 , lng : -52.392683029174805 },{ lat : -28.25226319574695 , lng : -52.394185066223145 },{ lat : -28.253397277522005 , lng : -52.39534378051758 },{ lat : -28.25434233645309 , lng : -52.396931648254395 },{ lat : -28.255287387006916 , lng : -52.39830493927002 },{ lat : -28.25627023069606 , lng : -52.399635314941406 },{ lat : -28.257517673098636 , lng : -52.401137351989746 },{ lat : -28.258651698979076 , lng : -52.40272521972656 },{ lat : -28.259672311956358 , lng : -52.404398918151855 },{ lat : -28.26035271517875 , lng : -52.40620136260986 },{ lat : -28.26133551216534 , lng : -52.40830421447754 }];        var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 4
-        });
-        
-
-        flightPath.setMap(map);
-      }
-      */
-    </script>
+    
     <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyB6K1CFUQ1RwVJ-nyXxd6W0rfiIBe12Q&callback=initMap">
     </script>
-     <!-- Material Design for Bootstrap -->
-        <script src="dist/js/material.js"></script>
-        <script src="dist/js/ripples.min.js"></script>
+    <!-- Material Design for Bootstrap -->
+    <script src="dist/js/material.js"></script>
+    <script src="dist/js/ripples.min.js"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function() 
-            {
-                $.material.init();
-            });
-        </script>
+    <script type="text/javascript">
+        $(document).ready(function() 
+        {
+            $.material.init();
+        });
+    </script>
         
-        <script src="//cdnjs.cloudflare.com/ajax/libs/noUiSlider/6.2.0/jquery.nouislider.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/noUiSlider/6.2.0/jquery.nouislider.min.js"></script>
   </body>
 </html>

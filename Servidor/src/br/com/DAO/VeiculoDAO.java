@@ -32,21 +32,13 @@ public class VeiculoDAO {
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
             s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
-<<<<<<< HEAD
-            //System.out.println("BANCO ORIGINAL");
-=======
->>>>>>> 29d4ab6d8abc899be585c63a5640db3bd805ad38
             reaope=true;
             return s;
         }
         catch (ExceptionInInitializerError ex) {
-                Session s2 = HibernateUtil3.getSessionFactory2().openSession();
-<<<<<<< HEAD
-                //System.out.println("BANCO REPLICADO");
-=======
->>>>>>> 29d4ab6d8abc899be585c63a5640db3bd805ad38
-                reaope=false;
-                return s2;
+            Session s2 = HibernateUtil3.getSessionFactory2().openSession();
+            reaope=false;
+            return s2;
         } 
     }
     
@@ -56,13 +48,12 @@ public class VeiculoDAO {
         return p.matcher(placa).matches();
     }
     
-    private boolean verificaStringCarro(Veiculo veiculo)
+    private void verificaStringCarro(Veiculo veiculo) throws Exception
     {
         if (veiculo.getPlaca().length() != 7)
-            return false;
+            throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres");
         if (veiculo.getUncapac().length() != 5)
-            return false;
-        return true;
+            throw new Exception("Campo Unidade Deve Possuir Exatamente 5 Caracteres");
     }
     
     public boolean verificacodigo(int codigo) {
@@ -76,6 +67,18 @@ public class VeiculoDAO {
             return true;
         else
             return false;
+    }
+    
+    public void validarParametros(Veiculo veiculo) throws Exception
+    {
+        verificaStringCarro(veiculo);
+        
+        if (!reaope)
+            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
+        if (!verificaPlaca(veiculo.getPlaca()))
+            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
+        if (veiculo.getTipo() < 1 || veiculo.getTipo() > 8)
+            throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
     }
     
     public boolean verificaplaca(String placa) {
@@ -93,54 +96,37 @@ public class VeiculoDAO {
            return false;
     }
     
-    // RETORNA FALSO QUANDO A PLACA JÁ ESTIVER CADASTRADA NO SISTEMA
-    // PARA ADICIONAR UM VEÍCULO, PASSAR UM OBJETO SEM CÓDIGO
-    public void incluir(Veiculo Veiculo) throws Exception{ 
-        if (!verificaplaca(Veiculo.getPlaca()))
-            throw new Exception("Placa Já Cadastrada");
-        if (!verificaStringCarro(Veiculo))
-            throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres e o Campo 'UnCapac' Deve Possuir Exatamente 5 Caracteres");
-        if (!reaope)
-            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
-        if (!verificaPlaca(Veiculo.getPlaca()))
-            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
-        if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
-            throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
+    public void incluir(Veiculo veiculo) throws Exception{ 
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        Veiculo.setPlaca(Veiculo.getPlaca().toUpperCase());
         
         Session s = retornaSession();
+        validarParametros(veiculo);
+        
+        if (!verificaplaca(veiculo.getPlaca()))
+            throw new Exception("Placa Já Cadastrada");
+        
+        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
-        s.save(Veiculo);
+        s.save(veiculo);
         trans.commit();
         s.close();
     }
     
-    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public void alterar(Veiculo Veiculo) throws Exception{ 
-        if (!verificacodigo(Veiculo.getCodigo()))
-            throw new Exception("Placa Já Cadastrada");
-        if (!verificaStringCarro(Veiculo))
-            throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres e o Campo 'UnCapac' Deve Possuir Exatamente 5 Caracteres");
-        if (!reaope)
-            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
-        if (!verificaPlaca(Veiculo.getPlaca()))
-            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
-        if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
-            throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
+    public void alterar(Veiculo veiculo) throws Exception{ 
+        
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        Veiculo.setPlaca(Veiculo.getPlaca().toUpperCase());
         
         Session s = retornaSession();
+        validarParametros(veiculo);
+        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
-        s.update(Veiculo);
+        s.update(veiculo);
         trans.commit();
         s.close();
     }
     
-    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
     public void excluir(Veiculo Veiculo) throws Exception{ 
         if (Veiculo == null)
             throw new Exception("Objeto Veículo 'NULL'");
@@ -156,7 +142,6 @@ public class VeiculoDAO {
         s.close();
     }
     
-    // RETORNA A LISTA DE TODOS OS VEÍCULOS
     public List<Veiculo> consultarVeiculos(){
         Session s = retornaSession();
         List<Veiculo> u =  s.createQuery("FROM Veiculo") 
@@ -165,8 +150,7 @@ public class VeiculoDAO {
         s.close();
         return u;
     }
-    
-    // RETORNA A LISTA DOS VEÍCULOS DO TIPO SELECIONADO
+
     public List<Veiculo> consultarVeiculosPorTipo(int tipo){
         Session s = retornaSession();
         List<Veiculo> u = s.createQuery("FROM Veiculo WHERE tipo = :a")
@@ -177,7 +161,6 @@ public class VeiculoDAO {
         return u;
     }
     
-    // RETORNA VEÍCULO ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(int codvei){
         Session s = retornaSession();
         Veiculo u =  (Veiculo) s.createQuery("FROM Veiculo WHERE codigo = :a")
@@ -188,7 +171,6 @@ public class VeiculoDAO {
         return u;
     }
     
-    // RETORNA VEÍCULO POR PLACA ATRAVÉS DO CÓDIGO
     public Veiculo consultarVeiculo(String plavei) throws Exception{
         plavei = plavei.toUpperCase();
         

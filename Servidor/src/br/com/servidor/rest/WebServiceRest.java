@@ -49,10 +49,10 @@ public class WebServiceRest {
             VeiculoDAO vdao = new VeiculoDAO();
             vdao.incluir(v);
         //    Logger.logMethod("Rest", "");
-        return MsgReturn.retorna("true", "Cadastrou", v);
+            return MsgReturn.retorna("true", "Cadastrou", v);
         } catch (SQLException e) { 
         //    Logger.logMethod("Rest", e.getMessage());
-        return MsgReturn.retorna("false", "Ops, algo deu errado");
+            return MsgReturn.retorna("false", "Ops, algo deu errado");
          //   throw new Exception("Não foi possivel inserir o veículo.");
         } catch (Exception ex) {
             return MsgReturn.retorna("false", ex.getMessage());
@@ -106,7 +106,6 @@ public class WebServiceRest {
         } catch (Exception ex) {
         //    Logger.logMethod("Rest", ex.getMessage());
             return MsgReturn.retorna("false", ex.getMessage());
-           // throw new Exception(ex.getMessage());
         }
     }
     
@@ -132,32 +131,33 @@ public class WebServiceRest {
     @GET
     @Path("/get/consultar-veiculo/{cdVeiculo}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Veiculo consultarVeiculo(@PathParam("cdVeiculo")  Integer cdVeiculo) throws Exception{
+    public String consultarVeiculo(@PathParam("cdVeiculo")  Integer cdVeiculo) throws Exception{
         try {
             VeiculoDAO vdao = new VeiculoDAO();
             Veiculo veiculo = vdao.consultarVeiculo(cdVeiculo);
             veiculo.setPosicoes(null);
         //    Logger.logMethod("Rest", "");
-            return veiculo;
+            return MsgReturn.retorna("true", "Encontrou", veiculo);
         } catch (Exception ex) {
         //    Logger.logMethod("Rest", ex.getMessage());
-            throw new Exception("Não foi possivel consultar o veículo");
+           // throw new Exception("Não foi possivel consultar o veículo");
+           return MsgReturn.retorna("false", "Não encontrou");
         }
     }
     
-      @GET
+    @GET
     @Path("/get/consultar-veiculos-placa/{dsPlaca}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Veiculo consultarVeiculoPlaca(@PathParam("dsPlaca")  String dsPlaca) throws Exception{
+    public String consultarVeiculoPlaca(@PathParam("dsPlaca")  String dsPlaca) throws Exception{
        try {
             VeiculoDAO vdao = new VeiculoDAO();
             Veiculo veiculo = vdao.consultarVeiculo(dsPlaca);
             veiculo.setPosicoes(null);
         //    Logger.logMethod("Rest", "");
-            return veiculo;
+            return MsgReturn.retorna("true", "Encontrou", veiculo);
         } catch (Exception ex) {
         //    Logger.logMethod("Rest", ex.getMessage());
-            throw new Exception("Não foi possivel consultar o veículo");
+            return MsgReturn.retorna("false", "Não Encontrou");
         }
     }
     

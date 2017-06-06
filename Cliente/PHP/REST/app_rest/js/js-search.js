@@ -14,7 +14,7 @@
 $(document).on('click', 'a#btn_search', function() 
 {    
         var placa = $('#ipt_search').val();
-        
+        placa = placa.replace('-', '');
         if(placa !="") 
         {
             var parameters = {
@@ -28,16 +28,22 @@ $(document).on('click', 'a#btn_search', function()
             requestService(parameters)
                 .done(function(ret) 
                 {
-                    $.each(ret, function(key, value) 
-                    {   
-                        value['tipo'] = setaTipo(value['tipo']);   
-                    });
-                    $('#listaFrota').tmpl(ret).appendTo("#table_results");
+                    if(ret['ret']=='true') {
+                        $.each(ret['objeto'], function(key, value) 
+                        {   
+                            value['tipo'] = setaTipo(value['tipo']);   
+                        });
+                        $('#listaFrota').tmpl(ret['objeto']).appendTo("#table_results");
+                    }else {
+                        DialogMsg('Não encontrado', 'não encontramos este registro', 'alert-info');
+                    }
                 })
                 .fail(function (ret) 
                 {
-                    console.log('não, não deu');
+                     DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
                 });
+        }else {
+            DialogMsg('Hmm..', 'Insira uma placa para pesquisar', 'alert-info');
         }
 });
 
