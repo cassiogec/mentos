@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 /**
@@ -28,7 +27,6 @@ public class PosicaoDAO {
     
     public Session retornaSession()
     {
-        
         try
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
@@ -62,19 +60,27 @@ public class PosicaoDAO {
             return false;
     }
     
-    public void incluir(Posicao posicao) throws Exception{ 
-       if (posicao == null)
+    public void validarParametros (Posicao posicao) throws Exception
+    {
+        if (posicao == null)
             throw new Exception("Objeto Posição 'NULL'");
-       if (posicao.getVeiculo() == null)
+        
+        if (posicao.getVeiculo() == null)
             throw new Exception("Objeto Veículo 'NULL'");
-        if (!verificacodigo(posicao.getVeiculo().getCodigo()))
-            throw new Exception("Veículo Informado Não Localizado");
+        
         if (!reaope)
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
+        
         if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
-        if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
-            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
+        
+        if (!verificacodigo(posicao.getVeiculo().getCodigo()))
+            throw new Exception("Veículo Informado Não Localizado"); 
+    }
+    
+    public void incluir(Posicao posicao) throws Exception{ 
+        validarParametros(posicao);
+        
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         posicao.getVeiculo().setPlaca(posicao.getVeiculo().getPlaca().toUpperCase());
         
@@ -86,18 +92,9 @@ public class PosicaoDAO {
         s.close();
     }
     
-    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
     public void alterar(Posicao posicao) throws Exception{ 
-        if (posicao == null)
-            throw new Exception("Objeto Posição 'NULL'");
-        if (posicao.getVeiculo() == null)
-            throw new Exception("Objeto Veículo 'NULL'");
-        if (!verificacodigo(posicao.getVeiculo().getCodigo()))
-            throw new Exception("Veículo Informado Não Localizado");
-        if (!reaope)
-            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
-        if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
-            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
+        validarParametros(posicao);
+        
         //Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         posicao.getVeiculo().setPlaca(posicao.getVeiculo().getPlaca().toUpperCase());
         
@@ -109,7 +106,6 @@ public class PosicaoDAO {
         s.close();
     }
     
-    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR (THROWS)
     public void excluir(Posicao posicao) throws Exception{ 
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         if (posicao == null)
@@ -118,8 +114,7 @@ public class PosicaoDAO {
             throw new Exception("Objeto Veículo 'NULL'");
         if (!reaope)
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
-        if (!verificaPlaca(posicao.getVeiculo().getPlaca()))
-            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
+
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
@@ -128,7 +123,6 @@ public class PosicaoDAO {
         s.close();
     }
     
-    // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public Posicao consultarPosicao(int codvei, int posicao){
         Session s = retornaSession();
         Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b ORDER BY datahora")
@@ -140,7 +134,6 @@ public class PosicaoDAO {
         return u;
     }
     
-    // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DE UM INTERVALO DE DATAS
     public List<Posicao> consultarPosicao(int codvei, Calendar datIni) throws Exception{
         Session s = retornaSession();
         
@@ -153,7 +146,6 @@ public class PosicaoDAO {
         return u;
     }
     
-    // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public List<Posicao> consultarPosicoesCarro(int codvei){
         Session s = retornaSession();
         List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a ORDER BY datahora")
@@ -163,6 +155,4 @@ public class PosicaoDAO {
         s.close();
         return u;
     }
-    
-    
 }

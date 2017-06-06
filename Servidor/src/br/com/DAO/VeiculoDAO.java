@@ -71,6 +71,20 @@ public class VeiculoDAO {
             return false;
     }
     
+    public void validarParametros(Veiculo veiculo) throws Exception
+    {
+        verificaStringCarro(veiculo);
+        
+        if (!reaope)
+            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
+        if (!verificaPlaca(veiculo.getPlaca()))
+            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
+        if (veiculo.getTipo() < 1 || veiculo.getTipo() > 8)
+            throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
+        if (!verificaplaca(veiculo.getPlaca()))
+            throw new Exception("Placa Já Cadastrada");
+    }
+    
     public boolean verificaplaca(String placa) {
         placa = placa.toUpperCase();
         
@@ -86,54 +100,34 @@ public class VeiculoDAO {
            return false;
     }
     
-    // RETORNA FALSO QUANDO A PLACA JÁ ESTIVER CADASTRADA NO SISTEMA
-    // PARA ADICIONAR UM VEÍCULO, PASSAR UM OBJETO SEM CÓDIGO
-    public void incluir(Veiculo Veiculo) throws Exception{ 
-        verificaStringCarro(Veiculo);
+    public void incluir(Veiculo veiculo) throws Exception{ 
+        validarParametros(veiculo);
         
-        if (!reaope)
-            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
-        if (!verificaPlaca(Veiculo.getPlaca()))
-            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
-        if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
-            throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
-        if (!verificaplaca(Veiculo.getPlaca()))
-            throw new Exception("Placa Já Cadastrada");
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        Veiculo.setPlaca(Veiculo.getPlaca().toUpperCase());
+        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
-        s.save(Veiculo);
+        s.save(veiculo);
         trans.commit();
         s.close();
     }
     
-    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
-    public void alterar(Veiculo Veiculo) throws Exception{ 
-        verificaStringCarro(Veiculo);
+    public void alterar(Veiculo veiculo) throws Exception{ 
+        validarParametros(veiculo);
         
-        if (!reaope)
-            throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
-        if (!verificaPlaca(Veiculo.getPlaca()))
-            throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
-        if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
-            throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
-        if (!verificacodigo(Veiculo.getCodigo()))
-            throw new Exception("Placa Já Cadastrada");
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-        Veiculo.setPlaca(Veiculo.getPlaca().toUpperCase());
+        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         
         Session s = retornaSession();
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
-        s.update(Veiculo);
+        s.update(veiculo);
         trans.commit();
         s.close();
     }
     
-    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
     public void excluir(Veiculo Veiculo) throws Exception{ 
         if (Veiculo == null)
             throw new Exception("Objeto Veículo 'NULL'");
@@ -149,7 +143,6 @@ public class VeiculoDAO {
         s.close();
     }
     
-    // RETORNA A LISTA DE TODOS OS VEÍCULOS
     public List<Veiculo> consultarVeiculos(){
         Session s = retornaSession();
         List<Veiculo> u =  s.createQuery("FROM Veiculo") 
@@ -158,8 +151,7 @@ public class VeiculoDAO {
         s.close();
         return u;
     }
-    
-    // RETORNA A LISTA DOS VEÍCULOS DO TIPO SELECIONADO
+
     public List<Veiculo> consultarVeiculosPorTipo(int tipo){
         Session s = retornaSession();
         List<Veiculo> u = s.createQuery("FROM Veiculo WHERE tipo = :a")
