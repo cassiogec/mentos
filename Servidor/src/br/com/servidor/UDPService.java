@@ -54,22 +54,23 @@ public class UDPService extends Thread {
             Veiculo vei = new Veiculo();
             Posicao pos = new Posicao();
             
-            if(!new VeiculoDAO().verificaplaca(vetor_msg_recebida[0])){
-                try {
+            if (!new VeiculoDAO().verificaplaca(vetor_msg_recebida[0]))
+						{
+                try
+								{
                     vei = new VeiculoDAO().consultarVeiculo(vetor_msg_recebida[0]);
-                } catch (Exception ex) {
+										pos = montaObjPosicao(vei, vetor_msg_recebida);
+
+										new PosicaoDAO().incluir(pos);
+                }
+								catch (Exception ex)
+								{
                     System.out.println(ex.getMessage());
                 }
-                
-                pos = montaObjPosicao(vei,vetor_msg_recebida);
-                
-                try {
-                    new PosicaoDAO().incluir(pos);
-                } catch (Exception ex) {
-                    Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                System.err.println("Operacao Adiciona Posicao falhou, veiculo nao esta inserido no banco");
+            }
+						else
+						{
+                System.err.println("Veículo " + vetor_msg_recebida[0] + " não está cadastrado no banco");
             }
         }
     }

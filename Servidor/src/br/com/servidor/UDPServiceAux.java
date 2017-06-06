@@ -41,10 +41,9 @@ public class UDPServiceAux extends Thread{
             String status = null;
             Calendar datahora = null;
             for (Veiculo vei : listaveiculos) {
-        
                 posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
-                if(posicoescadaveiculo.size()>0){
-                    
+                
+								if(posicoescadaveiculo.size()>0){
                     for (Posicao pos : posicoescadaveiculo) {
                         datahora = pos.getDatahora();
                     }
@@ -61,17 +60,11 @@ public class UDPServiceAux extends Thread{
                         ObjetosApresentar o = new ObjetosApresentar(vei.getPlaca(), datahora, status);
                         listaapresentar.add(o);
                     }
-                    else{
-                        System.err.println("Data/Hora da Posicao do Veiculo fora da especificacao trabalho");
-                    }
-                     
                 }    
             }
             
             for (ObjetosApresentar a : listaapresentar){
-                
-                System.out.println("Veiculo: "+a.getPlaca()+" Status: "+a.getStatus());
-                
+                System.out.println("Veiculo: " + a.getPlaca() + " Status: " + a.getStatus());
             }
         }
     }
