@@ -19,37 +19,37 @@ import java.util.logging.Logger;
  *
  * @author Usuário
  */
-public class UDPServiceAux extends Thread{
-    
+public class UDPServiceAux extends Thread {
+
     private Integer atualizacao;
     private Long ciclos;
 
-    public void run(){
-        
-        while(true){
+    public void run() {
+
+        while (true) {
             try {
-                sleep(atualizacao*1000);
+                sleep(atualizacao * 1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(UDPServiceAux.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            List <Veiculo> listaveiculos = new VeiculoDAO().consultarVeiculos();
-            List <Posicao> posicoescadaveiculo;
-            ArrayList <ObjetosApresentar> listaapresentar = new ArrayList<>();
-            
+            List<Veiculo> listaveiculos = new VeiculoDAO().consultarVeiculos();
+            List<Posicao> posicoescadaveiculo;
+            ArrayList<ObjetosApresentar> listaapresentar = new ArrayList<>();
+
             String placa = null;
             String status = null;
             Calendar datahora = null;
             for (Veiculo vei : listaveiculos) {
-        
+
                 posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
-                if(posicoescadaveiculo.size()>0){
-                    
+                if (posicoescadaveiculo.size() > 0) {
+
                     for (Posicao pos : posicoescadaveiculo) {
                         datahora = pos.getDatahora();
                     }
-                   
-                    if(datahora.DAY_OF_YEAR == Calendar.getInstance().DAY_OF_YEAR){
+
+                    if (datahora.DAY_OF_YEAR == Calendar.getInstance().DAY_OF_YEAR) {
                         if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + ((ciclos * atualizacao) * 1000))) {
                             status = "Fora da Area de cobertura";
                         } else if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + (atualizacao * 1000))) {
@@ -57,21 +57,20 @@ public class UDPServiceAux extends Thread{
                         } else {
                             status = "Dentro da Area de Cobertura";
                         }
-                        
+
                         ObjetosApresentar o = new ObjetosApresentar(vei.getPlaca(), datahora, status);
                         listaapresentar.add(o);
-                    }
-                    else{
+                    } else {
                         System.err.println("Data/Hora da Posicao do Veiculo fora da especificacao trabalho");
                     }
-                     
-                }    
+
+                }
             }
-            
-            for (ObjetosApresentar a : listaapresentar){
-                
-                System.out.println("Veiculo: "+a.getPlaca()+" Status: "+a.getStatus());
-                
+
+            for (ObjetosApresentar a : listaapresentar) {
+
+                System.out.println("Veiculo: " + a.getPlaca() + " Status: " + a.getStatus());
+
             }
         }
     }
@@ -97,4 +96,3 @@ public class UDPServiceAux extends Thread{
         this.ciclos = ciclos;
     }
 }
-

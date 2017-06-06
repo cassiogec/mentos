@@ -9,19 +9,18 @@ package br.com.servidor;
  *
  * @author Rubens Rangel da Silva
  */
-public class MainUDPService
-{
+public class MainUDPService {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         int intervaloexecucaothread = 6;//Integer.parseInt(args[0]);
-        long intervalomudastatus    = 10; //Long.parseLong(args[1]);
-        
-        UDPServiceAux servAuxUDP = new UDPServiceAux(intervaloexecucaothread,intervalomudastatus);
+        long intervalomudastatus = 10; //Long.parseLong(args[1]);
+
+        UDPServiceAux servAuxUDP = new UDPServiceAux(intervaloexecucaothread, intervalomudastatus);
         servAuxUDP.start();
-        
+
         UDPService servUDP = new UDPService();
         servUDP.start();
     }

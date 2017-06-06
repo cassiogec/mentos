@@ -5,7 +5,6 @@
  */
 package br.com.servidor;
 
-
 import br.com.DAO.PosicaoDAO;
 import br.com.DAO.VeiculoDAO;
 import br.com.negocio.Posicao;
@@ -23,9 +22,10 @@ import java.util.logging.Logger;
  *
  * @author Rubens Rangel da Silva
  */
-public class UDPService extends Thread {    
-    public void run (){
-        int porta          = 2006;
+public class UDPService extends Thread {
+
+    public void run() {
+        int porta = 2006;
         DatagramSocket soc = null;
 
         try {
@@ -34,8 +34,7 @@ public class UDPService extends Thread {
             Logger.getLogger(UDPService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        while(true)
-        {
+        while (true) {
             byte buffer[] = new byte[100];
 
             DatagramPacket pacote = new DatagramPacket(buffer, buffer.length);
@@ -53,16 +52,16 @@ public class UDPService extends Thread {
             // AS FUNÇÕES APÓS CHEGADO DO PACOTE
             Veiculo vei = new Veiculo();
             Posicao pos = new Posicao();
-            
-            if(!new VeiculoDAO().verificaplaca(vetor_msg_recebida[0])){
+
+            if (!new VeiculoDAO().verificaplaca(vetor_msg_recebida[0])) {
                 try {
                     vei = new VeiculoDAO().consultarVeiculo(vetor_msg_recebida[0]);
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
-                
-                pos = montaObjPosicao(vei,vetor_msg_recebida);
-                
+
+                pos = montaObjPosicao(vei, vetor_msg_recebida);
+
                 try {
                     new PosicaoDAO().incluir(pos);
                 } catch (Exception ex) {
@@ -77,7 +76,7 @@ public class UDPService extends Thread {
     private Posicao montaObjPosicao(Veiculo vei, String[] msg_recebida) {
         Posicao pos_aux = new Posicao();
         pos_aux.setVeiculo(vei);
-        
+
         Calendar car = Calendar.getInstance();
         car.setTime(new Date());
         pos_aux.setDatahora(car);
