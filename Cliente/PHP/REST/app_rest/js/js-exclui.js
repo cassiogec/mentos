@@ -21,13 +21,11 @@ $(document).on('click', 'a#confirmar', function()
    
     requestService(parameters)
         .done(function(ret) 
-        {
-            printAlert(true);
-            
+        {            
             /* Impossibilita a ação durante o perído de exclusão */
-            $('a#dsPlaca').attr('dt_id', null);
-            $('a#alterar').attr('dt_id', null);
-            $('a#deletar').attr('dt_id', null);
+            $('a#dsPlaca[dt_id="'+id+'"]').attr('dt_id', null);
+            $('a#alterar[dt_id="'+id+'"]').attr('dt_id', null);
+            $('a#deletar[dt_id="'+id+'"]').attr('dt_id', null);
             
             $('tr[dt_id="'+id+'"]').addClass('danger');
             setTimeout(function(){

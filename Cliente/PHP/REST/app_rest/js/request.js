@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-
-
 var BASE = "http://10.1.1.3:8080/Servidor/webresources/mentos/";
 
 /*

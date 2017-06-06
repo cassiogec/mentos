@@ -37,8 +37,9 @@ $(document).on('click', 'a#listar', function()
     
     console.log(data);
     var from = data.split("/");
-    var nova_data = from[2]+'-'+from[1]+'-'+from[0]+' '+hora+':00.000';
+    var nova_data = from[2]+'-'+from[1]+'-'+from[0]+'T'+hora+':00.000-03:00';
     
+    console.log(nova_data);
     var dados = {
         cdVeiculo     : id,
         dtLocalizacao : nova_data

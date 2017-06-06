@@ -6,21 +6,21 @@
 
 function DialogMsg(title,msg, clas) {
     
-    html = "<strong id='msg'>"+title+"</strong> "+msg+""; 
-    $('#dialog_alert').hide(300);
+    var html = "<strong id='msg'>"+title+"</strong> "+msg+""; 
+    $('#dialog_alerta').hide(300);
     $('#dialog_msg').empty();
     
-    $('#dialog_alert').removeClass('alert-info');
-    $('#dialog_alert').removeClass('alert-waring');
-    $('#dialog_alert').removeClass('alert-primary');
-    $('#dialog_alert').removeClass('alert-success');
+    $('#dialog_alerta').removeClass('alert-info');
+    $('#dialog_alerta').removeClass('alert-warning');
+    $('#dialog_alerta').removeClass('alert-primary');
+    $('#dialog_alerta').removeClass('alert-success');
     
-    $('#dialog_alert').addClass(clas);
+    $('#dialog_alerta').addClass(clas);
     
     $('#dialog_msg').append(html);
-    $('#dialog_alert').show(400);
-    setTimeout(function(){
-     $('#dialog_alert').hide(400);
+    $('#dialog_alerta').show(400);
+    setTimeout(function() {
+        $('#dialog_alerta').hide(400);
 }, 2000);
 }
 
@@ -40,15 +40,14 @@ $(document).on('click', 'a#alterar', function() {
     requestService(parameters)
         .done(function(data) 
         {
-            
-            if(data['ret']=='true'){
+            if(data['ret']=='true') {
                 $('#iptPlaca').val(data['objeto']['placa']);
                 $('#iptCapacidade').val(data['objeto']['capacidade']);
                 $('#iptTipo').val(data['objeto']['tipo']);
                 $('#drop_menu[dt_id="'+data['objeto']['tipo']+'"]').click();
                 $('#iptUnidade').val(data['objeto']['uncapac']);  
             }else {
-                DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+                DialogMsg('Ops', data['msg'], 'alert-warning');
             }
         })
         .fail(function (ret) 
