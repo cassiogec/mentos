@@ -32,13 +32,19 @@ public class VeiculoDAO {
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
             s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
+<<<<<<< HEAD
             //System.out.println("BANCO ORIGINAL");
+=======
+>>>>>>> 29d4ab6d8abc899be585c63a5640db3bd805ad38
             reaope=true;
             return s;
         }
         catch (ExceptionInInitializerError ex) {
                 Session s2 = HibernateUtil3.getSessionFactory2().openSession();
+<<<<<<< HEAD
                 //System.out.println("BANCO REPLICADO");
+=======
+>>>>>>> 29d4ab6d8abc899be585c63a5640db3bd805ad38
                 reaope=false;
                 return s2;
         } 

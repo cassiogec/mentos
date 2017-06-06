@@ -33,13 +33,19 @@ public class PosicaoDAO {
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
             s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
+<<<<<<< HEAD
             //System.out.println("BANCO ORIGINAL");
+=======
+>>>>>>> 29d4ab6d8abc899be585c63a5640db3bd805ad38
             reaope=true;
             return s;
         }
         catch (ExceptionInInitializerError ex) {
                 Session s2 = HibernateUtil3.getSessionFactory2().openSession();
+<<<<<<< HEAD
                 //System.out.println("BANCO REPLICADO");
+=======
+>>>>>>> 29d4ab6d8abc899be585c63a5640db3bd805ad38
                 reaope=false;
                 return s2;
         } 
@@ -111,7 +117,7 @@ public class PosicaoDAO {
         s.close();
     }
     
-    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
+    // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR (THROWS)
     public void excluir(Posicao posicao) throws Exception{ 
        // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         if (posicao == null)
@@ -133,7 +139,7 @@ public class PosicaoDAO {
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public Posicao consultarPosicao(int codvei, int posicao){
         Session s = retornaSession();
-        Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b")
+        Posicao u =  (Posicao) s.createQuery("FROM Posicao WHERE codigo = :a AND veiculo.codigo = :b ORDER BY datahora")
                     .setInteger("a", posicao)
                     .setInteger("b", codvei)
                     .setTimeout(30)
@@ -146,7 +152,7 @@ public class PosicaoDAO {
     public List<Posicao> consultarPosicao(int codvei, Calendar datIni) throws Exception{
         Session s = retornaSession();
         
-        List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND veiculo.codigo = :b")
+        List<Posicao> u = s.createQuery("FROM Posicao WHERE datahora >= :a AND veiculo.codigo = :b ORDER BY datahora")
                     .setCalendar("a", datIni)
                     .setInteger("b", codvei)
                     .setTimeout(30)
@@ -158,7 +164,7 @@ public class PosicaoDAO {
     // RETORNA POSIÇÃO ATRAVÉS DO CÓDIGO DO VEÍCULO E DO CÓDIGO DA POSIÇÃO
     public List<Posicao> consultarPosicoesCarro(int codvei){
         Session s = retornaSession();
-        List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a")
+        List<Posicao> u =  s.createQuery("FROM Posicao WHERE veiculo.codigo = :a ORDER BY datahora")
                     .setInteger("a", codvei)
                     .setTimeout(30)
                     .list();
