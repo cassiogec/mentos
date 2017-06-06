@@ -103,10 +103,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.persistence-api-1.0.2.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.validation-api-1.1.0.Final.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
