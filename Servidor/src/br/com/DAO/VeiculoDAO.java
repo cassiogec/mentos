@@ -79,8 +79,6 @@ public class VeiculoDAO {
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         if (veiculo.getTipo() < 1 || veiculo.getTipo() > 8)
             throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
-        if (!verificaplaca(veiculo.getPlaca()))
-            throw new Exception("Placa Já Cadastrada");
     }
     
     public boolean verificaplaca(String placa) {
@@ -103,6 +101,10 @@ public class VeiculoDAO {
         
         Session s = retornaSession();
         validarParametros(veiculo);
+        
+        if (!verificaplaca(veiculo.getPlaca()))
+            throw new Exception("Placa Já Cadastrada");
+        
         veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         Transaction trans = s.beginTransaction();
         trans.setTimeout(30);
