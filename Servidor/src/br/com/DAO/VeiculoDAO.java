@@ -32,19 +32,13 @@ public class VeiculoDAO {
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
             s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
-<<<<<<< HEAD
-            //System.out.println("BANCO ORIGINAL");
-=======
->>>>>>> 29d4ab6d8abc899be585c63a5640db3bd805ad38
+            System.out.println("BANCO ORIGINAL");
             reaope=true;
             return s;
         }
         catch (ExceptionInInitializerError ex) {
                 Session s2 = HibernateUtil3.getSessionFactory2().openSession();
-<<<<<<< HEAD
-                //System.out.println("BANCO REPLICADO");
-=======
->>>>>>> 29d4ab6d8abc899be585c63a5640db3bd805ad38
+                System.out.println("BANCO REPLICADO");
                 reaope=false;
                 return s2;
         } 
@@ -56,13 +50,12 @@ public class VeiculoDAO {
         return p.matcher(placa).matches();
     }
     
-    private boolean verificaStringCarro(Veiculo veiculo)
+    private void verificaStringCarro(Veiculo veiculo) throws Exception
     {
         if (veiculo.getPlaca().length() != 7)
-            return false;
+            throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres");
         if (veiculo.getUncapac().length() != 5)
-            return false;
-        return true;
+            throw new Exception("Campo Unidade Deve Possuir Exatamente 5 Caracteres");
     }
     
     public boolean verificacodigo(int codigo) {
@@ -96,16 +89,16 @@ public class VeiculoDAO {
     // RETORNA FALSO QUANDO A PLACA JÁ ESTIVER CADASTRADA NO SISTEMA
     // PARA ADICIONAR UM VEÍCULO, PASSAR UM OBJETO SEM CÓDIGO
     public void incluir(Veiculo Veiculo) throws Exception{ 
-        if (!verificaplaca(Veiculo.getPlaca()))
-            throw new Exception("Placa Já Cadastrada");
-        if (!verificaStringCarro(Veiculo))
-            throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres e o Campo 'UnCapac' Deve Possuir Exatamente 5 Caracteres");
+        verificaStringCarro(Veiculo);
+        
         if (!reaope)
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
         if (!verificaPlaca(Veiculo.getPlaca()))
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
             throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
+        if (!verificaplaca(Veiculo.getPlaca()))
+            throw new Exception("Placa Já Cadastrada");
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Veiculo.setPlaca(Veiculo.getPlaca().toUpperCase());
         
@@ -119,16 +112,16 @@ public class VeiculoDAO {
     
     // RETORNA FALSO SE O CÓDIGO DO VEÍCULO NÃO EXISTIR
     public void alterar(Veiculo Veiculo) throws Exception{ 
-        if (!verificacodigo(Veiculo.getCodigo()))
-            throw new Exception("Placa Já Cadastrada");
-        if (!verificaStringCarro(Veiculo))
-            throw new Exception("Placa do Carro Deve Possuir Exatamente 7 Caracteres e o Campo 'UnCapac' Deve Possuir Exatamente 5 Caracteres");
+        verificaStringCarro(Veiculo);
+        
         if (!reaope)
             throw new Exception("Não é Possível Realizar Operações no Banco Replicado");
         if (!verificaPlaca(Veiculo.getPlaca()))
             throw new Exception("Placa do Carro Estar no Seguinte Formato: 'AAA9999'");
         if (Veiculo.getTipo() < 1 || Veiculo.getTipo() > 8)
             throw new Exception("Tipo do Veículo Deve Ser Entre 1 e 8!");
+        if (!verificacodigo(Veiculo.getCodigo()))
+            throw new Exception("Placa Já Cadastrada");
         // Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Veiculo.setPlaca(Veiculo.getPlaca().toUpperCase());
         
