@@ -98,7 +98,7 @@ public class WebServiceRest {
             return MsgReturn.retorna("true", "Excluido");
         }  catch (SQLException e) {
             Logger.logMethod("Rest", e.getMessage());
-            return MsgReturn.retorna("false","possível");
+            return MsgReturn.retorna("false","Não foi possível excluir");
         } catch (Exception ex) {
             Logger.logMethod("Rest", ex.getMessage());
             return MsgReturn.retorna("false", ex.getMessage());
@@ -136,7 +136,7 @@ public class WebServiceRest {
             return MsgReturn.retorna("true", "Encontrou", veiculo);
         } catch (Exception ex) {
             Logger.logMethod("Rest", ex.getMessage());
-            return MsgReturn.retorna("false", "Não encontrou");
+            return MsgReturn.retorna("false", ex.getMessage());
         }
     }
     
@@ -152,7 +152,7 @@ public class WebServiceRest {
             return MsgReturn.retorna("true", "Encontrou", veiculo);
         } catch (Exception ex) {
             Logger.logMethod("Rest", ex.getMessage());
-            return MsgReturn.retorna("false", "Não Encontrou");
+            return MsgReturn.retorna("false", ex.getMessage());
         }
     }
     
