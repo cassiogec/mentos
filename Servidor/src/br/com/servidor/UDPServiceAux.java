@@ -65,7 +65,14 @@ public class UDPServiceAux extends Thread {
                         listaapresentar.add(o);
                     }
                 }
+                else
+                {
+                    ObjetosApresentar o = new ObjetosApresentar(vei.getPlaca(), Calendar.getInstance(), "Fora da Area de cobertura");
+                    listaapresentar.add(o);
+                }
             }
+            
+            System.out.println("------------------------------------------------------------");
             
             for (ObjetosApresentar a : listaapresentar){
                 System.out.println("Veiculo: " + a.getPlaca() + " Status: " + a.getStatus());
