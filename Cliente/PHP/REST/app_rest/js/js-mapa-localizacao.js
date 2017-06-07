@@ -106,41 +106,45 @@ $(document).ready(function()
     
     var id = _GET('veiculo');
     
-    var dados = {
-        cdVeiculo     : id,
-        dtLocalizacao : null
-    };
+    if(id !=null) 
+    {
+        var dados = {
+            cdVeiculo     : id,
+            dtLocalizacao : null
+        };
 
-    var parameters = {
-        method : 'POST',
-        data   : JSON.stringify(dados),
-   contentType : "application/json",
-        url    : 'post/localizacao/'
-    };
-    requestService(parameters)
-        .done(function(ret) 
-        {  
-            $('#dialog_alerta').hide(600);
-            if(!$.isEmptyObject(ret))
+        var parameters = {
+            method : 'POST',
+            data   : JSON.stringify(dados),
+       contentType : "application/json",
+            url    : 'post/localizacao/'
+        };
+        
+        requestService(parameters)
+            .done(function(ret) 
+            {  
+                $('#dialog_alerta').hide(600);
+                if(!$.isEmptyObject(ret))
+                {
+                    /* latitude e longitude inicial para o centro */
+                    var lat_center =  ret[0]['latitude'];
+                    var lng_center =  ret[0]['longitude'];
+
+                    var pontos = [];
+
+                    $.each(ret, function(key, value) {
+                        var ponto = {'lat':value['latitude'], 'lng': value['longitude']};
+                        pontos.push(ponto);
+                    });
+
+                    initMap(pontos, lat_center, lng_center);
+                } else {
+                    DialogMsg('Não encontramos', 'Não há rota para este veículo', 'alert-info');
+                }
+            })
+            .fail(function (ret) 
             {
-                /* latitude e longitude inicial para o centro */
-                var lat_center =  ret[0]['latitude'];
-                var lng_center =  ret[0]['longitude'];
-
-                var pontos = [];
-
-                $.each(ret, function(key, value) {
-                    var ponto = {'lat':value['latitude'], 'lng': value['longitude']};
-                    pontos.push(ponto);
-                });
-
-                initMap(pontos, lat_center, lng_center);
-            } else {
-                DialogMsg('Não encontramos', 'Não há rota para este veículo', 'alert-info');
-            }
-        })
-        .fail(function (ret) 
-        {
-            DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
-        });
+                DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+            });
+        }
 });
