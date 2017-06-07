@@ -20,9 +20,13 @@ jQuery(function($){
             return false;
         }
     });
-
+    $('#iptCapacidade').keyup(function () { 
+    this.value = this.value.replace(/[^0-9\.]/g,'');
+});
 
 });
+
+
 
 function setaTipo(tipo) 
 {
@@ -95,7 +99,7 @@ $(document).on('click', 'a#inserir', function()
     
     placa = placa.replace('-', '');
     
-    if(placa != "" || capacidade != "" || tipo != "") 
+    if(placa != "" && capacidade != "" && tipo !="" && unidade !="") 
     {
         if(controller=='inserir') {
             var veiculo = {

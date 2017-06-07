@@ -49,9 +49,7 @@ $(document).on('click', 'a#btn_insert', function() {
 });
 
 $(document).ready(function() 
-{    
-    $('#session_ip').text(window.sessionStorage.getItem('usuario'));
-    
+{        
     var parameters = {
         'method' : 'GET',
         'data'   : null,

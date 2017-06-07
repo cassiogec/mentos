@@ -5,12 +5,18 @@
  */
 
 $(document).ready(function() {
+    
     if(!window.sessionStorage.getItem('usuario')){
     window.location = 'index.html';
     }
+    
+    $('#session_ip').text(window.sessionStorage.getItem('usuario'));
+
 });
 
 $(document).on('click', '#sair', function() {
     window.sessionStorage.removeItem('usuario');
     window.location = 'index.html';
 });
+
+
