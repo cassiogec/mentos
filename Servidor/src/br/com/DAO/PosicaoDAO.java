@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.JDBCConnectionException;
 
 /**
  *
@@ -27,10 +28,10 @@ public class PosicaoDAO {
     
     public Session retornaSession()
     {
-        try
+	try
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
-            s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
+            s.createQuery("SELECT COUNT(codigo) FROM Veiculo").uniqueResult();
             reaope=true;
             return s;
         }
@@ -39,6 +40,12 @@ public class PosicaoDAO {
             reaope=false;
             return s2;
         } 
+        catch (JDBCConnectionException ex2)
+        {
+            Session s2 = HibernateUtil3.getSessionFactory2().openSession();
+            reaope=false;
+            return s2;
+        }
     }
     
     private boolean verificaPlaca(String placa)
