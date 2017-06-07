@@ -21,18 +21,22 @@ $(document).on('click', 'a#confirmar', function()
    
     requestService(parameters)
         .done(function(ret) 
-        {            
-            /* Impossibilita a ação durante o perído de exclusão */
-            $('a#dsPlaca[dt_id="'+id+'"]').attr('dt_id', null);
-            $('a#alterar[dt_id="'+id+'"]').attr('dt_id', null);
-            $('a#deletar[dt_id="'+id+'"]').attr('dt_id', null);
-            
-            $('tr[dt_id="'+id+'"]').addClass('danger');
-            setTimeout(function(){
-                $('tr[dt_id="'+id+'"]').remove();
-        }, 2000);
-           
-            DialogMsg('Excluido', 'item excluido', 'alert-success');
+        {
+            if(ret['true']) {
+                /* Impossibilita a ação durante o perído de exclusão */
+                $('a#dsPlaca[dt_id="'+id+'"]').attr('dt_id', null);
+                $('a#alterar[dt_id="'+id+'"]').attr('dt_id', null);
+                $('a#deletar[dt_id="'+id+'"]').attr('dt_id', null);
+
+                $('tr[dt_id="'+id+'"]').addClass('danger');
+                setTimeout(function(){
+                    $('tr[dt_id="'+id+'"]').remove();
+                }, 2000);
+
+                DialogMsg('Excluido', ret['msg'], 'alert-success');
+            } else {
+                DialogMsg('Ops!', ret['msg'], 'alert-warning');
+            }
         })
         .fail(function (ret) 
         {

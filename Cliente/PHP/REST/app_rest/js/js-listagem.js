@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 
-
-
-
-
 $(document).on('click', 'a#alterar', function() {
     $('#modal_title').text("Manutenção de Veículos");
     $('a#inserir').attr('dt_id', $(this).attr('dt_id'));
