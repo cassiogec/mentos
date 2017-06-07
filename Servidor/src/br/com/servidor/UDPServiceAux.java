@@ -40,22 +40,19 @@ public class UDPServiceAux extends Thread {
             String placa = null;
             String status = null;
             Calendar datahora = null;
-            for (Veiculo vei : listaveiculos) {
-<<<<<<< HEAD
-
-                posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
-                if (posicoescadaveiculo.size() > 0) {
-
-=======
+            
+            for (Veiculo vei : listaveiculos)
+            {
                 posicoescadaveiculo = new PosicaoDAO().consultarPosicoesCarro(vei.getCodigo());
                 
-								if(posicoescadaveiculo.size()>0){
->>>>>>> 3afc8aaafa5902a63e2b69d8cc44647a66279de6
+		if (posicoescadaveiculo.size() > 0)
+                {
                     for (Posicao pos : posicoescadaveiculo) {
                         datahora = pos.getDatahora();
                     }
 
-                    if (datahora.DAY_OF_YEAR == Calendar.getInstance().DAY_OF_YEAR) {
+                    if (datahora.DAY_OF_YEAR == Calendar.getInstance().DAY_OF_YEAR)
+                    {
                         if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + ((ciclos * atualizacao) * 1000))) {
                             status = "Fora da Area de cobertura";
                         } else if (Calendar.getInstance().getTimeInMillis() > (datahora.getTimeInMillis() + (atualizacao * 1000))) {
@@ -66,26 +63,12 @@ public class UDPServiceAux extends Thread {
 
                         ObjetosApresentar o = new ObjetosApresentar(vei.getPlaca(), datahora, status);
                         listaapresentar.add(o);
-<<<<<<< HEAD
-                    } else {
-                        System.err.println("Data/Hora da Posicao do Veiculo fora da especificacao trabalho");
                     }
-
                 }
-            }
-
-            for (ObjetosApresentar a : listaapresentar) {
-
-                System.out.println("Veiculo: " + a.getPlaca() + " Status: " + a.getStatus());
-
-=======
-                    }
-                }    
             }
             
             for (ObjetosApresentar a : listaapresentar){
                 System.out.println("Veiculo: " + a.getPlaca() + " Status: " + a.getStatus());
->>>>>>> 3afc8aaafa5902a63e2b69d8cc44647a66279de6
             }
         }
     }
