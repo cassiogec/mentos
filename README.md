@@ -9,6 +9,7 @@ Para Executar Servidor
 2) Entre na pasta Servidor/build/web/WEB-INF/
 
 UDP:
+
 3) Execute comando java -classpath "lib/*:classes/." br.com.servidor.MainUDPService passando dois parametros inteiros, Atualização e Cilos respectivamente
 
 TCP: 
@@ -18,6 +19,7 @@ TCP:
 Executar Clientes
 
 UDP
+
 * Ajuste arquivo UDPClienteSimulador nas linhas 58 e 61 para pegar o caminho completo até a pasta rotas no projeto, e compile o projeto novamente. Se execução for feita pela IDE, não há a necessidade desse ajuste.
 
 2) Entre na pasta Cliente/Java/UDPClienteSimulador/dist/
