@@ -13,6 +13,7 @@
 
 $(document).on('click', 'a#btn_search', function() 
 {    
+        $('#fil_tipo[dt_id="-1"]').click();
         var placa = $('#ipt_search').val();
         placa = placa.replace('-', '');
         if(placa !="") 

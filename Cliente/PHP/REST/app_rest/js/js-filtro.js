@@ -7,6 +7,7 @@
 
 $(document).on('click', 'a#fil_tipo', function() 
 {
+    $('#ipt_search').val("");
     $('#title_drop_tipo').text($(this).text());
     
     var tipo = $(this).attr('dt_id');

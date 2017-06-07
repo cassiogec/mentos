@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!-- 
+ Anotações:
+ Validar campos: Data e hora, (dialog, preencher campos)
+
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- Mobile support -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+           <!-- Material Design fonts -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="css/boostrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap Material Design -->
+        <link href="dist/css/bootstrap-material-design.css" rel="stylesheet">
+        <link href="dist/css/ripples.min.css" rel="stylesheet">
+
+        <!-- Dropdown.js -->
+        <link href="css/jquery.dropdown.css" rel="stylesheet">
+
+        <!-- Page style -->
+        <link href="index.css" rel="stylesheet">
+
+        <!-- jQuery -->
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
+        <link href="https://developers.google.com/maps/documentation/javascript/demos/demos.css" rel="stylesheet">
+
+        <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" type="text/javascript"></script>
+
+        <script src="js/jquery.maskedinput.js" type="text/javascript"></script>
+        
+        <script type="text/javascript" src="js/request.js"> </script>
+        
+        <script type="text/javascript" src="js/js-sessao.js"> </script>
+        
+        <script type="text/javascript" src="js/dialog-js.js"> </script>
+        
+        <script type="text/javascript" src="js/js-listagem.js"> </script>
+        
+        <script type="text/javascript" src="js/js-cadastro.js"> </script>
+        
+        <script type="text/javascript" src="js/js-exclui.js"> </script>
+        
+        <script type="text/javascript" src="js/js-filtro.js"> </script>
+        
+        <script type="text/javascript" src="js/js-search.js"> </script>
+        
+        <script type="text/javascript" src="js/js-localizacao.js"> </script>
+
+
+        <script id="listaFrota" type="text/x-jquery-tmpl">
+
+            <tr class="nen" dt_id="${codigo}"> 
+                <th scope="row"></th> 
+                <td><a dt_id='${codigo}' dt_placa='${placa}' id='dsPlaca' data-toggle="modal" data-target="#menu-dialog" id="modal_localizacao">${placa}</a></td> 
+                <td dt_id='${codigo}' id='idTipo' >${tipo}</td> 
+                <td dt_id='${codigo}' id='vlCapacidade' >${capacidade}</td>
+                <td dt_id='${codigo}' id='dsUnidade' >${uncapac}</td>
+               <td>
+                    <a id="alterar" dt_id="${codigo}" style="margin:0px; " data-toggle="modal" data-target="#insert-dialog" class="btn btn-block btn-success">Alterar</a>
+                </td>
+                <td>
+                    <a id="deletar" dt_id="${codigo}" style="margin:0px; " data-toggle="modal" data-target="#delete-dialog" class="btn btn-block btn-danger">Excluir</a>
+                </td>
+            </tr>      
+        </script>
+        
+        <script id="listaLocalizacao" type="text/x-jquery-tmpl">
+            <tr> 
+                <td>${latitude}</td> 
+                <td>${longitude}</td>
+            </tr>      
+        </script>
+  
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+   
+    <script src="js/frota.js" type="text/javascript"> </script>
+    
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="js/boostrap.min.js" ></script>
+    </head>
+    <body>
+        <!--
+        <div class="modal-content">
+          <div class="modal-body">
+              <p><span class="label label-warning">Ops</span> Parece que você está <strong>offline</strong>. Algumas tarefas podem não estar sincronizadas com o servidor. <strong> Não feche esta aba. </strong> </p>
+          </div>
+        </div> -->
+        <div id="delete-dialog" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Excluir</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Você deseja excluir este registro?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input id="iptDel" type="text" hidden>
+                        <a type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</a>
+                        <a id="confirmar" type="button" class="btn btn-danger" data-dismiss="modal">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu-dialog" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Localização</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Como você pretende visualizar as coordenadas?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="abre_mapa" dt_id="null" class="btn btn-primary" data-dismiss="modal">Mapa</a>
+                        <a id="lista" dt_id="null" data-toggle="modal" data-target="#location-dialog"  class="btn alert-default" data-dismiss="modal">Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="insert-dialog" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 id="modal_title" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12">
+                        <div class="form-group has-success ">
+                            <label for="iptPlaca" class="col-md-2 control-label">Placa</label>
+                            <div class="col-md-4">
+                                <input id="iptPlaca" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group has-success is-empty">
+                            <label for="iptCapacidade" class="col-md-2 control-label">Capacidade</label>
+                            <div class="col-md-8">
+                                <input id="iptCapacidade" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group has-success">
+                            <input type="text" hidden id="iptTipo" >
+                            <label  class="col-md-2 control-label">Tipo</label>
+                            <div class="col-md-6">
+                                <div class="btn-group">
+                                    <a id="drop_title" href="javascript:void(0)" data-toggle="dropdown" class="btn btn-primary btn-raised">Selecione o tipo<div class="ripple-container"></div></a>
+                                    <a href="bootstrap-elements.html" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><div class="ripple-container"></div></a>
+                                    <ul class="dropdown-menu">
+                                      <li><a id="drop_menu" dt_id="1">Carro</a></li>
+                                      <li><a id="drop_menu" dt_id="2">Caminhão</a></li>
+                                      <li><a id="drop_menu" dt_id="3">Caminhão Carreta</a></li>
+                                      <li><a id="drop_menu" dt_id="4">Caminhão Bitrem</a></li>
+                                      <li><a id="drop_menu" dt_id="5">Caminhão Treminhão</a></li>
+                                      <li><a id="drop_menu" dt_id="6">Moto</a></li>
+                                      <li><a id="drop_menu" dt_id="7">Triciclo</a></li>
+                                      <li><a id="drop_menu" dt_id="8">Quadriciclo</a></li>
+                                    </ul>
+                                  </div>                
+                            </div>
+                        </div>
+                    </div>      
+                    <div class="form-group has-success is-empty">
+                        <label for="iptUnidade" class="col-md-2 control-label">Unidades</label>
+                        <div class="col-md-8">
+                            <input id="iptUnidade" maxlength="5" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <span id="alert" class="label label-warning"></span>
+                        </div>
+                        <div class="col-md-8 col-md-offset-2">
+                            <a id="inserir" dt_id="null" dt_fruit="null" class="btn btn-raised btn-success">Inserir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div id="location-dialog" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 id="modal_title" class="modal-title">Coordenadas</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                   <!-- <div class="col-md-4">
+                        <div class="form-group has-success ">
+                            <label for="iptPlaca_coord" class="col-md-2 control-label">Placa</label>
+                            <div class="col-md-8">
+                                <input id="iptPlaca_coord" type="text" class="form-control">
+                            </div>
+                        </div> 
+                    </div>-->
+                    <div class="col-md-4">
+                        <div class="form-group has-success is-empty">
+                            <label for="iptData_coord" class="col-md-2 control-label">Data</label>
+                            <div class="col-md-8">
+                                <input id="iptData_coord" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group has-success is-empty">
+                            <label for="iptHora_coord" class="col-md-2 control-label">Hora</label>
+                            <div class="col-md-8">
+                                <input id="iptHora_coord" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a id="listar" dt_id="null" dt_placa="null" dt_fruit="null" class="btn btn-block btn-success">Listar</a>
+                        </div>
+                    </div>
+                </div>
+                    <div style=" height: 300px; display: block; width: 600px; overflow: auto;">
+                    <table id="t_location" style="display: none;" class="table"> 
+                        <thead> 
+                            <tr>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                            </tr> 
+                        </thead> 
+                        <tbody style="" id="table_location">
+                        </tbody> 
+                    </table> 
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div id="source-modal" class="modal fade" tabindex="-1">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Source Code</h4>
+              </div>
+              <div class="modal-body">
+                <pre></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bs-component">
+            <div style="font-weight: bold; background-color: #6495ED; box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);" class="navbar">
+            <div class="container-fluid">
+                <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-warning-collapse">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="javascript:void(0)">Brand</a>
+              </div>
+              <div class="navbar-collapse navbar-warning-collapse collapse in" aria-expanded="true">
+                <ul class="nav navbar-nav">
+                  <li class="dropdown">
+                    <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Menu
+                      <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="javascript:void(0)">Frota</a></li>
+                      <li><a href="maps.html">Mapa em tempo real</a></li>
+                    </ul>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                      <li><a id="session_ip">Fulano</a></li>
+                        <li class="dropdown">
+                    <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="divider"></li>
+                        <li><a id ="sair">Sair</a></li>
+                    </ul>
+                  </li> 
+                </ul>
+              </div>
+          </div>
+        </div>
+        </div>
+            
+        <div class="container-fluid main">  
+            <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-4">   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="well page active" id="getting-started">
+                        <div class=" col-md-12">
+                            <h1>Bem vindo ao mentos</h1>
+                        </div>
+                        <h3>Sistema de localização de veículos</h3>
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Listagem de veículos</div>
+                            <div class="panel-body"> 
+                                <div class="col-md-6">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="ipt_search" type="text" class="form-control" placeholder="Informe a placa">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <a id="btn_search" class="btn btn-raised btn-info">Pesquisar<div class="ripple-container"></div></a>   
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="dropdown">
+                                                <button id="title_drop_tipo" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                  Filtrar por tipo
+                                                  <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <li><a id="fil_tipo" dt_id="-1">Todos</a></li>
+                                                    <li><a id="fil_tipo" dt_id="1">Carro</a></li>
+                                                    <li><a id="fil_tipo" dt_id="2">Caminhão</a></li>
+                                                    <li><a id="fil_tipo" dt_id="3">Caminhão Carreta</a></li>
+                                                    <li><a id="fil_tipo" dt_id="4">Caminhão Bitrem</a></li>
+                                                    <li><a id="fil_tipo" dt_id="5">Caminhão Treminhão</a></li>
+                                                    <li><a id="fil_tipo" dt_id="6">Moto</a></li>
+                                                    <li><a id="fil_tipo" dt_id="7">Triciclo</a></li>
+                                                    <li><a id="fil_tipo" dt_id="8">Quadriciclo</a></li>
+                                                </ul>
+                                              </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        <table class="table"> 
+                            <thead> 
+                                <tr>
+                                    <th>#</th> 
+                                    <th>Placa</th>
+                                    <th>Tipo</th>
+                                    <th>Capacidade</th>
+                                    <th>Unidades</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr> 
+                            </thead> 
+                            <tbody id="table_results">
+                            </tbody> 
+                        </table> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="position: fixed; bottom:10px; left: 10px; z-index: 1090" id="box_alert">
+        <div class="col-md-12">
+            <div style="display: none; z-index: 1090" id="dialog_alerta" class="alert alert-dismissible alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <div id="dialog_msg">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="position: fixed;bottom:23px; right: 23px;" id="box_fab_button">
+        <a style="position: relative;" id="btn_insert" data-toggle="modal" data-target="#insert-dialog" class="btn btn-primary btn-fab"><i class="material-icons">add</i></a>
+    </div>
+        
+        <!-- Material Design for Bootstrap -->
+        <script src="dist/js/material.js"></script>
+        <script src="dist/js/ripples.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() 
+            {
+                $.material.init();
+            });
+        </script>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/noUiSlider/6.2.0/jquery.nouislider.min.js"></script>
+</html>

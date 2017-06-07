@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var usuario = window.sessionStorage.getItem('usuario');
 
-var BASE = "http://10.1.1.3:8080/Servidor/webresources/mentos/";
+if(usuario != "") {
+    var BASE = "http://"+usuario+":8080/Servidor/webresources/mentos/";    
+}
+
+
 
 /*
  *  Função generica para realizar requisições ao servidor 
@@ -23,4 +28,5 @@ function requestService(parameters)
         success     : function (result) { result; },
         error       : function (error) { error }
     });
+    
 }

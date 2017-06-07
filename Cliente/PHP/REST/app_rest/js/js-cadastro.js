@@ -12,16 +12,14 @@ jQuery(function($){
     $('#iptHora_coord').mask("99:99");
     
     $('#ipt_search').mask('aaa-9999');
-    
 
+    $('#ipt_Unidade').keypress(function() {
 
-$('#ipt_Unidade').keypress(function() {
-
-     if($(this).val().length >= 5) {
-        $(this).val($(this).val().slice(0, 5));
-        return false;
-    }
-});
+         if($(this).val().length >= 5) {
+            $(this).val($(this).val().slice(0, 5));
+            return false;
+        }
+    });
 
 
 });
