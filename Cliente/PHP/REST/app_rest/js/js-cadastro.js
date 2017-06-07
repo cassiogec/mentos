@@ -153,9 +153,9 @@ $(document).on('click', 'a#inserir', function()
 
                         $('#table_results').append(new_veiculo);
                         limpaFormulario();
-                        DialogMsg('Sucesso!', 'Veículo cadastrado', 'alert-success');
+                        DialogMsg('Sucesso!', result['msg'], 'alert-success');
                     }else {
-                        DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+                        DialogMsg('Ops', result['msg'], 'alert-warning');
                     }
                 },
                 error       : function (error) {
@@ -194,7 +194,7 @@ $(document).on('click', 'a#inserir', function()
                 {     
                     if(result['ret']=='true') 
                     {
-                        DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+                        DialogMsg('Ops', result['msg'], 'alert-warning');
 
                         console.log('depois');
                         $('a#dsPlaca[dt_id="'+id+'"]').text(veiculo.dsPlaca);
@@ -208,7 +208,7 @@ $(document).on('click', 'a#inserir', function()
                         
                         limpaFormulario();
                     } else {
-                        DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
+                        DialogMsg('Ops', result['msg'], 'alert-warning');
                     }
                 },
                 error       : function (error) {

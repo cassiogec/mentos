@@ -41,11 +41,11 @@ $(document).on('click', 'a#btn_search', function()
         DialogMsg('Ops', 'Faltou informar a placa', 'alert-warning');
     }
         requestService(parameters)
-            .done(function(ret) 
+            .done(function(ret1) 
             {
-                if(ret['ret']=='true') 
+                if(ret1['ret']=='true') 
                 {
-                    var id = ret['objeto']['codigo'];
+                    var id = ret1['objeto']['codigo'];
                     
                     var from = data.split("/");
                     var nova_data = from[2]+'-'+from[1]+'-'+from[0]+'T'+hora+':00.000-03:00';
@@ -88,7 +88,7 @@ $(document).on('click', 'a#btn_search', function()
                             DialogMsg('Ops', 'Parece que tem algo errado', 'alert-warning');
                         });
                 }else {
-                    DialogMsg('Não encontrado', 'não encontramos um veículo com esta placa', 'alert-warning');
+                    DialogMsg('Não encontrado', ret1['msg'], 'alert-warning');
                 }
             })
             .fail(function (ret) 
