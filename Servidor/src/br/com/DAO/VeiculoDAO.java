@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.JDBCConnectionException;
 
 /**
  *
@@ -28,10 +29,10 @@ public class VeiculoDAO {
     public Session retornaSession()
     {
         
-        try
+	try
         {
             Session s = HibernateUtil3.getSessionFactory().openSession();
-            s.createQuery("SELECT COUNT(codigo) FROM Veiculo");
+            s.createQuery("SELECT COUNT(codigo) FROM Veiculo").uniqueResult();
             reaope=true;
             return s;
         }
@@ -40,6 +41,12 @@ public class VeiculoDAO {
             reaope=false;
             return s2;
         } 
+        catch (JDBCConnectionException ex2)
+        {
+            Session s2 = HibernateUtil3.getSessionFactory2().openSession();
+            reaope=false;
+            return s2;
+        }
     }
     
     private boolean verificaPlaca(String placa)
