@@ -22,11 +22,18 @@ public class Logger
     {       
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         String classLog                        = "";
+        Boolean flagLog                        = false;
         
         for (int i = 0; i < stackTraceElements.length; i++)
         {
-            if (!stackTraceElements[i].getClassName().contains("Logger") && stackTraceElements[i].getClassName().contains("br.com"))  
-              classLog += stackTraceElements[i].getClassName() + "." + stackTraceElements[i].getMethodName();            
+            if (!stackTraceElements[i].getClassName().contains("Logger") && stackTraceElements[i].getClassName().contains("br.com"))
+            {
+              if (flagLog)
+                  classLog += " >> ";
+                
+              classLog += stackTraceElements[i].getClassName() + "." + stackTraceElements[i].getMethodName();
+              flagLog   = true;
+            }
         }
         
         String log = classLog;
